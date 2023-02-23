@@ -1,2 +1,9 @@
-# what libraries are we using ?
-# Names
+Libraries Used
+
+How to install it-
+    pip install <Name>
+
+Names
+    psutil
+    GPUtil
+    pandas
