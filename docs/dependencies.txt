@@ -7,3 +7,4 @@ Names
     psutil
     GPUtil
     pandas
+    cpuinfo
