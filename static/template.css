@@ -1,0 +1,26 @@
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh; /* Set the height of the div to the height of the viewport */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  input[type="file"] {
+    margin: 10px 0;
+  }
+
+  input[type="submit"] {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
