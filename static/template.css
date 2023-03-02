@@ -1,11 +1,22 @@
-
 .center {
+  margin-left: 10px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   height: 100vh; /* Set the height of the div to the height of the viewport */
 }
+.dropdown{
+  width:35%;
+}
 
+.options{
+  margin-left: 10px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
 form {
     display: flex;
     flex-direction: column;
@@ -13,14 +24,18 @@ form {
   }
   
   input[type="file"] {
-    margin: 10px 0;
+    margin: 10px;
   }
 
   input[type="submit"] {
     padding: 10px;
+    display : flex;
+    margin-right: 60%;
     background-color: #4CAF50;
     color: white;
     border: none;
+    justify-content: center;
+    width:35%;
     border-radius: 5px;
     cursor: pointer;
   }
