@@ -17,12 +17,14 @@ def uploadfile():
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
+        f=request.files
+        print(f'this {f}')
         f = request.files['file']
         if f.filename == '':
             return ('No selected file')
         if f and allowed_file(f.filename):
             f.save(os.path.join(app.instance_path, 'uploads', secure_filename(f.filename)))
-            return 'file uploaded successfully'
+            return render_template("successful.html", name = f.filename) 
     return 'unsuccessful!!'
 
 if __name__ == '__main__':

@@ -6,33 +6,30 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Document</title>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
-      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
    <link rel="stylesheet" href="static/template.css">
-
 </head>
-
 <body>
    <div class="container">
-      
-      <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data">
-      <div class="drag-area">
-         <h3>Upload your file</h3>
-         <div class="icon">
-            <i class="fas fa-images"></i>
-         </div>
-         <span class="support">Supports: .py files</span>
-         <span class="header">Drag & Drop</span>
-         <span class="header">or</span>
-         
-         
-         <input class='header1' type="file" name="file" />
-         <input type="submit" />
+      <div class="card">
+         <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data">
+            <h3>Upload your file</h3>
+            <div class="drop_box">
+               <header>
+               <h4>Select File here</h4>
+               </header>
+               <p>Files Supported: python files (.py)</p>
+               <label id="file-upload">
+               <input type="file" name="file"/>
+                Upload Python File
+               </label>
+               <div id="file-upload-filename"></div>
+               <input class="btn" type="submit" />
+            </div>
+         </form>
       </div>
-      </form>
    </div>
    <script src="static/template.js"></script>
-</body>
+</body> 
+
 
 </html>
