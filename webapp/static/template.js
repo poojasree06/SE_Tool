@@ -35,6 +35,7 @@
 // button.onclick = () => {
 //   input.click();
 // };
+
 var input = document.getElementById( 'file-upload' );
 var infoArea = document.getElementById( 'file-upload-filename' );
 console.log(input)

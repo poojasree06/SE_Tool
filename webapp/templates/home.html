@@ -5,12 +5,16 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
+   <title>Carbon Footprint</title>
    <link rel="stylesheet" href="static/template.css">
 </head>
 <body>
-   <div class="container">
-      <div class="card">
+   <div class="home-container">
+      <div class="header">
+      <h1>SE TOOL</h1>
+      <p>Calculating Energy and carbon footprint of the code</p>
+      </div>
+      <div class="home-card">
          <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data">
             <h3>Upload your file</h3>
             <div class="drop_box">
@@ -23,13 +27,11 @@
                 Upload Python File
                </label>
                <div id="file-upload-filename"></div>
-               <input class="btn" type="submit" />
+               <input class="home-btn" type="submit" />
             </div>
          </form>
       </div>
    </div>
    <script src="static/template.js"></script>
 </body> 
-
-
 </html>
