@@ -39,6 +39,7 @@ def upload_file():
             return render_template("successful.html", name = f.filename) 
         
     if request.method == 'GET':
+        
         result = os.popen('python ..\\SE_TOOL\\instance\\calculations\\example.py').read()
 
         output=result

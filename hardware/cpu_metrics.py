@@ -23,108 +23,36 @@ class NoNeededLibrary(Warning):
     pass
 
 class CPU():
-    """
-        This class is the interface for tracking CPU power consumption.
-        All methods are done here on the assumption that all cpu devices are of equal model.
-        The CPU class is not intended for separate usage, outside the Tracker class
-
-    """
     def __init__(self, cpu_processes="current", ignore_warnings=False):
-        """
-            This class method initializes CPU object.
-            Creates fields of class object. All the fields are private variables
-
-            Parameters
-            ----------
-            cpu_processes: str
-                if cpu_processes == "current", then calculates CPU utilization percent only for the current running process
-                if cpu_processes == "all", then calculates full CPU utilization percent(sum of all running processes)
-            ignore_warnings: bool
-                If true, then user will be notified of all the warnings. If False, there won't be any warnings.
-
-            Returns
-            -------
-            CPU: CPU
-                Object of class CPU with specified parameters
-
-        """
-        self._ignore_warnings = ignore_warnings
-        self._cpu_processes = cpu_processes
-        self._cpu_dict = get_cpu_info()  # cpu info function
-        self._name = self._cpu_dict["brand_raw"]
-        self._tdp = find_tdp_value(self._name, "cpu_power.csv", self._ignore_warnings)
-        self._consumption = 0
+        self._ignore_warnings = ignore_warnings  
+        self._cpu_processes = cpu_processes         # get no of cpu processes
+        self._cpu_dict = get_cpu_info()             # cpu info function
+        self._name = self._cpu_dict["brand_raw"]    # get cpu name
+        self._tdp = find_tdp_value(self._name, "cpu_power.csv", self._ignore_warnings)  # find tdp
+        self._consumption = 0                                # cpu consumption
         self._cpu_num = number_of_cpu(self._ignore_warnings) # user defined function
-        self._start = time.time()
-        self._operating_system = platform.system()
+        self._start = time.time()                            # calculation start time
+        self._operating_system = platform.system()           # get os name
 
 
-    def tdp(self):
-        """
-            This class method returns TDP value of process.
-
-            Parameters
-            ----------
-            No parameters
-
-            Returns
-            -------
-            self._tdp : float
-                TDP value of the CPU
-
-        """
+    def tdp(self):          # get tdp
         return self._tdp
 
+    def name(self,):      # get cpu name
+        return self._name 
+
+    def cpu_num(self,):     # get number of cpus 
+        return self._cpu_num
+    
     def set_consumption_zero(self):
-        """
-            This class method sets CPU consumtion to zero.
-
-            Parameters
-            ----------
-            No parameters
-
-            Returns
-            -------
-            No returns
-
-        """
         self._consumption = 0
 
-    def get_consumption(self):
-        """
-            This class method returns CPU power consupmtion amount.
-
-            Parameters
-            ----------
-            No parameters
-
-            Returns
-            -------
-            self._consumption: float
-                CPU power consumption
-
-        """
+    def get_consumption(self):       # get cpu consumption
         self.calculate_consumption()
         return self._consumption
 
     def get_cpu_percent(self,):
-        """
-            This class method calculates CPU utilization
-            taking into acount only python processes. 
-            Method of calculating CPU utilization depends on operating system: 
-            Windows, MacOS or Linux are only supported operating systems
-
-            Parameters
-            ----------
-            No parameters
-            
-            Returns
-            -------
-            cpu_percent: float
-                cpu utilization fraction. 'cpu_percent' in [0, 1]. 
-                The current cpu utilization from python processes
-        
-        """
+        # cpu_percent:float - cpu utilizationin [0, 1], The current cpu utilization from python processes
         os_dict = {
             'Linux': get_cpu_percent_linux,
             'Windows': get_cpu_percent_windows,
@@ -133,20 +61,7 @@ class CPU():
         cpu_percent = os_dict[self._operating_system](self._cpu_processes)
         return cpu_percent
 
-    def calculate_consumption(self):
-        """
-            This class method calculates CPU power consumption.
-            
-            Parameters
-            ----------
-            No parameters
-            
-            Returns
-            -------
-            consumption: float
-                CPU power consumption
-        
-        """
+    def calculate_consumption(self):# float value - calculates CPU power consumption.
         time_period = time.time() - self._start
         self._start = time.time()
         consumption = self._tdp * self.get_cpu_percent() * self._cpu_num * time_period / FROM_WATTs_TO_kWATTh
@@ -155,26 +70,13 @@ class CPU():
         self._consumption += consumption
         return consumption
 
-    def name(self,):
-        return self._name
-
-    def cpu_num(self,):
-        return self._cpu_num
-    
 
 def all_available_cpu():
     """
         This function prints all seeable CPU devices
-        All the CPU devices are intended to be of the same model
-        
-        Parameters
-        ----------
-        No parameters
-        
+        All the CPU devices are intended to be of the same model 
         Returns
-        -------
         No returns
-
     """
     try:
         cpu_dict = get_cpu_info()
@@ -186,22 +88,6 @@ def all_available_cpu():
 
 
 def number_of_cpu(ignore_warnings=True):
-    """
-        This function returns number of CPU sockets(physical CPU processors)
-        If the body of the function runs with error, number of available cpu devices will be set to 1
-        
-        Parameters
-        ----------
-        ignore_warnings: bool
-            If true, then user will be notified of all the warnings. If False, there won't be any warnings.
-            The default is True.
-        
-        Returns
-        -------
-        cpu_num: int
-            Number of CPU sockets(physical CPU processors)
-
-    """
     operating_system = platform.system()
     cpu_num = None
 
@@ -249,11 +135,11 @@ def number_of_cpu(ignore_warnings=True):
             cpu_num = int(re.findall('- (\d)\.', processor_string)[0])
             # print(cpu_num)
         except:
-            if not ignore_warnings:
-                warnings.warn(
-                    message="\nIt's impossible to deretmine cpu number correctly\nFor now, number of cpu devices is set to 1\n\n", 
-                    category=NoNeededLibrary
-                    )
+            # if not ignore_warnings:
+            #     warnings.warn(
+            #         message="\nIt's impossible to deretmine cpu number correctly\nFor now, number of cpu devices is set to 1\n\n", 
+            #         category=NoNeededLibrary
+            #         )
             cpu_num = 1
     else: 
         cpu_num = 1
@@ -261,24 +147,6 @@ def number_of_cpu(ignore_warnings=True):
 
 
 def transform_cpu_name(cpu_name):
-    """
-        This function drops all the waste tokens, and words from a cpu name
-        It finds patterns. Patterns include processor's family and 
-        some certain specifications like 9400F in Intel Core i5-9400F
-        
-        Parameters
-        ----------
-        cpu_name: str
-            A string, containing CPU name, taken from psutil library
-        
-        Returns
-        -------
-        cpu_name: str
-            Modified CPU name, containing patterns only
-        patterns: list of str
-            Array with all the patterns
-
-    """
     # dropping all the waste tokens and patterns:
     cpu_name = re.sub('(\(R\))|(®)|(™)|(\(TM\))|(@.*)|(\S*GHz\S*)|(\[.*\])|( \d-Core)|(\(.*\))', '', cpu_name)
 
@@ -301,22 +169,6 @@ def transform_cpu_name(cpu_name):
 
 
 def get_patterns(cpu_name):
-    """
-        This function finds patterns. Patterns include processor's family and 
-        some certain specifications like 9400F in Intel Core i5-9400F
-        Returns modified cpu name with patterns
-        
-        Parameters
-        ----------
-        cpu_name: str
-            A string, containing CPU name, taken from psutil library
-        
-        Returns
-        -------
-        patterns: list of strings
-            Array with all the patterns
-
-    """
     patterns = re.findall("(\S*\d+\S*)", cpu_name)
     for i in re.findall(
         "(Ryzen Threadripper)|(Ryzen)|(EPYC)|(Athlon)|(Xeon Gold)|(Xeon Bronze)|(Xeon Silver)|(Xeon Platinum)|(Xeon)|(Core)|(Celeron)|(Atom)|(Pentium)",
@@ -329,23 +181,7 @@ def get_patterns(cpu_name):
     return patterns
 
 
-def find_max_tdp(elements):
-    """
-        This function finds and returns element with maximum TDP
-        
-        Parameters
-        ----------
-        elements: list
-            Array of arrays of two strings. 
-            Where the first one is CPU name and the second one is CPU TDP
-        
-        Returns
-        -------
-        max_value: float
-            The maximum TDP value
-
-    """
-    # finds and returns element with maximum TDP
+def find_max_tdp(elements):  # finds and returns element with maximum TDP
     if len(elements) == 1:
         return float(elements[0][1])
 
@@ -355,35 +191,8 @@ def find_max_tdp(elements):
             max_value = float(elements[index][1])
     return max_value
 
-
 # searching cpu name in cpu table
 def find_tdp_value(cpu_name, f_table_name, constant_value=CONSTANT_CONSUMPTION, ignore_warnings=True):
-    """
-        This function finds and returns TDP of user CPU device.
-        
-        Parameters
-        ----------
-        cpu_name: str
-            Name of user CPU device, taken from psutil library
-
-        f_table_name: str
-            A file name of CPU TDP values Database
-
-        constant_value: constant_value
-            The value, that is assigned to CPU TDP if 
-            user CPU device is not found in CPU TDP database
-            The default is CONSTANT_CONSUMPTION(a global value, initialized in the beginning of the file)
-
-        ignore_warnings: bool
-            If true, then user will be notified of all the warnings. If False, there won't be any warnings.
-            The default is True.
-        
-        Returns
-        -------
-        CPU TDP: float
-            TDP of user CPU device
-
-    """
     # firstly, we try to find transformed cpu name in the cpu table:
     f_table = pd.read_csv('.\data\cpu_names.csv')
     cpu_name, patterns = transform_cpu_name(cpu_name)
@@ -443,18 +252,8 @@ def find_tdp_value(cpu_name, f_table_name, constant_value=CONSTANT_CONSUMPTION, 
 def get_cpu_percent_mac_os(cpu_processes="current"):
     """
         This function calculates CPU utilization on MacOS.
-        
-        Parameters
-        ----------
-        cpu_processes: str
-            if cpu_processes == "current", then calculates CPU utilization percent only for the current running process
-            if cpu_processes == "all", then calculates full CPU utilization percent(sum of all running processes)
-        
-        Returns
-        -------
         cpu_percent: float
             CPU utilization fraction. 'cpu_percent' is in [0, 1]. 
-
     """
     if cpu_processes == "current":
         strings = os.popen('top -stats "command,cpu,pgrp" -l 2| grep -E "(python)|(%CPU)"').read().split('\n')
@@ -478,16 +277,6 @@ def get_cpu_percent_mac_os(cpu_processes="current"):
 
 def get_cpu_percent_linux(cpu_processes="current"):
     """
-        This function calculates CPU utilization on Linux.
-        
-        Parameters
-        ----------
-        cpu_processes: str
-            if cpu_processes == "current", then calculates CPU utilization percent only for the current running process
-            if cpu_processes == "all", then calculates full CPU utilization percent(sum of all running processes)
-        
-        Returns
-        -------
         cpu_percent: float
             CPU utilization fraction. 'cpu_percent' is in [0, 1]. 
 
@@ -533,21 +322,6 @@ def get_cpu_percent_linux(cpu_processes="current"):
 
 
 def get_cpu_percent_windows(cpu_processes="current"):
-    """
-        This function calculates CPU utilization on Windows.
-        
-        Parameters
-        ----------
-        cpu_processes: str
-            if cpu_processes == "current", then calculates CPU utilization percent only for the current running process
-            if cpu_processes == "all", then calculates full CPU utilization percent(sum of all running processes)
-        
-        Returns
-        -------
-        cpu_percent: float
-            CPU utilization fraction. 'cpu_percent' is in [0, 1]. 
-
-    """
     cpu_percent = 0
     if cpu_processes == "current":
         current_pid = os.getpid()
