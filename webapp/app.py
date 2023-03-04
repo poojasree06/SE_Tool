@@ -39,9 +39,9 @@ def upload_file():
             return render_template("successful.html", name = f.filename) 
         
     if request.method == 'GET':
-        # changing the path -- ? relative path not working - as of now just taken an example
-        result = subprocess.check_output(["python","D:\OneDrive\Desktop\SE_LAB\SE_TOOL\SE_Tool\instance\calculations\example.py"])
-        output=result.decode("utf-8")
+        result = os.popen('python ..\\SE_TOOL\\instance\\calculations\\example.py').read()
+
+        output=result
         print(output)
         return redirect(url_for('display', output=output))
     return 'unsuccessful!!'
