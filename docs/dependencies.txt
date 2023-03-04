@@ -7,4 +7,12 @@ Names
     psutil
     GPUtil
     pandas
-    cpuinfo
+    numpy
+    py-cpuinfo
+    APScheduler
+    tzlocal
+    pynvml
+    geopy
+    geocoder
+    flask
+    werkzeug
