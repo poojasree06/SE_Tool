@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint</title>
+    <link rel="stylesheet" href="static/template.css">
+</head>
+
+<body>
+    <div class="unsuccessful-container">
+        <div class="unsuccessful-card">
+            <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data">
+                
+                <div class="drop_box">
+                    <header>
+                        <h4>Unsuccessful Attempt</h4>
+                    </header>
+                    <div id="file-upload-filename"></div>
+                    <input class="unsuccessful-btn" type="submit" />
+                    
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="static/template.js"></script>
+</body>
+
+</html>

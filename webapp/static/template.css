@@ -36,6 +36,18 @@
   top: 30%;
   left: 30%;
 }
+.unsuccessful-card {
+  border-radius: 10px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+  width: 600px;
+  height: 200px;
+  background-color: #ffffff;
+  padding: 10px 30px 40px;
+  margin: auto;
+  position: absolute;
+  top: 30%;
+  left: 30%;
+}
 
 .home-card h3 {
   font-size: 22px;
@@ -77,6 +89,19 @@
   outline: none;
   transition: 0.3s;
   margin-top: 20px;
+  cursor: pointer;
+}
+.unsuccessful-btn {
+  text-decoration: none;
+  background-color: #005af0;
+  /* background-color: #58cff1; */
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  transition: 0.3s;
+  margin-top: 20px;
+  cursor: pointer;
 }
 
 .home-btn:hover{
@@ -88,6 +113,7 @@
   border: none;
   outline: 1px solid #010101;
 }
+
 .form input {
   margin: 10px 0;
   width: 100%;
