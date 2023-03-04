@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import subprocess
+import glob
 
 app = Flask(__name__)
 os.makedirs(os.path.join(app.instance_path, 'uploads'), exist_ok=True)
@@ -44,14 +45,19 @@ def upload_file():
             return render_template("successful.html", name=f.filename)
 
     if request.method == 'GET':
+        upload_direc =  os.path.join(app.instance_path, 'uploads')       # We get durectory of current uploaded folder here
+        py_files = glob.glob(os.path.join(upload_direc, '*.py'))         # glob searches for python files in that folder and all python files are returned
 
-        result = os.popen(
-            'python ..\\SE_TOOL\\instance\\calculations\\example.py').read()
+        if len(py_files)==1:                                             # For testing purpose just upload 1 file  
+            loaded_file_path = py_files[0] 
+            result = os.popen(f'python {loaded_file_path}').read()
+        else:
+            print('File not found or multiple files found')
 
-        output = result
+        output=result
         print(output)
         return redirect(url_for('display', output=output))
-    return redirect(url_for('unsuccessful'))
+    return 'unsuccessful!!'
 
 
 # @app.route('/execute', methods = ['GET', 'POST'])
