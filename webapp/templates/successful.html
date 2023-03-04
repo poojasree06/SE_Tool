@@ -5,12 +5,17 @@
    <link rel="stylesheet" href="static/template.css">
 </head>
 <body>
-   <div class="successful-container">
-         <p>File uploaded successfully</p>
-         <p>File Name: {{name}}</p>
+   <div class="header">
+      <h2>Uploaded File Succesfully</h2>
+      <p>Calculating Energy and carbon footprint of the code</p>
+   </div>
+   <div class="container">
+      <div class="card">
+         <p><b>File Name:</b> {{name}}</p>
          <form method="get" action="/uploader">
             <button  id="submit-result" type="submit">See Results</button>
          </form>
+      </div>
    </div>
 </body>
 </html>
