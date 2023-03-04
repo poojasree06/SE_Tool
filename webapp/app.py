@@ -14,6 +14,15 @@ def allowed_file(filename):
 def uploadfile():
     return render_template('home.html')
 
+def get_function_names(f):
+    function_names = []
+    with open(f, 'r') as fl:
+        lines = fl.readlines()
+        for line in lines:
+            if 'def ' in line:
+                function_names.append(line.split('def ')[1].split('(')[0])
+    return function_names
+
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -24,7 +33,9 @@ def upload_file():
             return ('No selected file')
         if f and allowed_file(f.filename):
             f.save(os.path.join(app.instance_path, 'uploads', secure_filename(f.filename)))
-            return render_template("successful.html", name = f.filename) 
+            path = 'instance/uploads/' + f.filename
+            function_names = get_function_names(path)
+            return function_names
         
     if request.method == 'GET':
         # changing the path -- ? relative path not working - as of now just taken an example
