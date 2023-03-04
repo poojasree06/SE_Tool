@@ -1,9 +1,16 @@
+<!DOCTYPE html>
 <html>
-   <head>
-      <title>Carbon Footprint</title>
-   </head>
-   <body>
-      <p>File uploaded successfully</p>
-      <p>File Name: {{name}}</p>
-   </body>
+<head>
+	<title>Carbon Footprint</title>
+   <link rel="stylesheet" href="static/template.css">
+</head>
+<body>
+   <div class="successful-container">
+         <p>File uploaded successfully</p>
+         <p>File Name: {{name}}</p>
+         <form method="get" action="/uploader">
+            <button  id="submit-result" type="submit">See Results</button>
+         </form>
+   </div>
+</body>
 </html>
