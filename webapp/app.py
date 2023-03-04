@@ -45,14 +45,35 @@ def upload_file():
             return render_template("successful.html", name=f.filename)
 
     if request.method == 'GET':
-        upload_direc =  os.path.join(app.instance_path, 'uploads')       # We get durectory of current uploaded folder here
-        py_files = glob.glob(os.path.join(upload_direc, '*.py'))         # glob searches for python files in that folder and all python files are returned
+        upload_dir = os.path.join(app.instance_path, 'uploads')                  # We get directory of current uploaded folder here
 
-        if len(py_files)==1:                                             # For testing purpose just upload 1 file  
-            loaded_file_path = py_files[0] 
-            result = os.popen(f'python {loaded_file_path}').read()
+        # Get all files with .py extension in the upload directory
+        py_files = glob.glob(os.path.join(upload_dir, '*.py'))
+
+        # If there are multiple files with .py extension in the upload directory
+        if len(py_files) > 1:
+            # Display a list of all the .py files in the upload directory
+            print("Multiple .py files found in the upload directory:")
+            for i, file_path in enumerate(py_files):
+                print(f"{i+1}. {os.path.basename(file_path)}")
+            # Prompt the user to select the file they want to run
+            selection = input("Enter the number of the file you want to run: ")
+            # Verify the user's selection
+            if not selection.isdigit() or int(selection) not in range(1, len(py_files)+1):
+                print("Invalid selection")
+            else:
+                # Run the selected file
+                example_path = py_files[int(selection)-1]
+                result = os.popen(f'python {example_path}').read()
+                # ...
+        # If there is only one file with .py extension in the upload directory
+        elif len(py_files) == 1:
+            example_path = py_files[0]
+            # Run the file
+            result = os.popen(f'python {example_path}').read()
+            # ...
         else:
-            print('File not found or multiple files found')
+            print('No .py file found in the upload directory')
 
         output=result
         print(output)
@@ -83,3 +104,4 @@ def unsuccessful():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
