@@ -35,7 +35,8 @@ def upload_file():
             f.save(os.path.join(app.instance_path, 'uploads', secure_filename(f.filename)))
             path = 'instance/uploads/' + f.filename
             function_names = get_function_names(path)
-            return function_names
+            # print(function_names)
+            return render_template("successful.html", name = f.filename) 
         
     if request.method == 'GET':
         # changing the path -- ? relative path not working - as of now just taken an example
