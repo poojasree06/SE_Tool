@@ -78,15 +78,18 @@ sys.path.insert(0, ".\hardware")
 from cpu_metrics import CPU
 from ram_metrics import RAM
 
-obj=CPU()\n'''.lstrip()
-            with fileinput.input(example_path, inplace=True) as f:
-                for line in f:
-                    # Check if the line contains a print statement
-                    if 'print(' in line:
-                        # Comment out the print statement by adding a #
-                        line = '#' + line
-                    # Print the modified line to the file
-                    print(line, end='')
+obj=CPU()
+
+print('File Compilation Output:')
+\n\n'''.lstrip()
+            # with fileinput.input(example_path, inplace=True) as f:
+            #     for line in f:
+            #         # Check if the line contains a print statement
+            #         if 'print(' in line:
+            #             # Comment out the print statement by adding a #
+            #             line = '#' + line
+            #         # Print the modified line to the file
+            #         print(line, end='')
 
         # Use fileinput to insert the new code at the beginning of the file
             with fileinput.input(example_path, inplace=True) as f:
@@ -96,6 +99,8 @@ obj=CPU()\n'''.lstrip()
                     print(line, end='')
             # Define the new code to be added to the end of the file
             new_code = '''# This is the new code
+\n
+print('Energy Calculation Result: ')
 print(obj)
 print("---------")
 print(obj.tdp())  
