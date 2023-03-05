@@ -5,24 +5,6 @@ import subprocess
 import glob
 import fileinput
 
-# Set the file path
-# file_path = 'example.py'
-
-# Define the new code to be added to the beginning of the file
-# new_code = '''# This is new code 
-# import sys
-# sys.path.insert(0, ".\hardware")
-# from cpu_metrics import CPU
-
-# obj=CPU()'''.lstrip()
-
-# # Use fileinput to insert the new code at the beginning of the file
-# with fileinput.input(file_path, inplace=True) as f:
-#     for line in f:
-#         if fileinput.isfirstline():
-#             print(new_code, end='')
-#         print(line, end='')
-
 
 app = Flask(__name__)
 os.makedirs(os.path.join(app.instance_path, 'uploads'), exist_ok=True)
