@@ -3,6 +3,26 @@ from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import subprocess
 import glob
+import fileinput
+
+# Set the file path
+# file_path = 'example.py'
+
+# Define the new code to be added to the beginning of the file
+# new_code = '''# This is new code 
+# import sys
+# sys.path.insert(0, ".\hardware")
+# from cpu_metrics import CPU
+
+# obj=CPU()'''.lstrip()
+
+# # Use fileinput to insert the new code at the beginning of the file
+# with fileinput.input(file_path, inplace=True) as f:
+#     for line in f:
+#         if fileinput.isfirstline():
+#             print(new_code, end='')
+#         print(line, end='')
+
 
 app = Flask(__name__)
 os.makedirs(os.path.join(app.instance_path, 'uploads'), exist_ok=True)
@@ -70,6 +90,41 @@ def upload_file():
         # If there is only one file with .py extension in the upload directory
         elif len(py_files) == 1:
             example_path = py_files[0]
+            new_code = '''# This is new code 
+import sys
+sys.path.insert(0, ".\hardware")
+from cpu_metrics import CPU
+
+obj=CPU()\n'''.lstrip()
+            with fileinput.input(example_path, inplace=True) as f:
+                for line in f:
+                    # Check if the line contains a print statement
+                    if 'print(' in line:
+                        # Comment out the print statement by adding a #
+                        line = '#' + line
+                    # Print the modified line to the file
+                    print(line, end='')
+
+        # Use fileinput to insert the new code at the beginning of the file
+            with fileinput.input(example_path, inplace=True) as f:
+                for line in f:
+                    if fileinput.isfirstline():
+                        print(new_code, end='')
+                    print(line, end='')
+            # Define the new code to be added to the end of the file
+            new_code = '''# This is the new code
+print(obj)
+print("---------")
+print(obj.tdp())  
+print("---------")
+print(obj.name())
+print("---------")
+print(obj.cpu_num())\n'''.lstrip()
+
+            # Open the file in append mode and write the new code to the file
+            with open(example_path, 'a') as f:
+                f.write(new_code)
+
             # Run the file
             result = os.popen(f'python {example_path}').read()
             # ...
@@ -81,15 +136,6 @@ def upload_file():
         return redirect(url_for('display', output=output))
     return render_template('unsuccessful.html')
 
-
-# @app.route('/execute', methods = ['GET', 'POST'])
-# def execute():
-#     if request.method == 'GET':
-#         # changing the path -- ? relative path not working - as of now just taken an example
-#         result = subprocess.check_output(["python","D:\OneDrive\Desktop\SE_LAB\SE_TOOL\SE_Tool\instance\calculations\example.py"])
-#         output=result.decode("utf-8")
-#         print(output)
-#         return redirect(url_for('display', output=output))
 
 
 @app.route('/display')
