@@ -37,7 +37,8 @@ def upload_file():
         print(f'this {f}')
         f = request.files['file']
         if f.filename == '':
-            return ('No selected file')
+            not_uploaded = 'Please select a file to upload.'
+            return render_template('home.html', not_uploaded=not_uploaded)
         if f and allowed_file(f.filename):
             f.save(os.path.join(app.instance_path,
                    'uploads', secure_filename(f.filename)))

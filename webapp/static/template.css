@@ -158,7 +158,9 @@ input[type="file"] {
   outline: 1px solid #010101;
 }
 
-
+.error {
+  color: red;
+}
 
 .successful-container input[type="submit"] {
     display: none;
