@@ -45,7 +45,8 @@ def upload_file():
             return render_template("successful.html", name=f.filename)
 
     if request.method == 'GET':
-        upload_dir = os.path.join(app.instance_path, 'uploads')                  # We get directory of current uploaded folder here
+        # We get directory of current uploaded folder here
+        upload_dir = os.path.join(app.instance_path, 'uploads')
 
         # Get all files with .py extension in the upload directory
         py_files = glob.glob(os.path.join(upload_dir, '*.py'))
@@ -75,10 +76,10 @@ def upload_file():
         else:
             print('No .py file found in the upload directory')
 
-        output=result
+        output = result
         print(output)
         return redirect(url_for('display', output=output))
-    return 'unsuccessful!!'
+    return render_template('unsuccessful.html')
 
 
 # @app.route('/execute', methods = ['GET', 'POST'])
@@ -97,11 +98,5 @@ def display():
     return render_template('results.html', output=output)
 
 
-@app.route('/unsuccuessful')
-def unsuccessful():
-    return render_template('unsuccessful.html')
-
-
 if __name__ == '__main__':
     app.run(debug=True)
-
