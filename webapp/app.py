@@ -4,6 +4,11 @@ from werkzeug.utils import secure_filename
 import subprocess
 import glob
 import fileinput
+import sys
+sys.path.insert(0, ".\hardware")
+from cpu_metrics import CPU
+from ram_metrics import RAM
+
 
 
 app = Flask(__name__)
@@ -18,6 +23,39 @@ def allowed_file(filename):
 @app.route("/")
 def uploadfile():
     return render_template('home.html')
+
+metrics_dict = {}
+def measure_performance(func):
+    def wrapper(*args, **kwargs):
+        # Add code to execute before calling the decorated function
+        # start_time = time.time()
+        obj=CPU()
+        obj2=RAM()
+        
+        # Call the decorated function and capture its result
+        result = func(*args, **kwargs)
+        
+        # Add code to execute after calling the decorated function
+        # end_time = time.time()
+        # execution_time = end_time - start_time
+        obj.calculate_consumption()
+        obj2.calculate_consumption()
+        
+        # Add the metrics to the dictionary
+        if func.__name__ in metrics_dict:
+            metrics_dict[func.__name__].append(obj)
+            metrics_dict[func.__name__].append(obj.name())
+            metrics_dict[func.__name__].append(obj.tdp())
+            metrics_dict[func.__name__].append(obj.get_consumption())
+            metrics_dict[func.__name__].append(obj2.get_consumption())
+
+        else:
+            metrics_dict[func.__name__] = [obj,obj.name(),obj.tdp(),obj.get_consumption(),obj2.get_consumption()]
+        
+        print(metrics_dict)
+        # Return the result of the decorated function
+        return result
+    return wrapper
 
 
 def get_function_names(f):
@@ -36,6 +74,7 @@ def upload_file():
         f = request.files
         print(f'this {f}')
         f = request.files['file']
+        filename=f.filename
         if f.filename == '':
             not_uploaded = 'Please select a file to upload.'
             return render_template('home.html', not_uploaded=not_uploaded)
@@ -44,8 +83,35 @@ def upload_file():
                    'uploads', secure_filename(f.filename)))
             path = 'instance/uploads/' + f.filename
             function_names = get_function_names(path)
+            new_code = '''# This is new code 
+import sys
+import os
+
+# Add the path to the webapp folder to the system path
+sys.path.insert(0, ".\webapp")
+from app import measure_performance
+\n'''.lstrip()
+        # Use fileinput to insert the new code at the beginning of the file
+            with fileinput.input(path, inplace=True) as f:
+                for line in f:
+                    if fileinput.isfirstline():
+                        print(new_code, end='')
+                    print(line, end='')
+
+             # Add decorator function to each function in the user uploaded file
+            with fileinput.input(path, inplace=True) as file:
+                for line in file:
+                    # Find function definition lines
+                    if line.startswith('def'):
+                        # Extract function name
+                        function_name = line.split()[1].split('(')[0]
+                        
+                        # Write decorator function above function definition
+                        print(f"@measure_performance")
+                        
+                    print(line, end='')
             # print(function_names)
-            return render_template("successful.html", name=f.filename)
+            return render_template("successful.html", name=filename)
 
     if request.method == 'GET':
         # We get directory of current uploaded folder here
@@ -56,7 +122,6 @@ def upload_file():
 
         # If there are multiple files with .py extension in the upload directory
         if len(py_files) > 1:
-            # Display a list of all the .py files in the upload directory
             print("Multiple .py files found in the upload directory:")
             for i, file_path in enumerate(py_files):
                 print(f"{i+1}. {os.path.basename(file_path)}")
@@ -70,59 +135,11 @@ def upload_file():
                 example_path = py_files[int(selection)-1]
                 result = os.popen(f'python {example_path}').read()
                 # ...
-        # If there is only one file with .py extension in the upload directory
+        
         elif len(py_files) == 1:
             example_path = py_files[0]
-            new_code = '''# This is new code 
-import sys
-sys.path.insert(0, ".\hardware")
-from cpu_metrics import CPU
-from ram_metrics import RAM
 
-obj=CPU()
-
-print('File Compilation Output:')
-\n\n'''.lstrip()
-            # with fileinput.input(example_path, inplace=True) as f:
-            #     for line in f:
-            #         # Check if the line contains a print statement
-            #         if 'print(' in line:
-            #             # Comment out the print statement by adding a #
-            #             line = '#' + line
-            #         # Print the modified line to the file
-            #         print(line, end='')
-
-        # Use fileinput to insert the new code at the beginning of the file
-            with fileinput.input(example_path, inplace=True) as f:
-                for line in f:
-                    if fileinput.isfirstline():
-                        print(new_code, end='')
-                    print(line, end='')
-            # Define the new code to be added to the end of the file
-            new_code = '''# This is the new code
-\n
-print('Energy Calculation Result: ')
-print(obj)
-print("------------------------------------")
-print('number of CPUs: ', obj.cpu_num())
-print("------------------------------------")
-print('CPU Name: ',obj.name())
-print("------------------------------------")
-print('TDP value: ',obj.tdp())  
-print("------------------------------------")
-obj.calculate_consumption()
-print('energy consumption due to cpu: ', obj.get_consumption(),'KWh')
-obj2=RAM()
-obj2.calculate_consumption()
-print("------------------------------------")
-print('energy consumption due to ram: ',obj2.get_consumption(),'KWh')
-print("------------------------------------")\n'''.lstrip()
-
-            # Open the file in append mode and write the new code to the file
-            with open(example_path, 'a') as f:
-                f.write(new_code)
-
-            # Run the file
+            # Run the file 
             result = os.popen(f'python {example_path}').read()
             # ...
         else:
@@ -130,6 +147,7 @@ print("------------------------------------")\n'''.lstrip()
 
         output = result
         print(output)
+        print(metrics_dict)
         return redirect(url_for('display', output=output))
     return render_template('unsuccessful.html')
 
