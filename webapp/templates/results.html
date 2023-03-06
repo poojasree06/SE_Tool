@@ -5,6 +5,28 @@
 </head>
 <body>
 	<h1>Execution Result</h1>
-	<pre>{{ output }}</pre>
+    <table>
+        <thead>
+            <tr>
+                <th>Function Name</th>
+				<th></th>
+                <th>Energy due to CPU-Metrics</th>
+				<th></th>
+                <th>Energy due to RAM-Metrics</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, values in my_dict.items() %}
+            <tr>
+                <td>{{ key }}</td>
+				<td></td>
+                {% for value in values %}
+                <td>{{ value }}</td>
+				<td></td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
