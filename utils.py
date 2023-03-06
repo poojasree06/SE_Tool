@@ -11,7 +11,7 @@ import datetime
 import sys
 sys.path.insert(0, ".\hardware")
 from cpu_metrics import all_available_cpu
-from gpu_metrics import all_available_gpu
+# from gpu_metrics import all_available_gpu
 
 
 class FileDoesNotExistsError(Exception):
@@ -36,7 +36,7 @@ def available_devices():
     
     """
     all_available_cpu()
-    all_available_gpu()
+    # all_available_gpu()
     # need to add RAM
 
 
@@ -85,36 +85,6 @@ def define_carbon_index(
     alpha_2_code=None,
     region=None
 ):
-    """
-        This function get an IP of user, defines country and region.
-        Then, it searchs user emission level by country and region in the emission level database.
-        If there is no certain country, then it returns worldwide constant. 
-        If there is certain country in the database, but no certain region, 
-        then it returns average country emission level. 
-        User can define own emission level and country, using the alpha2 country code.
-
-        Parameters
-        ----------
-        emission_level: float
-            User specified emission level value.
-            emission_level is the mass of CO2 in kilos, which is produced  per every MWh of consumed energy.
-            Default is None
-        region: str
-            User specified country region/state/district.
-            Default is None
-        alpha_2_code: str
-            User specified country code
-            User can search own country code here: https://www.iban.com/country-codes
-            Default is None
-        
-        Returns
-        -------
-        tuple: tuple
-            A tuple, where the first element is float emission value
-            and the second element is a string containing a country 
-            if user specified it or country and region in other case
-
-    """
     if alpha_2_code is None and region is not None:
         raise NoCountryCodeError("In order to set 'region' parameter, 'alpha_2_code' parameter should be set")
     carbon_index_table_name = '.\data\carbon_index.csv'
@@ -333,27 +303,9 @@ def calculate_price(
 
 
 def set_params(**params):
-    """
-        This function sets default Tracker attributes values to internal file:
-        project_name = ...
-        experiment_description = ...
-        file_name = ...
-        measure_period = ...
-        pue = ...
-        
-        Parameters
-        ----------
-        params: dict
-            Dictionary of Tracker parameters: project_name, experiment_description, file_name. 
-            Other parameters in dictionary are ignored
-        
-        Returns
-        -------
-        No return
-
-    """
     dictionary = dict()
-    filename = resource_stream('eco2ai', 'data/config.txt').name
+     # filename = resource_stream('SE_TOOL', 'data/config.txt').name
+    filename='data/config.txt'
     for param in params:
         dictionary[param] = params[param]
     if "project_name" not in dictionary:
@@ -366,31 +318,13 @@ def set_params(**params):
         dictionary["measure_period"] = 10
     if "pue" not in dictionary:
         dictionary["pue"] = 1
-    with open(filename, 'w') as json_file:
+    with open(filename, 'w') as json_file:  # store all project details in config.txt
         json_file.write(json.dumps(dictionary))
 
 
 def get_params():
-    """
-        This function returns default Tracker attributes values:
-        project_name = ...
-        experiment_description = ...
-        file_name = ...
-        measure_period = ...
-        pue = ...
-        More complete information about attributes can be seen in Tracker class
-        
-        Parameters
-        ----------
-        No parameters
-        
-        Returns
-        -------
-        params: dict
-            Dictionary of Tracker parameters: project_name, experiment_description, file_name, measure_period and pue
-
-    """
-    filename = resource_stream('eco2ai', 'data/config.txt').name
+    # filename = resource_stream('SE_TOOL', 'data/config.txt').name
+    filename='data/config.txt'
     if not os.path.isfile(filename):
         with open(filename, "w"):
             pass
@@ -399,7 +333,7 @@ def get_params():
             dictionary = json.loads(json_file.read())
         else:
             dictionary = {
-                "project_name": "Deafult project name",
+                "project_name": "Default project name",
                 "experiment_description": "no experiment description",
                 "file_name": "emission.csv",
                 "measure_period": 10,
@@ -409,20 +343,6 @@ def get_params():
 
 
 def encode(f_string):
-    """
-        This function encodes given string.
-
-        Parameters
-        ----------
-        f_string: str
-            A string user wants to encode
-
-        Returns
-        -------
-        encoded_string: str
-            Resultant encoded string
-    
-    """
     n=5
     symbols = string.printable[:95] + 'йцукенгшщзхъфывапролджэячсмитьбюёЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ'
     symbols = symbols.replace(',', '')
@@ -444,21 +364,7 @@ def encode(f_string):
 
 
 def encode_dataframe(values):
-    """
-        This function encodes every value of a two-dimentional array
 
-        Parameters
-        ----------
-        values: array
-            Array, which values user wants to encode
-
-        Returns
-        -------
-        values: array
-            Resultant encoded array
-        
-    
-    """
     values = values.astype(str)
     for i in range(values.shape[0]):
         for j in range(values.shape[1]):
@@ -470,40 +376,6 @@ def summary(
     filename,
     write_to_file=False,
 ):
-    """
-        This function makes a summary of the specified .csv file. 
-        It sums up duration, power consumption and CO2 emissions for every project separately
-        and for all the projects together. 
-        For every sum up it makes separate line in a summary dataframe with the following columns:
-            project_name
-            total duration(s)
-            total power_consumption(kWTh)
-            total CO2_emissions(kg)
-            total electricity cost
-        Number of lines equals number of projects + 1, as the last line is summary for all the projects.
-        
-        Parameters
-        ----------
-        filename: str
-            Name of file the user wants to analyse.
-        write_to_file: str
-            If this parameter is not None the resultant dataframe will be written to file with name of this parameter.
-            For example, is write_to_file == 'total_summary_project_1.csv', 
-            then resultant summary dataframe will be written to file 'total_summary_project_1.csv'.
-            Default is None
-
-        Returns
-        -------
-        summary_data: pandas.DataFrame
-            The result dataframe, containing a summary for every project separately and full summary.
-            For every sum up it makes separate line in a result dataframe with the following columns:
-                project_name
-                total duration(s)
-                total power_consumption(kWTh)
-                total CO2_emissions(kg)
-                total electricity cost
-    
-    """
     if not os.path.exists(filename):
         raise FileDoesNotExistsError(f'File \'{filename}\' does not exist')
     if not filename.endswith('.csv'):
