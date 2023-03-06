@@ -5,6 +5,7 @@ import subprocess
 import glob
 import fileinput
 import sys
+import json
 sys.path.insert(0, ".\hardware")
 from cpu_metrics import CPU
 from ram_metrics import RAM
@@ -43,14 +44,14 @@ def measure_performance(func):
         
         # Add the metrics to the dictionary
         if func.__name__ in metrics_dict:
-            metrics_dict[func.__name__].append(obj)
-            metrics_dict[func.__name__].append(obj.name())
-            metrics_dict[func.__name__].append(obj.tdp())
+            #metrics_dict[func.__name__].append(obj)
+            #metrics_dict[func.__name__].append(obj.name())
+            #metrics_dict[func.__name__].append(obj.tdp())
             metrics_dict[func.__name__].append(obj.get_consumption())
             metrics_dict[func.__name__].append(obj2.get_consumption())
 
         else:
-            metrics_dict[func.__name__] = [obj,obj.name(),obj.tdp(),obj.get_consumption(),obj2.get_consumption()]
+            metrics_dict[func.__name__] = [obj.get_consumption(),obj2.get_consumption()]
         
         print(metrics_dict)
         # Return the result of the decorated function
@@ -140,15 +141,15 @@ from app import measure_performance
             example_path = py_files[0]
 
             # Run the file 
-            result = os.popen(f'python {example_path}').read()
+            result = os.popen(f'python {example_path}').readlines()[-1]
             # ...
         else:
             print('No .py file found in the upload directory')
 
         output = result
-        print(output)
+        my_dict = eval(output)
         print(metrics_dict)
-        return redirect(url_for('display', output=output))
+        return render_template('results.html', my_dict=my_dict)
     return render_template('unsuccessful.html')
 
 
