@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 	<title>Execution Result</title>
@@ -9,9 +9,7 @@
         <thead>
             <tr>
                 <th>Function Name</th>
-				<th></th>
                 <th>Energy due to CPU-Metrics</th>
-				<th></th>
                 <th>Energy due to RAM-Metrics</th>
             </tr>
         </thead>
@@ -19,14 +17,52 @@
             {% for key, values in my_dict.items() %}
             <tr>
                 <td>{{ key }}</td>
-				<td></td>
                 {% for value in values %}
                 <td>{{ value }}</td>
-				<td></td>
                 {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execution Result</title>
+    <link rel="stylesheet" href="static/template.css">
+</head>
+<body>
+    
+    <div class="header">
+        <h1>Execution Result</h1>
+    </div>
+    <div class="results-container">
+        <table class="rwd-table">
+            <thead>
+                <tr>
+                    <th>Function Name</th>
+                    <th>Energy due to CPU-Metrics</th>
+                    <th>Energy due to RAM-Metrics</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, values in my_dict.items() %}
+                <tr>
+                    <td data-column="Function Name">{{ key }}</td>
+                    <!-- <td></td> -->
+                    {% for value in values %}
+                    <td data-column="Energy due to CPU-Metrics">{{ value }}</td>
+                    <!-- <td></td> -->
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
