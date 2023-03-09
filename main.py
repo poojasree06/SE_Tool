@@ -151,7 +151,7 @@ class Tracker:
         attributes_dict["ram_power_consumption(kWh)"] = [f"{self._ram_consumption}"]
         attributes_dict["power_consumption(kWh)"] = [f"{self._consumption}"]
         attributes_dict["CO2_emissions(kg)"] = [f"{self._consumption * self._emission_level / FROM_kWATTH_TO_MWATTH}"]
-        attributes_dict["CPU_name"] = [f"{self._cpu.name()}/{self._cpu.cpu_num()} device(s), TDP:{self._cpu.tdp()}"]
+        attributes_dict["CPU_name"] = [f"{self._cpu.name()}"]
         attributes_dict["OS"] = [f"{self._os}"]
         attributes_dict["region/country"] = [f"{self._country}"]
 

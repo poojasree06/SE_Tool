@@ -107,6 +107,12 @@ metrics_dict['Entire_File'].append(obj1.cpu_consumption())
 metrics_dict['Entire_File'].append(obj1.ram_consumption())
 metrics_dict['Entire_File'].append(obj1.consumption())
 metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['CO2_emissions(kg)'][0])
+# system_details=[]
+# system_details.append(obj1._construct_attributes_dict()['OS'][0])
+# system_details.append(obj1._construct_attributes_dict()['CPU_name'][0])
+# metrics_dict['Entire_File'].append(system_details)
+metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['OS'][0])
+metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['CPU_name'][0])
 print(metrics_dict)
 '''.lstrip()
             # Open the file in append mode and write the new code to the file
