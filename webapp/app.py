@@ -10,6 +10,10 @@ sys.path.insert(0, ".\hardware")
 from cpu_metrics import CPU
 from ram_metrics import RAM
 
+'''
+sys.path.insert(0,"./")
+from main import Tracker
+'''
 
 
 app = Flask(__name__)
@@ -33,6 +37,11 @@ def measure_performance(func):
         obj=CPU()
         obj2=RAM()
         
+        '''
+        obj3=Tracker()
+        obj3.start()
+        '''
+        
         # Call the decorated function and capture its result
         result = func(*args, **kwargs)
         
@@ -41,6 +50,7 @@ def measure_performance(func):
         # execution_time = end_time - start_time
         obj.calculate_consumption()
         obj2.calculate_consumption()
+        obj3.stop()
         
         # Add the metrics to the dictionary
         if func.__name__ in metrics_dict:
@@ -49,7 +59,12 @@ def measure_performance(func):
             #metrics_dict[func.__name__].append(obj.tdp())
             metrics_dict[func.__name__].append(obj.get_consumption())
             metrics_dict[func.__name__].append(obj2.get_consumption())
-
+            '''
+            metrics_dict[func.__name__].append(obj3.cpu_consumption())
+            metrics_dict[func.__name__].append(obj3.ram_consumption())
+            metrics_dict[func.__name__].append(obj3.consumption())
+            metrics_dict[func.__name__].append(obj3._construct_attributes_dict()['CO2_emissions(kg)'])
+            '''
         else:
             metrics_dict[func.__name__] = [obj.get_consumption(),obj2.get_consumption()]
         

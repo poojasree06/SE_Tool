@@ -86,8 +86,7 @@ class Tracker:
         self._os = platform.system()
         if self._os == "Darwin":
             self._os = "MacOS"
-        self._mode = "first_time"
-        # parameters to save during model training
+        # parameters to save 
         self._parameters_to_save = ""
     
 
@@ -231,29 +230,9 @@ class Tracker:
         # self._write_to_csv returns attributes_dict
         return self._write_to_csv(add_new)
 
-    
-    def start_training(self, start_epoch=1):
-        if not isinstance(start_epoch, int):
-            raise TypeError(
-                f"\"start_epoch\" paramenet must be of int type. Now, it is {type(start_epoch)}"
-            )
-
-        self._mode = "training"
-        self._current_epoch = start_epoch
-        self._cpu = CPU(cpu_processes=self._cpu_processes, ignore_warnings=self._ignore_warnings)
-        self._ram = RAM(ignore_warnings=self._ignore_warnings)
-        self._id = str(uuid.uuid4())
-        self._start_time = time.time()
 
 
     def start(self):
-        if self._mode == "training":
-            raise IncorrectMethodSequenceError(
-                """
-You have already run ".start_training" method.
-Please, use the interface for training: ".start_trainig", and "stop_training"
-                """
-            )
         if self._start_time is not None:
             try:
                 self._scheduler.remove_job("job")
@@ -270,33 +249,19 @@ Please, use the interface for training: ".start_trainig", and "stop_training"
         self._scheduler.start()
 
 
-    def stop_training(self,):
-        # remove job from scheduler
-        if self._mode != "training" or self._start_time is None:
-            raise IncorrectMethodSequenceError(
-                """
-You should run ".start_training" method before ".stop_training" method
-                """
-            )
-        self._consumption = 0
-        self._mode = "shut down"
-
 
     def stop(self, ):
-        if self._mode == "training":
-            self.stop_training()
-            return
         if self._start_time is None:
             raise Exception("Need to first start the tracker by running tracker.start() or tracker.start_training()")
         self._scheduler.remove_job("job")
         self._scheduler.shutdown()
         self._func_for_sched() 
-        attributes_dict = self._write_to_csv()
-        self._start_time = None
-        self._consumption = 0
+        # attributes_dict = self._write_to_csv()
+        # self._start_time = None
+        # self._consumption = 0
         self._mode = "shut down"
 
-
+    
 def track(func):  # decorator function
     def inner(*args, **kwargs):
         tracker = Tracker()

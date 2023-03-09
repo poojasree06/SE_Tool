@@ -36,17 +36,21 @@ def get_params():
 
 sys.path.insert(0,"./")
 from main import Tracker
-obj=Tracker(project_name="project1",file_name="emission.csv",measure_period=10,pue=1)
-# obj=Tracker() or one can specify without any intital data it will take default as project name,emission.csv,10,1
+# obj=Tracker(project_name="project1",file_name="emission.csv",measure_period=10,pue=1)
 
-print(obj)
-
+obj=Tracker() 
 obj.start()
+
 get_params()
 get_params()
 get_params()
 
 obj.stop()
+
+print(obj.cpu_consumption())
+print(obj.ram_consumption())
+print(obj.consumption())
+print(obj._construct_attributes_dict())
 
 
 
