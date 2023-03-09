@@ -6,14 +6,9 @@ import glob
 import fileinput
 import sys
 import json
-sys.path.insert(0, ".\hardware")
-from cpu_metrics import CPU
-from ram_metrics import RAM
-
-'''
-sys.path.insert(0,"./")
+sys.path.insert(0, "./")
 from main import Tracker
-'''
+
 
 
 app = Flask(__name__)
@@ -29,49 +24,27 @@ def allowed_file(filename):
 def uploadfile():
     return render_template('home.html')
 
-metrics_dict = {}
+metrics_dict = {'Entire_File':[]}
 def measure_performance(func):
     def wrapper(*args, **kwargs):
         # Add code to execute before calling the decorated function
-        # start_time = time.time()
-        obj=CPU()
-        obj2=RAM()
-        
-        '''
-        obj3=Tracker()
-        obj3.start()
-        '''
+        obj = Tracker()
+        obj.start()
         
         # Call the decorated function and capture its result
         result = func(*args, **kwargs)
         
         # Add code to execute after calling the decorated function
-        # end_time = time.time()
-        # execution_time = end_time - start_time
-        obj.calculate_consumption()
-        obj2.calculate_consumption()
-        
-        '''
-        obj3.stop()
-        '''
+        obj.stop()
         
         # Add the metrics to the dictionary
         if func.__name__ in metrics_dict:
-            #metrics_dict[func.__name__].append(obj)
-            #metrics_dict[func.__name__].append(obj.name())
-            #metrics_dict[func.__name__].append(obj.tdp())
-            metrics_dict[func.__name__].append(obj.get_consumption())
-            metrics_dict[func.__name__].append(obj2.get_consumption())
-            '''
-            metrics_dict[func.__name__].append(obj3.cpu_consumption())
-            metrics_dict[func.__name__].append(obj3.ram_consumption())
-            metrics_dict[func.__name__].append(obj3.consumption())
-            metrics_dict[func.__name__].append(obj3._construct_attributes_dict()['CO2_emissions(kg)'])
-            '''
+            metrics_dict[func.__name__].append(obj.cpu_consumption())
+            metrics_dict[func.__name__].append(obj.ram_consumption())
+
         else:
-            metrics_dict[func.__name__] = [obj.get_consumption(),obj2.get_consumption()]
+            metrics_dict[func.__name__] = [obj.cpu_consumption(),obj.ram_consumption()]
         
-        print(metrics_dict)
         # Return the result of the decorated function
         return result
     return wrapper
@@ -101,14 +74,19 @@ def upload_file():
             f.save(os.path.join(app.instance_path,
                    'uploads', secure_filename(f.filename)))
             path = 'instance/uploads/' + f.filename
-            function_names = get_function_names(path)
             new_code = '''# This is new code 
 import sys
 import os
 
+
 # Add the path to the webapp folder to the system path
 sys.path.insert(0, ".\webapp")
+sys.path.insert(0, ".\hardware")
+from cpu_metrics import CPU
+from ram_metrics import RAM
+obj3=CPU()
 from app import measure_performance
+from app import metrics_dict
 \n'''.lstrip()
         # Use fileinput to insert the new code at the beginning of the file
             with fileinput.input(path, inplace=True) as f:
@@ -129,7 +107,6 @@ from app import measure_performance
                         print(f"@measure_performance")
                         
                     print(line, end='')
-            # print(function_names)
             return render_template("successful.html", name=filename)
 
     if request.method == 'GET':
@@ -157,7 +134,22 @@ from app import measure_performance
         
         elif len(py_files) == 1:
             example_path = py_files[0]
+            # obj3.calculate_consumption()
+            # Define the new code to be added to the end of the file
+            new_code = '''# This is the new code
+\n
+obj3.calculate_consumption()
+metrics_dict['Entire_File'].append(obj3.get_consumption())
+obj4=RAM()
+obj4.calculate_consumption()
+metrics_dict['Entire_File'].append(obj4.get_consumption())
 
+print(metrics_dict)
+'''.lstrip()
+
+            # Open the file in append mode and write the new code to the file
+            with open(example_path, 'a') as f:
+                f.write(new_code)
             # Run the file 
             result = os.popen(f'python {example_path}').readlines()[-1]
             # ...
@@ -166,7 +158,9 @@ from app import measure_performance
 
         output = result
         my_dict = eval(output)
-        print(metrics_dict)
+        print(output)
+        # print(my_dict)
+        # return redirect(url_for('display', output=output))
         return render_template('results.html', my_dict=my_dict)
     return render_template('unsuccessful.html')
 
