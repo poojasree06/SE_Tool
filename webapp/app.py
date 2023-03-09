@@ -20,7 +20,7 @@ def allowed_file(filename):
 @app.route("/")
 def uploadfile():
     return render_template('home.html')
-metrics_dict = {}
+metrics_dict = {'Entire_File':[]}
 def measure_performance(func):
     def wrapper(*args, **kwargs):
         # Add code to execute before calling the decorated function
@@ -32,7 +32,7 @@ def measure_performance(func):
         
         # Add code to execute after calling the decorated function
         obj.stop()
-        print(obj._construct_attributes_dict())
+        
         # Add the metrics to the dictionary
         if func.__name__ in metrics_dict:
             metrics_dict[func.__name__].append(obj.cpu_consumption())
@@ -97,15 +97,20 @@ obj1.start()
                         
                         # Write decorator function above function definition
                         print(f"@measure_performance")
-                        
+                       
                     print(line, end='')
-                            # Define the new code to be added to the end of the file
+                        # Define the new code to be added to the end of the file
             new_code = '''# This is the new code
 \n
+obj1.stop()
+metrics_dict['Entire_File'].append(obj1.cpu_consumption())
+metrics_dict['Entire_File'].append(obj1.ram_consumption())
+metrics_dict['Entire_File'].append(obj1.consumption())
+metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['CO2_emissions(kg)'])
 print(metrics_dict)
 '''.lstrip()
             # Open the file in append mode and write the new code to the file
-            with  open(path, 'a') as f:
+            with open(path, 'a') as f:
                 f.write(new_code)
             return render_template("successful.html", name=filename)
     if request.method == 'GET':
