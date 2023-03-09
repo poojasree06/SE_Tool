@@ -19,7 +19,7 @@ from utils import  (
     define_carbon_index,
     get_params,
     set_params,
-    NotNeededExtensionError,
+    # NotNeededExtensionError,
 )
 
 
@@ -61,7 +61,6 @@ class Tracker:
             if type(file_name) is str and not file_name.endswith('.csv'):
                 raise NotNeededExtensionError(f"'file_name' name need to be with extension \'.csv\'")
         self._params_dict = get_params()  # define default params
-        # print("pn", project_name)
         self.project_name = project_name if project_name is not None else self._params_dict["project_name"]
         self.file_name = file_name if file_name is not None else self._params_dict["file_name"]
         self._measure_period = measure_period if measure_period is not None else self._params_dict["measure_period"]
@@ -70,24 +69,22 @@ class Tracker:
 
         self._emission_level, self._country = define_carbon_index(emission_level, alpha_2_code, region)
         self._cpu_processes = cpu_processes
-        self._scheduler = BackgroundScheduler(
-            job_defaults={'max_instances': 10}, 
-            timezone=str(tzlocal.get_localzone()),
-            misfire_grace_time=None
-            )
+        # self._scheduler = BackgroundScheduler(
+        #     job_defaults={'max_instances': 10}, 
+        #     timezone=str(tzlocal.get_localzone()),
+        #     misfire_grace_time=None
+        #     )
         self._start_time = None
         self._cpu = None
         self._ram = None
         self._id = None
-        self._current_epoch = "N/A"
         self._consumption = 0
         self._cpu_consumption=0
         self._ram_consumption=0
         self._os = platform.system()
         if self._os == "Darwin":
             self._os = "MacOS"
-        # parameters to save 
-        self._parameters_to_save = ""
+        # self._parameters_to_save = ""
     
 
         
@@ -128,25 +125,23 @@ class Tracker:
     def ram_consumption(self):
         return self._ram_consumption
 
-    
-    def id(self): #  The Tracker's id. id is random UUID
+    #   The Tracker's id. id is random UUID
+    def id(self): 
         return self._id
 
-
-    def emission_level(self):
     #   emission_level is the mass of CO2 in kilos, which is produced  per every MWh of consumed energy.
+    def emission_level(self):
         return self._emission_level
     
-
+    #   Period of power consumption measurements.
+    #   The more period the more time between measurements.
+    #   The default is 10
     def measure_period(self):
-            #    Period of power consumption measurements.
-            #   The more period the more time between measurements.
-            #    The default is 10
-            
+          
         return self._measure_period
-
+    
+    #   Dictionary with all the attibutes that should be written to .csv file 
     def _construct_attributes_dict(self,):
-             #   Dictionary with all the attibutes that should be written to .csv file    
         attributes_dict = dict()
         attributes_dict["id"] = [self._id]
         attributes_dict["project_name"] = [f"{self.project_name}"]
@@ -163,10 +158,7 @@ class Tracker:
         return attributes_dict
 
 
-    def _write_to_csv(
-        self,
-        add_new=False,
-        ):    
+    def _write_to_csv(self,add_new=False,):    
         attributes_dict = self._construct_attributes_dict()
         if not os.path.isfile(self.file_name):
             while True:
@@ -224,55 +216,52 @@ class Tracker:
         self._consumption += tmp_comsumption
         self._cpu_consumption=cpu_consumption*self._pue
         self._ram_consumption=ram_consumption*self._pue
-        if self._mode == "shut down":
-            self._scheduler.remove_job("job")
-            self._scheduler.shutdown()
-        # self._write_to_csv returns attributes_dict
+        # if self._mode == "shut down":
+        #     self._scheduler.remove_job("job")
+        #     self._scheduler.shutdown()
         return self._write_to_csv(add_new)
 
 
 
     def start(self):
-        if self._start_time is not None:
-            try:
-                self._scheduler.remove_job("job")
-                self._scheduler.shutdown()
-            except:
-                pass
-            self._scheduler = BackgroundScheduler(job_defaults={'max_instances': 10}, misfire_grace_time=None)
+        # if self._start_time is not None:
+        #     try:
+        #         self._scheduler.remove_job("job")
+        #         self._scheduler.shutdown()
+        #     except:
+        #         pass
+        #     self._scheduler = BackgroundScheduler(job_defaults={'max_instances': 10}, misfire_grace_time=None)
         self._cpu = CPU(cpu_processes=self._cpu_processes, ignore_warnings=self._ignore_warnings)
         self._ram = RAM(ignore_warnings=self._ignore_warnings)
         self._id = str(uuid.uuid4())
         self._mode = "first_time"
         self._start_time = time.time()
-        self._scheduler.add_job(self._func_for_sched, "interval", seconds=self._measure_period, id="job")
-        self._scheduler.start()
+        # self._scheduler.add_job(self._func_for_sched, "interval", seconds=self._measure_period, id="job")
+        # self._scheduler.start()
 
 
 
     def stop(self, ):
         if self._start_time is None:
             raise Exception("Need to first start the tracker by running tracker.start() or tracker.start_training()")
-        self._scheduler.remove_job("job")
-        self._scheduler.shutdown()
+        # self._scheduler.remove_job("job")
+        # self._scheduler.shutdown()
         self._func_for_sched() 
-        # attributes_dict = self._write_to_csv()
-        # self._start_time = None
-        # self._consumption = 0
         self._mode = "shut down"
 
-    
 def track(func):  # decorator function
     def inner(*args, **kwargs):
         tracker = Tracker()
         tracker.start()
         try:
+            print("tracker")
             returned = func(*args, **kwargs)
         except Exception:
             tracker.stop()
             del tracker
             raise Exception
         tracker.stop()
+        print(tracker._construct_attributes_dict())
         del tracker
         return returned
     return inner

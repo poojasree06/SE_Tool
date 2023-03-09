@@ -32,7 +32,7 @@ def measure_performance(func):
         
         # Add code to execute after calling the decorated function
         obj.stop()
-        
+        print(obj._construct_attributes_dict())
         # Add the metrics to the dictionary
         if func.__name__ in metrics_dict:
             metrics_dict[func.__name__].append(obj.cpu_consumption())
@@ -99,6 +99,14 @@ obj1.start()
                         print(f"@measure_performance")
                         
                     print(line, end='')
+                            # Define the new code to be added to the end of the file
+            new_code = '''# This is the new code
+\n
+print(metrics_dict)
+'''.lstrip()
+            # Open the file in append mode and write the new code to the file
+            with  open(path, 'a') as f:
+                f.write(new_code)
             return render_template("successful.html", name=filename)
     if request.method == 'GET':
         # We get directory of current uploaded folder here
@@ -124,14 +132,6 @@ obj1.start()
         elif len(py_files) == 1:
             example_path = py_files[0]
             # obj3.calculate_consumption()
-            # Define the new code to be added to the end of the file
-            new_code = '''# This is the new code
-\n
-print(metrics_dict)
-'''.lstrip()
-            # Open the file in append mode and write the new code to the file
-            with open(example_path, 'a') as f:
-                f.write(new_code)
             # Run the file 
             result = os.popen(f'python {example_path}').readlines()[-1]
             # ...

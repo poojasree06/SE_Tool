@@ -14,12 +14,12 @@ from cpu_metrics import all_available_cpu
 # from gpu_metrics import all_available_gpu
 
 
-class FileDoesNotExistsError(Exception):
-    pass
+# class FileDoesNotExistsError(Exception):
+#     pass
 
 
-class NotNeededExtensionError(Exception):
-    pass
+# class NotNeededExtensionError(Exception):
+#     pass
 
 
 def available_devices():
@@ -28,9 +28,7 @@ def available_devices():
     # need to add RAM
 
 
-def is_file_opened(
-    needed_file
-):
+def is_file_opened(needed_file):
   
     result = False
     needed_file = os.path.abspath(needed_file)
@@ -50,15 +48,10 @@ def is_file_opened(
     return result
 
 
-class NoCountryCodeError(Exception):
-    pass
+# class NoCountryCodeError(Exception):
+#     pass
 
-
-def define_carbon_index(
-    emission_level=None, 
-    alpha_2_code=None,
-    region=None
-):
+def define_carbon_index(emission_level=None, alpha_2_code=None, region=None):
     if alpha_2_code is None and region is not None:
         raise NoCountryCodeError("In order to set 'region' parameter, 'alpha_2_code' parameter should be set")
     carbon_index_table_name = '.\data\carbon_index.csv'
@@ -105,11 +98,8 @@ def define_carbon_index(
     return (result, f'{country}/{region}') if region is not None else (result, f'{country}')
 
 
-class IncorrectPricingDict(Exception):
-    pass
-
-
-
+# class IncorrectPricingDict(Exception):
+#     pass
 
 def set_params(**params):
     dictionary = dict()
