@@ -38,9 +38,9 @@ def measure_performance(func):
             metrics_dict[func.__name__].append(obj.cpu_consumption())
             metrics_dict[func.__name__].append(obj.ram_consumption())
             metrics_dict[func.__name__].append(obj.consumption())
-            metrics_dict[func.__name__].append(obj._construct_attributes_dict()['CO2_emissions(kg)'])
+            metrics_dict[func.__name__].append(obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
         else:
-            metrics_dict[func.__name__] = [obj.cpu_consumption(),obj.ram_consumption(),obj.consumption(),obj._construct_attributes_dict()['CO2_emissions(kg)']]
+            metrics_dict[func.__name__] = [obj.cpu_consumption(),obj.ram_consumption(),obj.consumption(),obj._construct_attributes_dict()['CO2_emissions(kg)'][0]]
         
         # Return the result of the decorated function
         return result
@@ -106,7 +106,7 @@ obj1.stop()
 metrics_dict['Entire_File'].append(obj1.cpu_consumption())
 metrics_dict['Entire_File'].append(obj1.ram_consumption())
 metrics_dict['Entire_File'].append(obj1.consumption())
-metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['CO2_emissions(kg)'])
+metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['CO2_emissions(kg)'][0])
 print(metrics_dict)
 '''.lstrip()
             # Open the file in append mode and write the new code to the file
