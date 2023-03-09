@@ -12,6 +12,9 @@
     <div class="header">
         <h1>Execution Result</h1>
     </div>
+    <div class="results-card">
+        <h3>OS: {{ my_dict['Entire_File'][4] }}<br>CPU Name: {{ my_dict['Entire_File'][5] }}</h3>
+    </div>
     <div class="results-container">
         <table class="rwd-table">
             <thead>
@@ -28,7 +31,7 @@
                 <tr>
                     <td data-column="Function Name">{{ key }}</td>
                     <!-- <td></td> -->
-                    {% for value in values %}
+                    {% for value in values[:4] %}
                     <td data-column="Energy due to CPU-Metrics">{{ value }}</td>
                     <!-- <td></td> -->
                     {% endfor %}

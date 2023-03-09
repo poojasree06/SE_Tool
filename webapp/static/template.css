@@ -176,6 +176,13 @@ input[type="file"] {
   justify-content: center;
   background-color: #e0eafc;
 }
+.results-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0eafc;
+}
 
 .card{
   border-radius: 10px;
