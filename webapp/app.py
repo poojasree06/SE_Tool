@@ -50,7 +50,10 @@ def measure_performance(func):
         # execution_time = end_time - start_time
         obj.calculate_consumption()
         obj2.calculate_consumption()
+        
+        '''
         obj3.stop()
+        '''
         
         # Add the metrics to the dictionary
         if func.__name__ in metrics_dict:
