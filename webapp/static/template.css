@@ -6,9 +6,10 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  
 }
-
+body{
+  background: #e0eafc;
+}
 .home-container {
   height: 100vh;
   width: 100%;
@@ -173,7 +174,7 @@ input[type="file"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fcfcfc;
+  background-color: #e0eafc;
 }
 
 .card{
@@ -182,13 +183,12 @@ input[type="file"] {
   width: 500px;
   height: 200px;
   background-color: #ffffff;
-  padding: 50px 30px 50px;
-  margin: auto;
-  position: absolute;
   text-align: center;
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 20px; 
+  justify-content: center;
+  align-items: center;
 }
 
 table {
@@ -205,7 +205,9 @@ table {
 tr:nth-of-type(odd) {
   background: #eee;
 }
-
+tr:nth-of-type(even) {
+  background: white;
+}
 th {
   background: #005af0;
   color: white;
@@ -277,4 +279,3 @@ and also iPads specifically.
   }
 
 }
-
