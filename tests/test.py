@@ -36,7 +36,7 @@ def get_params():
 
 sys.path.insert(0,"./")
 from main import Tracker
-obj=Tracker(project_name="p1",file_name="emission.csv",measure_period=20,pue=1.54)
+obj=Tracker(project_name="project1",file_name="emission.csv",measure_period=10,pue=1)
 # obj=Tracker() or one can specify without any intital data it will take default as project name,emission.csv,10,1
 
 print(obj)
