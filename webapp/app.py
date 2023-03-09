@@ -6,8 +6,9 @@ import glob
 import fileinput
 import sys
 import json
-sys.path.insert(0, "./")
-from main import Tracker
+sys.path.insert(0, ".\hardware")
+from cpu_metrics import CPU
+from ram_metrics import RAM
 
 
 
@@ -28,23 +29,31 @@ metrics_dict = {'Entire_File':[]}
 def measure_performance(func):
     def wrapper(*args, **kwargs):
         # Add code to execute before calling the decorated function
-        obj = Tracker()
-        obj.start()
+        # start_time = time.time()
+        obj=CPU()
+        obj2=RAM()
         
         # Call the decorated function and capture its result
         result = func(*args, **kwargs)
         
         # Add code to execute after calling the decorated function
-        obj.stop()
+        # end_time = time.time()
+        # execution_time = end_time - start_time
+        obj.calculate_consumption()
+        obj2.calculate_consumption()
         
         # Add the metrics to the dictionary
         if func.__name__ in metrics_dict:
-            metrics_dict[func.__name__].append(obj.cpu_consumption())
-            metrics_dict[func.__name__].append(obj.ram_consumption())
+            #metrics_dict[func.__name__].append(obj)
+            #metrics_dict[func.__name__].append(obj.name())
+            #metrics_dict[func.__name__].append(obj.tdp())
+            metrics_dict[func.__name__].append(obj.get_consumption())
+            metrics_dict[func.__name__].append(obj2.get_consumption())
 
         else:
-            metrics_dict[func.__name__] = [obj.cpu_consumption(),obj.ram_consumption()]
+            metrics_dict[func.__name__] = [obj.get_consumption(),obj2.get_consumption()]
         
+        print(metrics_dict)
         # Return the result of the decorated function
         return result
     return wrapper
@@ -74,10 +83,11 @@ def upload_file():
             f.save(os.path.join(app.instance_path,
                    'uploads', secure_filename(f.filename)))
             path = 'instance/uploads/' + f.filename
+            function_names = get_function_names(path)
             new_code = '''# This is new code 
 import sys
 import os
-
+import json
 
 # Add the path to the webapp folder to the system path
 sys.path.insert(0, ".\webapp")
@@ -107,6 +117,7 @@ from app import metrics_dict
                         print(f"@measure_performance")
                         
                     print(line, end='')
+            # print(function_names)
             return render_template("successful.html", name=filename)
 
     if request.method == 'GET':
