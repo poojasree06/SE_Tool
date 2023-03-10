@@ -163,7 +163,9 @@ input[type="file"] {
 .error {
   color: red;
 }
-
+.graphs{
+  margin-left: 8%;
+}
 .successful-container input[type="submit"] {
     display: none;
 }

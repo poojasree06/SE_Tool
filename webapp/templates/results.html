@@ -23,7 +23,7 @@
                     <th>CPU Energy Usage(Kwh)</th>
                     <th>RAM Energy Usage(Kwh)</th>
                     <th>Power Consumption(Kwh)</th>
-                    <th>Carbon Footprint(Kwh)</th>
+                    <th>Carbon Footprint(Kg)</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +39,14 @@
                 {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div class="header">
+        <h1>Graph Results</h1>
+    </div>
+    <div class="graphs">
+        {% for graph in graphs %}
+            <img src="data:image/png;base64,{{ graph }}" />
+        {% endfor %}
     </div>
 </body>
 </html>

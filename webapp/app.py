@@ -6,6 +6,9 @@ import glob
 import fileinput
 import sys
 import json
+import matplotlib.pyplot as plt
+import io
+import base64
 sys.path.insert(0, "./")
 from main import Tracker
 
@@ -38,9 +41,9 @@ def measure_performance(func):
             metrics_dict[func.__name__].append(obj.cpu_consumption())
             metrics_dict[func.__name__].append(obj.ram_consumption())
             metrics_dict[func.__name__].append(obj.consumption())
-            metrics_dict[func.__name__].append(obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
+            metrics_dict[func.__name__].append(float(obj._construct_attributes_dict()['CO2_emissions(kg)'][0]))
         else:
-            metrics_dict[func.__name__] = [obj.cpu_consumption(),obj.ram_consumption(),obj.consumption(),obj._construct_attributes_dict()['CO2_emissions(kg)'][0]]
+            metrics_dict[func.__name__] = [obj.cpu_consumption(),obj.ram_consumption(),obj.consumption(),float(obj._construct_attributes_dict()['CO2_emissions(kg)'][0])]
         
         # Return the result of the decorated function
         return result
@@ -150,8 +153,24 @@ print(metrics_dict)
             print('No .py file found in the upload directory')
         output = result
         my_dict = eval(output)
+        new_dict = {key: value for key, value in my_dict.items() if key != 'Entire_File'}
+        graphs = []
+        graph_title = []
+        graph_title.append("Energy Usage of CPU")
+        graph_title.append("Energy Usage of RAM")
+        graph_title.append("Power Consumption")
+        graph_title.append("Carbon Footprint")
+        for i in range(4):
+            fig, ax = plt.subplots()
+            for key, values in new_dict.items():
+                ax.bar(key, values[i], width=0.4)
+            ax.set_title(f'{graph_title[i]}')
+            ax.legend()
+            img = io.BytesIO()
+            fig.savefig(img, format='png')
+            graphs.append(base64.b64encode(img.getvalue()).decode())
         print(output)
-        return render_template('results.html', my_dict=my_dict)
+        return render_template('results.html', my_dict=my_dict, graphs=graphs)
     return render_template('unsuccessful.html')
 
 
