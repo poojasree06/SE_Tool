@@ -8,7 +8,7 @@
   font-family: "Poppins", sans-serif;
 }
 body{
-  background: #e0eafc;
+  background: #c5e8b7;
 }
 .home-container {
   height: 100vh;
@@ -82,7 +82,7 @@ body{
 
 .home-btn {
   text-decoration: none;
-  background-color: #005af0;
+  background-color: #57c84d;
   /* background-color: #58cff1; */
   color: #ffffff;
   padding: 10px 20px;
@@ -94,7 +94,7 @@ body{
 }
 .unsuccessful-btn {
   text-decoration: none;
-  background-color: #005af0;
+  background-color: #57c84d;
   /* background-color: #58cff1; */
   color: #ffffff;
   padding: 10px 20px;
@@ -108,7 +108,7 @@ body{
 .home-btn:hover{
   text-decoration: none;
   background-color: #ffffff;
-  color: #005af0;
+  color: #57c84d;
   /* color:#58cff1; */
   padding: 10px 20px;
   border: none;
@@ -139,7 +139,7 @@ input[type="file"] {
 
 #submit-result {
   text-decoration: none;
-  background-color: #005af0;
+  background-color: #57c84d;
   display: inline-block;
   color: #ffffff;
   padding: 10px 20px;
@@ -154,7 +154,7 @@ input[type="file"] {
 #submit-result:hover{
   text-decoration: none;
   background-color: #ffffff;
-  color: #005af0;
+  color: #57c84d;
   padding: 10px 20px;
   border: none;
   outline: 1px solid #010101;
@@ -164,7 +164,10 @@ input[type="file"] {
   color: red;
 }
 .graphs{
-  margin-left: 8%;
+  display: flexbox;
+  align-items: center; 
+  justify-content: center;
+  margin: auto auto auto 300px;
 }
 .successful-container input[type="submit"] {
     display: none;
@@ -176,14 +179,14 @@ input[type="file"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #e0eafc;
+  background-color: #c5e8b7;
 }
 .results-card {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #e0eafc;
+  background-color: #c5e8b7;
 }
 
 .card{
@@ -218,7 +221,7 @@ tr:nth-of-type(even) {
   background: white;
 }
 th {
-  background: #005af0;
+  background: #57c84d;
   color: white;
 }
 
@@ -285,6 +288,9 @@ and also iPads specifically.
 
     color: #000;
     font-weight: bold;
+  }
+  .graphs{
+    margin-left: 0px;
   }
 
 }
