@@ -1,4 +1,4 @@
-# SE_Tool
+# EcoPy
 **Team :**
 1. A.Pooja Sree - CS20B002
 2. G.Namitha Reddy - CS20B011
@@ -33,4 +33,4 @@ Once the user inputs the python file the tool measures and displays the necessar
 1) Clone repo   
 2) Run "setup.py" file to install necessary dependencies.  
 3) Change directory to "webapp"  
-4) Command to start the tool - python app.y  
+4) Command to start the tool - python app.py  
