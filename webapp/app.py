@@ -152,7 +152,19 @@ print(metrics_dict)
         else:
             print('No .py file found in the upload directory')
         output = result
+
         my_dict = eval(output)
+        for key, value in my_dict.items():
+            if key!='Entire_File':
+                count=1
+                if len(value) > 4:
+                    count=count+1
+                    for i in range(4, len(value)):
+                        value[i % 4] += float(value[i])
+                    value = value[:4]
+                for i in range(len(value)):
+                    value[i]/=count
+
         new_dict = {key: value for key, value in my_dict.items() if key != 'Entire_File'}
         graphs = []
         graph_title = []
