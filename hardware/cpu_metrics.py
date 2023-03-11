@@ -22,6 +22,7 @@ class NoCPUinTableWarning(Warning):
 class NoNeededLibrary(Warning):
     pass
 
+# This class is the interface for tracking CPU power consumption.
 class CPU():
     def __init__(self, cpu_processes="current", ignore_warnings=False):
         self._ignore_warnings = ignore_warnings  
@@ -54,9 +55,9 @@ class CPU():
     def get_cpu_percent(self,):
         # cpu_percent:float - cpu utilizationin [0, 1], The current cpu utilization from python processes
         os_dict = {
-            'Linux': get_cpu_percent_linux,
+            # 'Linux': get_cpu_percent_linux,
             'Windows': get_cpu_percent_windows,
-            'Darwin': get_cpu_percent_mac_os
+            # 'Darwin': get_cpu_percent_mac_os
         }
         cpu_percent = os_dict[self._operating_system](self._cpu_processes)
         return cpu_percent
@@ -71,13 +72,7 @@ class CPU():
         return consumption
 
 
-def all_available_cpu():
-    """
-        This function prints all seeable CPU devices
-        All the CPU devices are intended to be of the same model 
-        Returns
-        No returns
-    """
+def all_available_cpu(): #This function prints all seeable CPU devices
     try:
         cpu_dict = get_cpu_info()
         string = f"""Seeable cpu device(s):
@@ -127,10 +122,6 @@ def number_of_cpu(ignore_warnings=True):
             processor_string = 'something'
             if 'Processor(s)' in dictionary:
                 processor_string = dictionary['Processor(s)']
-            if 'Џа®жҐбб®а(л)' in dictionary:
-                processor_string = dictionary['Џа®жҐбб®а(л)']
-            if 'Процессор(ы)' in dictionary:
-                processor_string = dictionary['Процессор(ы)']
             # print(processor_string)
             cpu_num = int(re.findall('- (\d)\.', processor_string)[0])
             # print(cpu_num)
@@ -168,7 +159,7 @@ def transform_cpu_name(cpu_name):
     return cpu_name, patterns
 
 
-def get_patterns(cpu_name):
+def get_patterns(cpu_name):  # find patterns
     patterns = re.findall("(\S*\d+\S*)", cpu_name)
     for i in re.findall(
         "(Ryzen Threadripper)|(Ryzen)|(EPYC)|(Athlon)|(Xeon Gold)|(Xeon Bronze)|(Xeon Silver)|(Xeon Platinum)|(Xeon)|(Core)|(Celeron)|(Atom)|(Pentium)",
@@ -247,80 +238,7 @@ def find_tdp_value(cpu_name, f_table_name, constant_value=CONSTANT_CONSUMPTION, 
                 tmp_elements.append(element[0])
         return find_max_tdp(tmp_elements)
 
-
-
-def get_cpu_percent_mac_os(cpu_processes="current"):
-    """
-        This function calculates CPU utilization on MacOS.
-        cpu_percent: float
-            CPU utilization fraction. 'cpu_percent' is in [0, 1]. 
-    """
-    if cpu_processes == "current":
-        strings = os.popen('top -stats "command,cpu,pgrp" -l 2| grep -E "(python)|(%CPU)"').read().split('\n')
-        strings.pop()
-        # number of cpu cores
-        cpu_num = psutil.cpu_count()
-        current_pid = os.getpid()
-        cpu_percent = 0
-        strings = strings[int(len(strings) / 2) + 1:]
-        for index in range(len(strings)):
-            if int(strings[index].split()[-1]) == current_pid:
-                cpu_percent = float(strings[index].split()[1]) / cpu_num
-                break
-    elif cpu_processes == "all":
-        strings = os.popen('top -stats "command,cpu,pgrp" -l 2| grep -E "(CPU usage:)"').read().split("\n")
-        strings.pop()
-        strings = strings[-1].split()
-        cpu_percent = float(strings[2][:-1]) + float(strings[4][:-1])
-    return cpu_percent / 100
-
-
-def get_cpu_percent_linux(cpu_processes="current"):
-    """
-        cpu_percent: float
-            CPU utilization fraction. 'cpu_percent' is in [0, 1]. 
-
-    """
-    # number of cpu cores
-    if cpu_processes == "current":
-        pid = os.getpid()
-        # execute the top command with the pid filter 
-        output = subprocess.run(["top", "-b", "-n1", "-p", str(pid)], capture_output=True, text=True)
-    elif cpu_processes == "all":
-        # execute the top command with the grep command to filter the output
-        output = subprocess.run(["top", "-b", "-n1"], capture_output=True, text=True)
-    else: 
-        raise ValueError(f"'cpu_processes' parameter can be only 'current' or 'all', now it is '{cpu_processes}'")
-    cpu_num = psutil.cpu_count()
-    # check if the output is empty
-    if not output.stdout:
-        return 0
-    else:
-        # split the output into lines
-        lines = output.stdout.split('\n')
-        # display(lines)
-        # variable to store the sum of all process CPU usage
-        sum_cpu = 0
-        # flag to check if we are at the processes section
-        process_section = False
-        # iterate through the lines
-        for line in lines:
-            # check if we are at the processes section
-            if 'PID' in line:
-                process_section = True
-            elif process_section:
-                # check if we reached the end of the processes section
-                if not line:
-                    break
-                # split the line into words
-                words = line.split()
-                # check if the line contains a process
-                if len(words) > 0:
-                    # the CPU usage percentage is the 8th word
-                    sum_cpu += float(words[8].replace(',','.'))
-    return sum_cpu / (cpu_num * 100)
-
-
+# function to get cpu percent for windows
 def get_cpu_percent_windows(cpu_processes="current"):
     cpu_percent = 0
     if cpu_processes == "current":

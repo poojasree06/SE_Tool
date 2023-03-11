@@ -5,20 +5,24 @@ import os
 
 FROM_WATTs_TO_kWATTh = 1000*3600
 
-
+# This class is the interface for tracking RAM power consumption.
 class RAM():
     def __init__(self, ignore_warnings=False):
+        # This class method initializes RAM object.
         self._consumption = 0
         self._ignore_warnings = ignore_warnings
         self._start = time.time()
 
 
-    def get_consumption(self):
+    def get_consumption(self): # This class method initializes RAM object.
+       
         self.calculate_consumption()
         return self._consumption
     
 
     def _get_memory_used(self,):
+        # This class method calculates amount of virtual memory(RAM) used.
+         # Total amount of virtual memory(RAM) used in gigabytes.
         current_pid = os.getpid()
         memory_percent = 0
         
@@ -35,6 +39,8 @@ class RAM():
 
 
     def calculate_consumption(self):
+        # This class method calculates RAM power consumption.
+        # RAM power consumption: float 
         time_period = time.time() - self._start
         self._start = time.time()
         consumption = self._get_memory_used() * (3 / 8) * time_period / FROM_WATTs_TO_kWATTh
