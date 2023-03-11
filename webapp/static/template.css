@@ -167,7 +167,7 @@ input[type="file"] {
   display: flexbox;
   align-items: center; 
   justify-content: center;
-  margin: auto auto auto 300px;
+  margin-left: 8%;
 }
 .successful-container input[type="submit"] {
     display: none;
