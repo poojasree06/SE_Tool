@@ -34,3 +34,12 @@ Once the user inputs the python file the tool measures and displays the necessar
 2) Run "setup.py" file to install necessary dependencies.  
 3) Change directory to "webapp"  
 4) Command to start the tool - python app.py  
+
+# Tool Demo:
+![Screenshot (4)](https://user-images.githubusercontent.com/89120803/224543726-0be17578-786d-421b-af98-6799ba138de1.png)
+
+![Screenshot (6)](https://user-images.githubusercontent.com/89120803/224543741-5f6a338b-6c5b-45b9-9a09-0c54824fb87c.png)
+
+![Screenshot (7)](https://user-images.githubusercontent.com/89120803/224543763-0c38c095-389d-4215-afc1-b737e7385881.png)
+
+![Screenshot (8)](https://user-images.githubusercontent.com/89120803/224543770-d54f2025-975c-43a4-9ad5-183b6447bfd9.png)
