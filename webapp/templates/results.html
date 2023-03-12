@@ -9,17 +9,17 @@
 </head>
 <body>
     <div class="header">
-        <h1>File Execution Result</h1>
+        <h1>File Result</h1>
     </div>
     <div class="results-card">
-        <p>OS: {{ my_dict['Entire_File'][4] }}<br>
+        <h3>OS: {{ my_dict['Entire_File'][4] }}<br>
             CPU Name: {{ my_dict['Entire_File'][5] }}<br>
-        </p>
+        </h3>
     </div>
     <table class="rwd-table">
         <thead>
             <tr>
-                <th>Function Name</th>
+                <th>File</th>
                 <th>CPU Energy Usage(KWh)</th>
                 <th>RAM Energy Usage(KWh)</th>
                 <th>Total Energy Consumption(KWh)</th>
@@ -37,7 +37,7 @@
         </tbody>
     </table>
     <div class="header">
-        <h1>Function Wise Execution Result</h1>
+        <h1>Function Wise Result</h1>
     </div>
         <table class="rwd-table">
             <thead>

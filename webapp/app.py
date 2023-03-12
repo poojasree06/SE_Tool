@@ -81,6 +81,8 @@ sys.path.insert(0, "./")
 from main import Tracker
 from app import measure_performance
 from app import metrics_dict
+from pathlib import Path
+path = Path(__file__)
 obj1 = Tracker()
 obj1.start()
 \n'''.lstrip()
@@ -117,6 +119,8 @@ metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['CO2_emissi
 metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['OS'][0])
 metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['CPU_name'][0])
 print(metrics_dict)
+
+os.remove(path)
 '''.lstrip()
             # Open the file in append mode and write the new code to the file
             with open(path, 'a') as f:
@@ -127,25 +131,9 @@ print(metrics_dict)
         upload_dir = os.path.join(app.instance_path, 'uploads')
         # Get all files with .py extension in the upload directory
         py_files = glob.glob(os.path.join(upload_dir, '*.py'))
-        # If there are multiple files with .py extension in the upload directory
-        if len(py_files) > 1:
-            print("Multiple .py files found in the upload directory:")
-            for i, file_path in enumerate(py_files):
-                print(f"{i+1}. {os.path.basename(file_path)}")
-            # Prompt the user to select the file they want to run
-            selection = input("Enter the number of the file you want to run: ")
-            # Verify the user's selection
-            if not selection.isdigit() or int(selection) not in range(1, len(py_files)+1):
-                print("Invalid selection")
-            else:
-                # Run the selected file
-                example_path = py_files[int(selection)-1]
-                result = os.popen(f'python {example_path}').read()
-                # ...
         
-        elif len(py_files) == 1:
+        if len(py_files) == 1:
             example_path = py_files[0]
-            # obj3.calculate_consumption()
             # Run the file 
             result = os.popen(f'python {example_path}').readlines()[-1]
             # ...
@@ -186,7 +174,9 @@ print(metrics_dict)
     return render_template('unsuccessful.html')
 
 
-@app.route('/display')
+
+
+@app.route('/uploader/display')
 def display():
     output = request.args.get('output')
     return render_template('results.html', output=output)
