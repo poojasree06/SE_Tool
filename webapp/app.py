@@ -46,11 +46,12 @@ def measure_performance(func):
         # Return the result of the decorated function
         return result
     return wrapper
-
+# function to find the function names in the uploaded file
 def get_function_names(f):
     function_names = []
     with open(f, 'r') as fl:
         lines = fl.readlines()
+        #if the starts with the 'def ' then split that line till it reaches '('
         for line in lines:
             if 'def ' in line:
                 function_names.append(line.split('def ')[1].split('(')[0])
@@ -63,9 +64,11 @@ def upload_file():
         print(f'this {f}')
         f = request.files['file']
         filename=f.filename
+        # if no file is found then display the error please upload a file
         if f.filename == '':
             not_uploaded = 'Please select a file to upload.'
             return render_template('home.html', not_uploaded=not_uploaded)
+        # if file is in correct format then upload it to the uploaded folder
         if f and allowed_file(f.filename):
             f.save(os.path.join(app.instance_path,
                    'uploads', secure_filename(f.filename)))
@@ -139,8 +142,9 @@ os.remove(path)
         else:
             print('No .py file found in the upload directory')
         output = result
-
+        # convert the output string into dictionary
         my_dict = eval(output)
+        #if function is called multiple times, then take the average of all the values we get for every run
         for key, value in my_dict.items():
             if key!='Entire_File':
                 count=1
@@ -151,22 +155,27 @@ os.remove(path)
                     value = value[:4]
                 for i in range(len(value)):
                     value[i]/=count
-
+        # create one more new dictionary without keeping the entire file metric values to display in the graphs
         new_dict = {key: value for key, value in my_dict.items() if key != 'Entire_File'}
         graphs = []
         graph_title = []
+        # append all the four titles for all the graphs
         graph_title.append("Energy Usage of CPU")
         graph_title.append("Energy Usage of RAM")
-        graph_title.append("Power Consumption")
+        graph_title.append("Total Energy Consumption")
         graph_title.append("Carbon Footprint")
         for i in range(4):
+            # plot the graph
             fig, ax = plt.subplots()
             for key, values in new_dict.items():
                 ax.bar(key, values[i], width=0.4)
+            #set the title for the respective graph
             ax.set_title(f'{graph_title[i]}')
             ax.legend()
             img = io.BytesIO()
+            #save the graph in the png and show it in the web
             fig.savefig(img, format='png')
+            #append all the 4 graphs to the graphs list
             graphs.append(base64.b64encode(img.getvalue()).decode())
         print(output)
         return render_template('results.html', my_dict=my_dict, graphs=graphs)
@@ -174,7 +183,7 @@ os.remove(path)
 
 
 
-
+# display the output in the results html page
 @app.route('/uploader/display')
 def display():
     output = request.args.get('output')
