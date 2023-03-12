@@ -3,7 +3,7 @@
 1. A.Pooja Sree - CS20B002
 2. G.Namitha Reddy - CS20B011
 3. K.Manasa - CS20B019
-4. L.Hema Sri Sai - CS20B020
+4. L.Hemasri Sai - CS20B020
 
 **Description:** 
 
