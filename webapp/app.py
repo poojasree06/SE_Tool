@@ -1,16 +1,14 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
-import subprocess
 import glob
 import fileinput
 import sys
-import json
 import matplotlib.pyplot as plt
 import io
 import base64
 sys.path.insert(0, "./")
-from main import Tracker
+from main import Tracker           # Tracker where all metric calculation functions are implemented
 
 
 app = Flask(__name__)
@@ -120,12 +118,13 @@ metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['OS'][0])
 metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['CPU_name'][0])
 print(metrics_dict)
 
-os.remove(path)
+os.remove(path)       
 '''.lstrip()
             # Open the file in append mode and write the new code to the file
             with open(path, 'a') as f:
                 f.write(new_code)
             return render_template("successful.html", name=filename)
+        
     if request.method == 'GET':
         # We get directory of current uploaded folder here
         upload_dir = os.path.join(app.instance_path, 'uploads')
