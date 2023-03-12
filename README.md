@@ -36,10 +36,8 @@ Once the user inputs the python file the tool measures and displays the necessar
 4) Command to start the tool - python app.py  
 
 # Tool Demo:
-![Screenshot (4)](https://user-images.githubusercontent.com/89120803/224543726-0be17578-786d-421b-af98-6799ba138de1.png)
+![Screenshot (4)](https://user-images.githubusercontent.com/89120803/224544037-94970da2-4fc8-4a91-a186-6b58ff554418.png)
 
-![Screenshot (6)](https://user-images.githubusercontent.com/89120803/224543741-5f6a338b-6c5b-45b9-9a09-0c54824fb87c.png)
-
-![Screenshot (7)](https://user-images.githubusercontent.com/89120803/224543763-0c38c095-389d-4215-afc1-b737e7385881.png)
-
-![Screenshot (8)](https://user-images.githubusercontent.com/89120803/224543770-d54f2025-975c-43a4-9ad5-183b6447bfd9.png)
+![Screenshot (6)](https://user-images.githubusercontent.com/89120803/224544043-6b9df812-af4c-42a6-baf9-1903020f7363.png)
+![Screenshot (7)](https://user-images.githubusercontent.com/89120803/224544052-75f6d505-4ea0-4023-b86e-7400b91b5927.png)
+![Screenshot (8)](https://user-images.githubusercontent.com/89120803/224544058-2d20faac-877f-455f-9d6d-c7b996c2c819.png)
