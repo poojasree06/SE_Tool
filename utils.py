@@ -1,35 +1,31 @@
 import os
 import psutil
-from pkg_resources import resource_stream
 import json
 import pandas as pd
-import string
-import numpy as np
 import warnings
 import requests
-import datetime
 import sys
 sys.path.insert(0, ".\hardware")
 from cpu_metrics import all_available_cpu
-# from gpu_metrics import all_available_gpu
 
 
-# class FileDoesNotExistsError(Exception):
-#     pass
+class FileDoesNotExistsError(Exception):
+    pass
 
+class NotNeededExtensionError(Exception):
+    pass
 
-# class NotNeededExtensionError(Exception):
-#     pass
+class NoCountryCodeError(Exception):
+    pass
 
-
+# prints all the available CPU devices
 def available_devices():
     all_available_cpu()
-    # all_available_gpu()
     # need to add RAM
 
 
 def is_file_opened(needed_file):
-  
+   # This function checks if given file is opened in any python or jupyter process
     result = False
     needed_file = os.path.abspath(needed_file)
     python_processes = []
@@ -48,9 +44,12 @@ def is_file_opened(needed_file):
     return result
 
 
-# class NoCountryCodeError(Exception):
-#     pass
-
+'''     This function get an IP of user, defines country and region.
+        Then, it searchs user emission level by country and region in the emission level database.
+        If there is no certain country, then it returns worldwide constant. 
+        If there is certain country in the database, but no certain region, 
+        then it returns average country emission level. 
+        User can define own emission level and country, using the alpha2 country code.'''
 def define_carbon_index(emission_level=None, alpha_2_code=None, region=None):
     if alpha_2_code is None and region is not None:
         raise NoCountryCodeError("In order to set 'region' parameter, 'alpha_2_code' parameter should be set")
@@ -98,9 +97,7 @@ def define_carbon_index(emission_level=None, alpha_2_code=None, region=None):
     return (result, f'{country}/{region}') if region is not None else (result, f'{country}')
 
 
-# class IncorrectPricingDict(Exception):
-#     pass
-
+# This function sets default Tracker attributes values to the file.
 def set_params(**params):
     dictionary = dict()
      # filename = resource_stream('SE_TOOL', 'data/config.txt').name
@@ -121,6 +118,7 @@ def set_params(**params):
         json_file.write(json.dumps(dictionary))
 
 
+# This function returns default Tracker attributes values:
 def get_params():
     # filename = resource_stream('SE_TOOL', 'data/config.txt').name
     filename='data/config.txt'
@@ -132,8 +130,7 @@ def get_params():
             dictionary = json.loads(json_file.read())
         else:
             dictionary = {
-                "project_name": "Default project name",
-                "experiment_description": "no experiment description",
+                "project_name": "project name",
                 "file_name": "emission.csv",
                 "measure_period": 10,
                 "pue": 1,

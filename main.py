@@ -4,10 +4,8 @@ import platform
 import pandas as pd
 import numpy as np
 import uuid
-import warnings
-import tzlocal
 import sys
-from apscheduler.schedulers.background import BackgroundScheduler
+import warnings
 
 sys.path.insert(0, ".\hardware")
 
@@ -19,7 +17,7 @@ from utils import  (
     define_carbon_index,
     get_params,
     set_params,
-    # NotNeededExtensionError,
+    NotNeededExtensionError,
 )
 
 
@@ -29,7 +27,35 @@ FROM_kWATTH_TO_MWATTH = 1000
 
 class IncorrectMethodSequenceError(Exception):
     pass
+"""
+    This class method initializes a Tracker object and creates fields of class object
+                
+    Parameters
+    ----------
+    project_name: str
+    file_name: str
+    Name of file to save the the results of calculations.
+    measure_period: float
+    Period of power consumption measurements in seconds.
+    The more period the more time between measurements.
+    The default is 10
+    emission_level: float
+    The mass of CO2 in kilos, which is produced  per every MWh of consumed energy.
+    Default is None
+    alpha_2_code: str
+    Default is None
+    region: str
+    Default is None
+    cpu_processes: str
+    if cpu_processes == "current", then calculates CPU utilization percent only for the current running process
+    if cpu_processes == "all", then calculates full CPU utilization percent(sum of all running processes)
+                
+    Returns
+    -------
+    Tracker: Tracker
+    Object of class Tracker
 
+"""
 class Tracker:
     def __init__(
         self,
@@ -44,15 +70,9 @@ class Tracker:
         ignore_warnings=False,
         ):
         self._ignore_warnings = ignore_warnings
-#         if not self._ignore_warnings:
-#             warnings.warn(
-#                 message="""
-# If you use a VPN, you may have problems with identifying your country by IP.
-# It is recommended to disable VPN or
-# manually install the ISO-Alpha-2 code of your country during initialization of the Tracker() class.
-# You can find the ISO-Alpha-2 code of your country here: https://www.iban.com/country-codes 
-# """
-# )
+        # if not self._ignore_warnings:
+        #     warnings.warn(
+        #         message="""Error""")
         if (type(measure_period) == int or type(measure_period) == float) and measure_period <= 0:
             raise ValueError("\'measure_period\' should be positive number")
         if file_name is not None:
@@ -84,10 +104,9 @@ class Tracker:
         self._os = platform.system()
         if self._os == "Darwin":
             self._os = "MacOS"
-        # self._parameters_to_save = ""
-    
-
-        
+            
+            
+    # This function returns default Tracker attributes values:
     def get_set_params(
         self, 
         project_name=None, 
@@ -116,12 +135,15 @@ class Tracker:
 
         return dictionary
 
+    # This method returns consumption
     def consumption(self):
         return self._consumption
     
+    # This method returns cpu consumption
     def cpu_consumption(self):
         return self._cpu_consumption
     
+     # This method returns ram consumption
     def ram_consumption(self):
         return self._ram_consumption
 
@@ -134,13 +156,22 @@ class Tracker:
         return self._emission_level
     
     #   Period of power consumption measurements.
-    #   The more period the more time between measurements.
-    #   The default is 10
     def measure_period(self):
-          
         return self._measure_period
     
+    
     #   Dictionary with all the attibutes that should be written to .csv file 
+    '''
+      Results is a table with the following columns:
+                project_name
+                start_time
+                duration(s)
+                power_consumption(kWTh)
+                CO2_emissions(kg)
+                CPU_name
+                GPU_name
+                OS
+    '''
     def _construct_attributes_dict(self,):
         attributes_dict = dict()
         attributes_dict["id"] = [self._id]
@@ -157,7 +188,7 @@ class Tracker:
 
         return attributes_dict
 
-
+    # This method writes to .csv file calculation results.
     def _write_to_csv(self,add_new=False,):    
         attributes_dict = self._construct_attributes_dict()
         if not os.path.isfile(self.file_name):
@@ -205,6 +236,10 @@ class Tracker:
         return attributes_dict
 
 
+    ''' 
+    This class method is a function, that gets executed when a Tracker gets started 
+    "measure_period" It calculates CPU, GPU and RAM power consumption and writes results to a .csv file 
+    '''
     def _func_for_sched(self, add_new=False):
         self._cpu.calculate_consumption()
         cpu_consumption = self._cpu.get_consumption()
@@ -222,7 +257,10 @@ class Tracker:
         return self._write_to_csv(add_new)
 
 
-
+    '''
+    This  method starts the Tracker work. It initializes fields of CPU and GPU classes,
+    initializes scheduler, puts the self._func_for_sched function into it and starts its work.
+    '''
     def start(self):
         # if self._start_time is not None:
         #     try:
@@ -240,16 +278,21 @@ class Tracker:
         # self._scheduler.start()
 
 
-
+    '''
+    This  method stops the Tracker work. 
+    It also writes to file final calculation results.
+    '''
     def stop(self, ):
         if self._start_time is None:
-            raise Exception("Need to first start the tracker by running tracker.start() or tracker.start_training()")
+            raise Exception("Need to first start the tracker by running tracker.start()")
         # self._scheduler.remove_job("job")
         # self._scheduler.shutdown()
         self._func_for_sched() 
         self._mode = "shut down"
 
-def track(func):  # decorator function
+
+# decorator function
+def track(func):  
     def inner(*args, **kwargs):
         tracker = Tracker()
         tracker.start()

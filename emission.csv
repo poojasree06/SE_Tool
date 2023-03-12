@@ -1,0 +1,3 @@
+id,project_name,start_time,duration(s),cpu_power_consumption(kWh),ram_power_consumption(kWh),power_consumption(kWh),CO2_emissions(kg),CPU_name,OS,region/country
+d4bbb88d-9f49-4fdd-977c-f316b85c5644,Default project name,2023-03-11 21:50:00,4.870952844619751,1.2098533506947411e-06,2.988695337705848e-08,1.2397403040718e-06,7.75548061239108e-07,11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz,Windows,IN/Telangana
+4aa6dfff-483d-4712-9597-faeb0c5c7ecb,Default project name,2023-03-11 21:49:55,19.91541624069214,9.99708991063988e-06,1.7401974950293683e-07,1.0171109660142816e-05,6.362771583424522e-06,11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz,Windows,IN/Telangana
