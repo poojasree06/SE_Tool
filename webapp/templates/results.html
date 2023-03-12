@@ -8,34 +8,44 @@
     <link rel="stylesheet" href="static/template.css">
 </head>
 <body>
-    
     <div class="header">
-        <h1>Execution Result</h1>
+        <h1>File Execution Result</h1>
     </div>
     <div class="results-card">
-        <h3>OS: {{ my_dict['Entire_File'][4] }}<br>CPU Name: {{ my_dict['Entire_File'][5] }}</h3>
+        <p>OS: {{ my_dict['Entire_File'][4] }}<br>
+            CPU Name: {{ my_dict['Entire_File'][5] }}<br>
+            CPU Energy Usage(KWh): {{ my_dict['Entire_File'][0] }}<br>
+            RAM Energy Usage(KWh): {{ my_dict['Entire_File'][1] }}<br>
+            Total Energy Consumption(KWh): {{ my_dict['Entire_File'][2] }}<br>
+            Carbon Footprint(Kg): {{ my_dict['Entire_File'][3] }}<br>
+        </p>
+    </div>
+    <div class="header">
+        <h1>Function Wise Execution Result</h1>
     </div>
     <div class="results-container">
         <table class="rwd-table">
             <thead>
                 <tr>
                     <th>Function Name</th>
-                    <th>CPU Energy Usage(Kwh)</th>
-                    <th>RAM Energy Usage(Kwh)</th>
-                    <th>Power Consumption(Kwh)</th>
+                    <th>CPU Energy Usage(KWh)</th>
+                    <th>RAM Energy Usage(KWh)</th>
+                    <th>Total Energy Consumption(KWh)</th>
                     <th>Carbon Footprint(Kg)</th>
                 </tr>
             </thead>
             <tbody>
                 {% for key, values in my_dict.items() %}
-                <tr>
-                    <td data-column="Function Name">{{ key }}</td>
-                    <!-- <td></td> -->
-                    {% for value in values[:4] %}
-                    <td data-column="Energy due to CPU-Metrics">{{ value }}</td>
-                    <!-- <td></td> -->
-                    {% endfor %}
-                </tr>
+                    {%if key!='Entire_File'%}
+                    <tr>
+                        <td data-column="Function Name">{{ key }}</td>
+                        <!-- <td></td> -->
+                        {% for value in values[:4] %}
+                        <td data-column="Energy due to CPU-Metrics">{{ value }}</td>
+                        <!-- <td></td> -->
+                        {% endfor %}
+                    </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>

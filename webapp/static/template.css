@@ -7,9 +7,11 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-body{
+
+body {
   background: #c5e8b7;
 }
+
 .home-container {
   height: 100vh;
   width: 100%;
@@ -20,7 +22,7 @@ body{
 }
 
 
-.header{
+.header {
   margin: 60px;
   text-align: center;
 }
@@ -37,6 +39,7 @@ body{
   top: 30%;
   left: 30%;
 }
+
 .unsuccessful-card {
   border-radius: 10px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
@@ -53,7 +56,7 @@ body{
 .home-card h3 {
   font-size: 22px;
   font-weight: 600;
-  
+
 }
 
 .drop_box {
@@ -92,6 +95,7 @@ body{
   margin-top: 20px;
   cursor: pointer;
 }
+
 .unsuccessful-btn {
   text-decoration: none;
   background-color: #57c84d;
@@ -105,7 +109,7 @@ body{
   cursor: pointer;
 }
 
-.home-btn:hover{
+.home-btn:hover {
   text-decoration: none;
   background-color: #ffffff;
   color: #57c84d;
@@ -127,14 +131,14 @@ body{
 
 
 input[type="file"] {
-    display: none;
+  display: none;
 }
 
 #file-upload {
-    border: 1px solid #ccc;
-    display: inline-block;
-    padding: 6px 12px;
-    cursor: pointer;
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
 }
 
 #submit-result {
@@ -151,7 +155,7 @@ input[type="file"] {
 }
 
 
-#submit-result:hover{
+#submit-result:hover {
   text-decoration: none;
   background-color: #ffffff;
   color: #57c84d;
@@ -163,14 +167,16 @@ input[type="file"] {
 .error {
   color: red;
 }
-.graphs{
+
+.graphs {
   display: flexbox;
-  align-items: center; 
+  align-items: center;
   justify-content: center;
   margin-left: 8%;
 }
+
 .successful-container input[type="submit"] {
-    display: none;
+  display: none;
 }
 
 .container {
@@ -181,6 +187,7 @@ input[type="file"] {
   justify-content: center;
   background-color: #c5e8b7;
 }
+
 .results-card {
   width: 100%;
   display: flex;
@@ -189,7 +196,7 @@ input[type="file"] {
   background-color: #c5e8b7;
 }
 
-.card{
+.card {
   border-radius: 10px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
   width: 500px;
@@ -198,7 +205,7 @@ input[type="file"] {
   text-align: center;
   display: flex;
   flex-direction: column;
-  row-gap: 20px; 
+  row-gap: 20px;
   justify-content: center;
   align-items: center;
 }
@@ -208,18 +215,22 @@ table {
   border-collapse: collapse;
   margin: 50px auto;
 }
+
 .rwd-table {
   color: #333;
   border-radius: .6em;
   overflow: hidden;
 }
+
 /* Zebra striping */
 tr:nth-of-type(odd) {
   background: #eee;
 }
+
 tr:nth-of-type(even) {
   background: white;
 }
+
 th {
   background: #57c84d;
   color: white;
@@ -287,9 +298,10 @@ and also iPads specifically.
     content: attr(data-column);
 
     color: #000;
-    font-weight: bold;
+    /* font-weight: bold; */
   }
-  .graphs{
+
+  .graphs {
     margin-left: 0px;
   }
 
