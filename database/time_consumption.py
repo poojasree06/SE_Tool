@@ -18,7 +18,7 @@ def is_sql(query):
 def execute_query(query, database_type):
     if database_type == "SQL":
         print('SQL Code')
-        connection = mysql.connector.connect(user='root', password='password_of_mysql', host='localhost', database='database_name')
+        connection = mysql.connector.connect(user='root', password='password of mysql', host='localhost', database='')
         cursor = connection.cursor()
         cursor.execute(query)
         if query[0] == "I" or query[0] == "D" or query[0] == "U":
@@ -41,20 +41,12 @@ def calculate_time_consumption(start_time, end_time):
 start_time = time.time()
 query = "UPDATE department SET dname = 'Manasa1' WHERE dnumber = 1234;"
 
-# res=execute_query(query, "SQL")
-
-lang= "SQL" if is_sql(query) else "NoSQL"  
-print(lang)
-res=execute_query(query,lang)
-end_time = time.time()
-time_consumed = calculate_time_consumption(start_time, end_time)
-print("Time consumption:", time_consumed)
 # start_time = time.time()
 obj = Tracker()
 obj.start()
-        
 query = "UPDATE department SET dname = 'Manasa3' WHERE dnumber = 1234;"
-res=execute_query(query, "SQL")
+lang= "SQL" if is_sql(query) else "NoSQL"  
+res=execute_query(query, lang)
 # end_time = time.time()
 obj.stop()
 # time_consumed = calculate_time_consumption(start_time, end_time)
