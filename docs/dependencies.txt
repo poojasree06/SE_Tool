@@ -16,3 +16,5 @@ Names
     geocoder
     flask
     werkzeug
+    mysql-connector-python
+    pymongo
