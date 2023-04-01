@@ -17,12 +17,8 @@ def is_sql(query):
 
 def execute_query(query, database_type):
     if database_type == "SQL":
-<<<<<<< HEAD
         print('SQL Code')
         connection = mysql.connector.connect(user='root', password='password_of_mysql', host='localhost', database='database_name')
-=======
-        connection = mysql.connector.connect(user='root', password='', host='localhost', database='cs20b019')
->>>>>>> 2ef95ac7c057ba2dbea51d5b19448c1878317cee
         cursor = connection.cursor()
         cursor.execute(query)
         if query[0] == "I" or query[0] == "D" or query[0] == "U":
@@ -42,7 +38,6 @@ def calculate_time_consumption(start_time, end_time):
     time_consumption = end_time - start_time
     return time_consumption
 
-<<<<<<< HEAD
 start_time = time.time()
 query = "UPDATE department SET dname = 'Manasa1' WHERE dnumber = 1234;"
 
@@ -54,7 +49,6 @@ res=execute_query(query,lang)
 end_time = time.time()
 time_consumed = calculate_time_consumption(start_time, end_time)
 print("Time consumption:", time_consumed)
-=======
 # start_time = time.time()
 obj = Tracker()
 obj.start()
@@ -70,4 +64,3 @@ print("Total Consumption: ",obj.consumption())
 print("CO2 Emmissions: ",obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
 
 # print("Time consumption:", time_consumed)
->>>>>>> 2ef95ac7c057ba2dbea51d5b19448c1878317cee
