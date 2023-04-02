@@ -38,21 +38,14 @@ def calculate_time_consumption(start_time, end_time):
     time_consumption = end_time - start_time
     return time_consumption
 
-start_time = time.time()
-query = "UPDATE department SET dname = 'Manasa1' WHERE dnumber = 1234;"
 
-# start_time = time.time()
 obj = Tracker()
 obj.start()
 query = "UPDATE department SET dname = 'Manasa3' WHERE dnumber = 1234;"
 lang= "SQL" if is_sql(query) else "NoSQL"  
 res=execute_query(query, lang)
-# end_time = time.time()
 obj.stop()
-# time_consumed = calculate_time_consumption(start_time, end_time)
 print("CPU Consumption: ",obj.cpu_consumption())
 print("RAM Consumption: ",obj.ram_consumption())
 print("Total Consumption: ",obj.consumption())
 print("CO2 Emmissions: ",obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
-
-# print("Time consumption:", time_consumed)
