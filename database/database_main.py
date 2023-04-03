@@ -6,7 +6,7 @@ sys.path.insert(0, "./")
 from main import Tracker           # Tracker where all metric calculation functions are implemented
 
 def is_sql(query):
-    sql_keywords = ["SELECT", "FROM", "WHERE", "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT"]
+    sql_keywords = ["SELECT","UPDATE", "DELETE", "INSERT INTO" "FROM", "WHERE", "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT"]
     for keyword in sql_keywords:
         if re.search(r"\b" + keyword + r"\b", query.upper()):
             return True
@@ -19,10 +19,11 @@ def execute_query(query, database_type,db_user,db_password,db_name):
         connection = mysql.connector.connect(user=db_user, password=db_password, host='localhost', database=db_name)
         cursor = connection.cursor()
         cursor.execute(query)
-        if query[0] == "I" or query[0] == "D" or query[0] == "U":
+        splitted_query=query.split()
+        if splitted_query[0]=="DELETE" or splitted_query[0]=="UPDATE" or ( splitted_query[0]=="INSERT" and splitted_query[1]=="INTO"):
             connection.commit()  # commit the changes
             connection.close()
-        else:
+        else:     
             result_set = cursor.fetchall()
             connection.close()
             return result_set
@@ -32,9 +33,6 @@ def execute_query(query, database_type,db_user,db_password,db_name):
         db = client['cs20b019']
         client.close()
 
-def calculate_time_consumption(start_time, end_time):
-    time_consumption = end_time - start_time
-    return time_consumption
 
 user=input('Enter user: ')
 password=input('Enter password: ')
@@ -46,7 +44,7 @@ obj = Tracker()
 obj.start()
 query = "UPDATE department SET dname = 'Manasa3' WHERE dnumber = 1234;"
 lang= "SQL" if is_sql(query) else "NoSQL"  
-res=execute_query(query, lang,user,password,database_name)
+res=execute_query(query,lang,user,password,database_name)
 obj.stop()
 
 ''' Tracker object ends '''
