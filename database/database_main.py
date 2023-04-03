@@ -14,7 +14,6 @@ def is_sql(query):
 
 
 def execute_sql_query(query,db_user,db_password,db_name):
-    print('\nDetected database model:  "SQL" ')
     connection = mysql.connector.connect(user=db_user, password=db_password, host='localhost', database=db_name)
     cursor = connection.cursor()
     cursor.execute(query)
@@ -27,17 +26,38 @@ def execute_sql_query(query,db_user,db_password,db_name):
         connection.close()
         return result_set
 
-def execute_noSQL_query(query,db_name,collection):
-    print('Detected database model:  "NoSQL" ')
+def execute_noSQL_query(query,db_name):
     client = MongoClient('mongodb://localhost:27017/')
+    splitted_query=query.split('.')
+    collection_name=splitted_query[1]
+    
+    # print(splitted_query)
+    
     db = client[db_name]
-    collection = db[collection]
+    collection=db[collection_name]
+    a=splitted_query[2]
+    pattern = r'(\w+)\((.*)\)'
+    match = re.match(pattern,a)
+    function_name = match.group(1)
+    argument_str = match.group(2)
+    if function_name=="insert_one":
+        print("inserting document")
+        argument_dict = eval(argument_str)
+        result=collection.insert_one(argument_dict)
+   
+    # print(db)
+    # print(collection)
+    print(result.inserted_id)
+    
     client.close()
+    
+    return result
 
 # query=input("Enter query: ")
-query = "UPDATE department SET dname = 'Manasa3' WHERE dnumber = 1234;" 
-
+# query = "UPDATE department SET dname = 'Manasa3' WHERE dnumber = 1234;" 
+query='db.cats.insert_one({"name":"cat_two"})'
 if is_sql(query):
+    print('\nDetected database model:  "SQL" ')
     user=input('Enter user: ')
     password=input('Enter password: ')
     database_name=input('Enter database name: ')
@@ -52,6 +72,7 @@ if is_sql(query):
     ''' Tracker object ends '''
 
 else:
+    print('Detected database model:  "NoSQL" ')
     db_name=input('Enter database name: ')
     
     ''' Tracker object starts '''
