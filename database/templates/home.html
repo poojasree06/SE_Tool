@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SQL Query Executor</title>
+</head>
+<body>
+	<h1>Enter your SQL query:</h1>
+	<form method="POST" action="{{ url_for('execute_query_helper') }}">
+		<label for="query">SQL Query:</label>
+		<textarea name="query" id="query" rows="10" cols="50"></textarea><br><br>
+		<label for="db_type">Database Type:</label>
+		<select name="db_type" id="db_type">
+			<option value="SQL">SQL</option>
+			<option value="NoSQL">NoSQL</option>
+		</select><br><br>
+		<label for="db_name">Database Name:</label>
+		<input type="text" name="db_name" id="db_name"><br><br>
+		<label for="db_pass">Database Password:</label>
+		<input type="password" name="password" id="password"><br><br>
+		<input type="submit" value="Execute Query">
+	</form>
+</body>
+</html>
