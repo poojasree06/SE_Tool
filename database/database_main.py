@@ -13,41 +13,55 @@ def is_sql(query):
     return False
 
 
-def execute_query(query, database_type,db_user,db_password,db_name):
-    if database_type == "SQL":
-        print('\nDetected database model:  "SQL" ')
-        connection = mysql.connector.connect(user=db_user, password=db_password, host='localhost', database=db_name)
-        cursor = connection.cursor()
-        cursor.execute(query)
-        splitted_query=query.split()
-        if splitted_query[0]=="DELETE" or splitted_query[0]=="UPDATE" or ( splitted_query[0]=="INSERT" and splitted_query[1]=="INTO"):
-            connection.commit()  # commit the changes
-            connection.close()
-        else:     
-            result_set = cursor.fetchall()
-            connection.close()
-            return result_set
-    elif database_type == "NoSQL":
-        print('Detected database model:  "NoSQL" ')
-        client = MongoClient('mongodb://localhost:27017/')
-        db = client['cs20b019']
-        client.close()
+def execute_sql_query(query,db_user,db_password,db_name):
+    print('\nDetected database model:  "SQL" ')
+    connection = mysql.connector.connect(user=db_user, password=db_password, host='localhost', database=db_name)
+    cursor = connection.cursor()
+    cursor.execute(query)
+    splitted_query=query.split()
+    if splitted_query[0]=="DELETE" or splitted_query[0]=="UPDATE" or ( splitted_query[0]=="INSERT" and splitted_query[1]=="INTO"):
+        connection.commit()  # commit the changes
+        connection.close()
+    else:     
+        result_set = cursor.fetchall()
+        connection.close()
+        return result_set
 
+def execute_noSQL_query(query,db_name,collection):
+    print('Detected database model:  "NoSQL" ')
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client[db_name]
+    collection = db[collection]
+    client.close()
 
-user=input('Enter user: ')
-password=input('Enter password: ')
-database_name=input('Enter database name: ')
+# query=input("Enter query: ")
+query = "UPDATE department SET dname = 'Manasa3' WHERE dnumber = 1234;" 
 
-''' Tracker object starts '''
+if is_sql(query):
+    user=input('Enter user: ')
+    password=input('Enter password: ')
+    database_name=input('Enter database name: ')
+    
+    ''' Tracker object starts '''
 
-obj = Tracker()
-obj.start()
-query = "UPDATE department SET dname = 'Manasa3' WHERE dnumber = 1234;"
-lang= "SQL" if is_sql(query) else "NoSQL"  
-res=execute_query(query,lang,user,password,database_name)
-obj.stop()
+    obj = Tracker()
+    obj.start() 
+    res=execute_sql_query(query,user,password,database_name)
+    obj.stop()
 
-''' Tracker object ends '''
+    ''' Tracker object ends '''
+
+else:
+    db_name=input('Enter database name: ')
+    
+    ''' Tracker object starts '''
+    
+    obj=Tracker()
+    obj.start()
+    res=execute_noSQL_query(query,db_name)
+    obj.stop()
+    
+    ''' Tracker object ends '''
 
 print("CPU Consumption: ",obj.cpu_consumption())
 print("RAM Consumption: ",obj.ram_consumption())
