@@ -4,6 +4,29 @@ import mysql.connector
 import sys
 sys.path.insert(0, "./")
 from main import Tracker           # Tracker where all metric calculation functions are implemented
+from flask import Flask, render_template, request
+
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+@app.route('/execute_query', methods=['POST'])
+def execute_query_helper():
+    query = request.form['query']
+    password = request.form['password']
+    db_name = request.form['db_name']
+
+    if is_sql(query):
+        lang= "SQL"
+        res=execute_sql_query(query, 'root', password, db_name)
+    else:
+        lang="NoSQL"
+        res=execute_noSQL_query(query,db_name)
+
+    return render_template('result.html',cpu_consumption=res[0], ram_consumption=res[1],total_consumption=res[2],co2_emissions=res[3])
 
 def is_sql(query):
     sql_keywords = ["SELECT","UPDATE", "DELETE", "INSERT INTO" "FROM", "WHERE", "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT"]
@@ -25,6 +48,12 @@ def execute_sql_query(query,db_user,db_password,db_name):
         result_set = cursor.fetchall()
         connection.close()
         return result_set
+    obj.stop()
+    res.append(obj.cpu_consumption())
+    res.append(obj.ram_consumption())
+    res.append(obj.consumption())
+    res.append(obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
+    return res
 
 def execute_noSQL_query(query,db_name):
     client = MongoClient('mongodb://localhost:27017/')
@@ -62,29 +91,28 @@ if is_sql(query):
     password=input('Enter password: ')
     database_name=input('Enter database name: ')
     
-    ''' Tracker object starts '''
+#     ''' Tracker object starts '''
 
-    obj = Tracker()
-    obj.start() 
-    res=execute_sql_query(query,user,password,database_name)
-    obj.stop()
+#     obj = Tracker()
+#     obj.start() 
+#     res=execute_sql_query(query,user,password,database_name)
+#     obj.stop()
 
-    ''' Tracker object ends '''
+#     ''' Tracker object ends '''
 
 else:
     print('Detected database model:  "NoSQL" ')
     db_name=input('Enter database name: ')
     
-    ''' Tracker object starts '''
+#     ''' Tracker object starts '''
     
-    obj=Tracker()
-    obj.start()
-    res=execute_noSQL_query(query,db_name)
-    obj.stop()
+#     obj=Tracker()
+#     obj.start()
+#     res=execute_noSQL_query(query,db_name)
+#     obj.stop()
     
-    ''' Tracker object ends '''
+#     ''' Tracker object ends '''
 
-print("CPU Consumption: ",obj.cpu_consumption())
-print("RAM Consumption: ",obj.ram_consumption())
-print("Total Consumption: ",obj.consumption())
-print("CO2 Emmissions: ",obj._construct_attributes_dict()['CO2_emissions(kg)'][0],"\n")
+
+if __name__ == '__main__':
+    app.run(debug=True)
