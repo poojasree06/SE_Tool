@@ -37,6 +37,9 @@ def is_sql(query):
 
 
 def execute_sql_query(query,db_user,db_password,db_name):
+    obj = Tracker()
+    obj.start()
+    res = []
     connection = mysql.connector.connect(user=db_user, password=db_password, host='localhost', database=db_name)
     cursor = connection.cursor()
     cursor.execute(query)
@@ -47,7 +50,6 @@ def execute_sql_query(query,db_user,db_password,db_name):
     else:     
         result_set = cursor.fetchall()
         connection.close()
-        return result_set
     obj.stop()
     res.append(obj.cpu_consumption())
     res.append(obj.ram_consumption())
@@ -55,13 +57,14 @@ def execute_sql_query(query,db_user,db_password,db_name):
     res.append(obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
     return res
 
+
 def execute_noSQL_query(query,db_name):
     client = MongoClient('mongodb://localhost:27017/')
+    obj = Tracker()
+    obj.start()
+    res = []
     splitted_query=query.split('.')
     collection_name=splitted_query[1]
-    
-    # print(splitted_query)
-    
     db = client[db_name]
     collection=db[collection_name]
     a=splitted_query[2]
@@ -73,46 +76,14 @@ def execute_noSQL_query(query,db_name):
         print("inserting document")
         argument_dict = eval(argument_str)
         result=collection.insert_one(argument_dict)
-   
-    # print(db)
-    # print(collection)
     print(result.inserted_id)
-    
     client.close()
-    
-    return result
-
-# query=input("Enter query: ")
-# query = "UPDATE department SET dname = 'Manasa3' WHERE dnumber = 1234;" 
-query='db.cats.insert_one({"name":"cat_two"})'
-if is_sql(query):
-    print('\nDetected database model:  "SQL" ')
-    user=input('Enter user: ')
-    password=input('Enter password: ')
-    database_name=input('Enter database name: ')
-    
-#     ''' Tracker object starts '''
-
-#     obj = Tracker()
-#     obj.start() 
-#     res=execute_sql_query(query,user,password,database_name)
-#     obj.stop()
-
-#     ''' Tracker object ends '''
-
-else:
-    print('Detected database model:  "NoSQL" ')
-    db_name=input('Enter database name: ')
-    
-#     ''' Tracker object starts '''
-    
-#     obj=Tracker()
-#     obj.start()
-#     res=execute_noSQL_query(query,db_name)
-#     obj.stop()
-    
-#     ''' Tracker object ends '''
-
+    obj.stop()
+    res.append(obj.cpu_consumption())
+    res.append(obj.ram_consumption())
+    res.append(obj.consumption())
+    res.append(obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
+    return res
 
 if __name__ == '__main__':
     app.run(debug=True)
