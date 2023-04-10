@@ -21,9 +21,11 @@ def execute_query_helper():
 
     if is_sql(query):
         lang= "SQL"
+        print(lang)
         res=execute_sql_query(query, 'root', password, db_name)
     else:
         lang="NoSQL"
+        print(lang)
         res=execute_noSQL_query(query,db_name)
 
     return render_template('result.html',cpu_consumption=res[0], ram_consumption=res[1],total_consumption=res[2],co2_emissions=res[3])
@@ -72,11 +74,20 @@ def execute_noSQL_query(query,db_name):
     match = re.match(pattern,a)
     function_name = match.group(1)
     argument_str = match.group(2)
-    if function_name=="insert_one":
+    if function_name=="insertOne":
         print("inserting document")
         argument_dict = eval(argument_str)
         result=collection.insert_one(argument_dict)
-    print(result.inserted_id)
+        print(result.inserted_id)
+    if function_name=="insertMany":
+        print("inserting many document")
+        argument_dict = eval(argument_str)
+        result=collection.insert_many(argument_dict)
+    if function_name=="find":
+        print("find")
+        argument_dict = eval(argument_str)
+        result=collection.find(argument_dict)
+
     client.close()
     obj.stop()
     res.append(obj.cpu_consumption())
