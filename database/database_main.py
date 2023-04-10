@@ -45,12 +45,13 @@ def execute_sql_query(query,db_user,db_password,db_name):
     connection = mysql.connector.connect(user=db_user, password=db_password, host='localhost', database=db_name)
     cursor = connection.cursor()
     cursor.execute(query)
-    splitted_query=query.split()
+    splitted_query=query.upper().split()
     if splitted_query[0]=="DELETE" or splitted_query[0]=="UPDATE" or ( splitted_query[0]=="INSERT" and splitted_query[1]=="INTO"):
         connection.commit()  # commit the changes
         connection.close()
     else:     
         result_set = cursor.fetchall()
+        print(result_set)
         connection.close()
     obj.stop()
     res.append(obj.cpu_consumption())
@@ -87,7 +88,17 @@ def execute_noSQL_query(query,db_name):
         print("find")
         argument_dict = eval(argument_str)
         result=collection.find(argument_dict)
-
+    if function_name=="updateOne":
+        print("update one")
+        argument_dict = eval(argument_str)
+        print(argument_dict)
+        print(argument_str)
+        split_str=argument_str.split(',')
+        print(split_str[0])
+        print(split_str[1])
+        # result=collection.update_one(split_str[0],split_str[1])
+        result=collection.update_one({"name":"cat_m2"},{ "$set" : { "name" : "cat_updated" } })
+        # print(result)
     client.close()
     obj.stop()
     res.append(obj.cpu_consumption())
