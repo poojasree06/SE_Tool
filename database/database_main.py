@@ -91,19 +91,19 @@ def execute_noSQL_query(query,db_name):
     if function_name=="updateOne":
         print("update one")
         argument_dict = eval(argument_str)
-        print(argument_dict)
-        print(argument_str)
         split_str=argument_str.split(',')
         print(split_str[0])
         print(split_str[1])
-        # result=collection.update_one(split_str[0],split_str[1])
-        result=collection.update_one({"name":"cat_m2"},{ "$set" : { "name" : "cat_updated" } })
-        # print(result)
+        result=collection.update_one(eval(split_str[0]),eval(split_str[1]))
+  ##--- optional ?
     if function_name=="updateMany":
         print("update many")
         argument_dict = eval(argument_str)
-        result=collection.update_many(argument_dict)
-        # print(result)
+        split_str=argument_str.split(',')
+        print(split_str[0])
+        print(split_str[1])
+        result=collection.update_many(eval(split_str[0]),eval(split_str[1]))
+## -- optional ?
     if function_name=="deleteOne":
         print("delete one")
         argument_dict=eval(argument_str)
