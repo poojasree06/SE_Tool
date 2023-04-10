@@ -26,7 +26,7 @@ def execute_query_helper():
         lang="NoSQL"
         res=execute_noSQL_query(query,db_name)
 
-    return render_template('result.html',cpu_consumption=res[0], ram_consumption=res[1],total_consumption=res[2],co2_emissions=res[3])
+    return render_template('result.html',cpu_consumption=res[0], ram_consumption=res[1],total_consumption=res[2],co2_emissions=res[3],lang=lang)
 
 def is_sql(query):
     sql_keywords = ["SELECT","UPDATE", "DELETE", "INSERT INTO" "FROM", "WHERE", "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT"]
