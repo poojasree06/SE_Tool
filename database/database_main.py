@@ -99,6 +99,20 @@ def execute_noSQL_query(query,db_name):
         # result=collection.update_one(split_str[0],split_str[1])
         result=collection.update_one({"name":"cat_m2"},{ "$set" : { "name" : "cat_updated" } })
         # print(result)
+    if function_name=="updateMany":
+        print("update many")
+        argument_dict = eval(argument_str)
+        result=collection.update_many(argument_dict)
+        # print(result)
+    if function_name=="deleteOne":
+        print("delete one")
+        argument_dict=eval(argument_str)
+        result=collection.delete_one(argument_dict)
+    if function_name=="deleteMany":
+        print("delete many")
+        argument_dict=eval(argument_str)
+        result=collection.delete_many(argument_dict)
+
     client.close()
     obj.stop()
     res.append(obj.cpu_consumption())
