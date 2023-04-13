@@ -16,17 +16,30 @@ def home():
 @app.route('/execute_query', methods=['POST'])
 def execute_query_helper():
     query = request.form['query']
-    password = request.form['password']
-    db_name = request.form['db_name']
-
     if is_sql(query):
-        lang= "SQL"
-        res=execute_sql_query(query, 'root', password, db_name)
+        lang = "SQL"
+        return render_template('sql_details.html', query=query, lang=lang)
     else:
-        lang="NoSQL"
-        res=execute_noSQL_query(query,db_name)
+        lang = "NoSQL"
+        return render_template('nosql_details.html', query=query, lang=lang)
 
-    return render_template('result.html',cpu_consumption=res[0], ram_consumption=res[1],total_consumption=res[2],co2_emissions=res[3],lang=lang)
+@app.route('/display', methods=['POST'])
+def display():
+    lang = request.form['lang']
+    query = request.form['query']
+    if lang == "SQL":
+        password = request.form['password']
+        db_name = request.form['db_name']
+        res = execute_sql_query(query, 'root', password, db_name)
+    else:
+        db_name = request.form['db_name']
+        res = execute_noSQL_query(query, db_name)
+
+    return render_template('result.html', cpu_consumption=res[0], ram_consumption=res[1], total_consumption=res[2], co2_emissions=res[3])
+
+
+
+    return render_template('result.html',cpu_consumption=res[0], ram_consumption=res[1],total_consumption=res[2],co2_emissions=res[3])
 
 def is_sql(query):
     sql_keywords = ["SELECT","UPDATE", "DELETE", "INSERT INTO" "FROM", "WHERE", "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT"]
