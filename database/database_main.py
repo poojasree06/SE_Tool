@@ -38,9 +38,6 @@ def display():
     return render_template('result.html', cpu_consumption=res[0], ram_consumption=res[1], total_consumption=res[2], co2_emissions=res[3])
 
 
-
-    return render_template('result.html',cpu_consumption=res[0], ram_consumption=res[1],total_consumption=res[2],co2_emissions=res[3])
-
 def is_sql(query):
     sql_keywords = ["SELECT","UPDATE", "DELETE", "INSERT INTO" "FROM", "WHERE", "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT"]
     for keyword in sql_keywords:
@@ -56,12 +53,13 @@ def execute_sql_query(query,db_user,db_password,db_name):
     connection = mysql.connector.connect(user=db_user, password=db_password, host='localhost', database=db_name)
     cursor = connection.cursor()
     cursor.execute(query)
-    splitted_query=query.split()
+    splitted_query=query.upper().split()
     if splitted_query[0]=="DELETE" or splitted_query[0]=="UPDATE" or ( splitted_query[0]=="INSERT" and splitted_query[1]=="INTO"):
         connection.commit()  # commit the changes
         connection.close()
     else:     
         result_set = cursor.fetchall()
+        print(result_set)
         connection.close()
     obj.stop()
     res.append(obj.cpu_consumption())
@@ -85,11 +83,44 @@ def execute_noSQL_query(query,db_name):
     match = re.match(pattern,a)
     function_name = match.group(1)
     argument_str = match.group(2)
-    if function_name=="insert_one":
+    if function_name=="insertOne":
         print("inserting document")
         argument_dict = eval(argument_str)
         result=collection.insert_one(argument_dict)
-    print(result.inserted_id)
+        print(result.inserted_id)
+    if function_name=="insertMany":
+        print("inserting many document")
+        argument_dict = eval(argument_str)
+        result=collection.insert_many(argument_dict)
+    if function_name=="find":
+        print("find")
+        argument_dict = eval(argument_str)
+        result=collection.find(argument_dict)
+    if function_name=="updateOne":
+        print("update one")
+        argument_dict = eval(argument_str)
+        split_str=argument_str.split(',')
+        print(split_str[0])
+        print(split_str[1])
+        result=collection.update_one(eval(split_str[0]),eval(split_str[1]))
+  ##--- optional ?
+    if function_name=="updateMany":
+        print("update many")
+        argument_dict = eval(argument_str)
+        split_str=argument_str.split(',')
+        print(split_str[0])
+        print(split_str[1])
+        result=collection.update_many(eval(split_str[0]),eval(split_str[1]))
+## -- optional ?
+    if function_name=="deleteOne":
+        print("delete one")
+        argument_dict=eval(argument_str)
+        result=collection.delete_one(argument_dict)
+    if function_name=="deleteMany":
+        print("delete many")
+        argument_dict=eval(argument_str)
+        result=collection.delete_many(argument_dict)
+
     client.close()
     obj.stop()
     res.append(obj.cpu_consumption())
