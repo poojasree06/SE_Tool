@@ -5,7 +5,7 @@
 </head>
 <body>
     <p>Your Query : {{query}}</p>
-    <p>Detected Database : {{lang}}</p>
+    <p>Detected Database Model: {{lang}}</p>
     <form action="{{ url_for('display') }}" method="POST">
         <input type="hidden" name="lang" value="{{ lang }}">
         <input type="hidden" name="query" value="{{ query }}">

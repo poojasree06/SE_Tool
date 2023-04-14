@@ -68,59 +68,114 @@ def execute_sql_query(query,db_user,db_password,db_name):
     res.append(obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
     return res
 
-
 def execute_noSQL_query(query,db_name):
     client = MongoClient('mongodb://localhost:27017/')
     obj = Tracker()
     obj.start()
     res = []
+    
     splitted_query=query.split('.')
     collection_name=splitted_query[1]
+    
     db = client[db_name]
     collection=db[collection_name]
-    a=splitted_query[2]
-    pattern = r'(\w+)\((.*)\)'
-    match = re.match(pattern,a)
-    function_name = match.group(1)
-    argument_str = match.group(2)
-    if function_name=="insertOne":
-        print("inserting document")
-        argument_dict = eval(argument_str)
-        result=collection.insert_one(argument_dict)
-        print(result.inserted_id)
-    if function_name=="insertMany":
-        print("inserting many document")
-        argument_dict = eval(argument_str)
-        result=collection.insert_many(argument_dict)
-    if function_name=="find":
-        print("find")
-        argument_dict = eval(argument_str)
-        result=collection.find(argument_dict)
-    if function_name=="updateOne":
-        print("update one")
-        argument_dict = eval(argument_str)
-        split_str=argument_str.split(',')
-        print(split_str[0])
-        print(split_str[1])
-        result=collection.update_one(eval(split_str[0]),eval(split_str[1]))
-  ##--- optional ?
-    if function_name=="updateMany":
-        print("update many")
-        argument_dict = eval(argument_str)
-        split_str=argument_str.split(',')
-        print(split_str[0])
-        print(split_str[1])
-        result=collection.update_many(eval(split_str[0]),eval(split_str[1]))
-## -- optional ?
-    if function_name=="deleteOne":
-        print("delete one")
-        argument_dict=eval(argument_str)
-        result=collection.delete_one(argument_dict)
-    if function_name=="deleteMany":
-        print("delete many")
-        argument_dict=eval(argument_str)
-        result=collection.delete_many(argument_dict)
+    query_field=splitted_query[2]
 
+    additional_funcs=[]
+    if len(splitted_query)>3:
+        for i in range(3,len(splitted_query)):
+            additional_funcs.append(splitted_query[i])
+            print(splitted_query[i])
+
+
+    if "insertOne" in query_field:
+        print("inserting one document")
+        query_doc = query_field.split('insertOne(')[1].split(')')[0]
+        split_quer_doc=query_doc.split(',')
+        arg_dict=[]
+        for q in split_quer_doc:
+            arg_dict.append(eval(q))
+            
+        result=collection.insert_one(*arg_dict)
+        print(result)
+        
+    if "insertMany" in query_field:
+        print("inserting many documents")
+        query_doc = query_field.split('insertMany(')[1].split(')')[0]
+        split_quer_doc=query_doc.split(',')
+        arg_dict=[]
+        for q in split_quer_doc:
+            arg_dict.append(eval(q))
+            
+        result=collection.insert_many(*arg_dict)
+        print(result)
+        
+    if "find" in query_field:
+        print("finding documents")
+        query_doc = query_field.split('find(')[1].split(')')[0]
+        split_quer_doc=query_doc.split(',')
+        arg_dict=[]
+        for q in split_quer_doc:
+            arg_dict.append(eval(q))
+            
+        result=collection.find(*arg_dict)
+        print(result)
+        
+    if "findOne" in query_field:
+        print("finding documents")
+        query_doc = query_field.split('findOne(')[1].split(')')[0]
+        split_quer_doc=query_doc.split(',')
+        arg_dict=[]
+        for q in split_quer_doc:
+            arg_dict.append(eval(q))
+            
+        result=collection.find_one(*arg_dict)
+        
+    if "updateOne" in query_field:
+        print("update one document")
+        query_doc = query_field.split('updateOne(')[1].split(')')[0]
+        split_quer_doc=query_doc.split(',')
+        # print(split_quer_doc)
+        arg_dict=[]
+        for q in split_quer_doc:
+            arg_dict.append(eval(q))
+            
+        result=collection.update_one(*arg_dict)
+        print(result.modified_count)
+    
+    if "updateMany" in query_field:
+        print("update one document")
+        query_doc = query_field.split('updateMany(')[1].split(')')[0]
+        split_quer_doc=query_doc.split(',')
+        arg_dict=[]
+        for q in split_quer_doc:
+            arg_dict.append(eval(q))
+            
+        result=collection.update_many(*arg_dict)
+        print(result.modified_count)
+        
+    if "deleteOne" in query_field:
+        print("deleting one document")
+        query_doc = query_field.split('deleteOne(')[1].split(')')[0]
+        split_quer_doc=query_doc.split(',')
+        arg_dict=[]
+        for q in split_quer_doc:
+            arg_dict.append(eval(q))
+            
+        result=collection.delete_one(*arg_dict)
+        print(result)
+        
+    if "deleteMany" in query_field:
+        print("deleting many documents")
+        query_doc = query_field.split('deleteMany(')[1].split(')')[0]
+        split_quer_doc=query_doc.split(',')
+        arg_dict=[]
+        for q in split_quer_doc:
+            arg_dict.append(eval(q))
+            
+        result=collection.delete_many(*arg_dict)
+        print(result)
+        
     client.close()
     obj.stop()
     res.append(obj.cpu_consumption())
