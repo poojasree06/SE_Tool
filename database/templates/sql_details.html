@@ -1,19 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title></title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Query Executor</title>
+    <link rel="stylesheet" href="../static/template.css">
 </head>
 <body>
-    <p>Your Query : {{query}}</p>
-    <p>Detected Database Model: {{lang}}</p>
-    <form action="{{ url_for('display') }}" method="POST">
-        <input type="hidden" name="lang" value="{{ lang }}">
-        <input type="hidden" name="query" value="{{ query }}">
-        <label for="db_name">Database Name:</label>
-        <input type="text" name="db_name" id="db_name"><br><br>
-        <label for="db_pass">Database Password:</label>
-        <input type="password" name="password" id="password"><br><br>
-        <input type="submit" value="Results">
-    </form>
+    <div class="home-container">
+        <div class="home-card">
+            <form action="{{ url_for('display') }}" method="POST">
+                <div class="drop_box">
+                    <p>Your Query : {{query}}</p>
+                    <p>Detected Database Model: {{lang}}</p>
+                    <br>
+                    <input type="hidden" name="lang" value="{{ lang }}">
+                    <input type="hidden" name="query" value="{{ query }}">
+                    <header>
+                        <h4>Database Name:</h4>
+                    </header>
+                    <input type="text" name="db_name" id="db_name"><br><br>
+                    <header>
+                        <h4>Database Password:</h4>
+                    </header>
+                    <input type="password" name="password" id="password"><br><br>
+                    <input type="submit" value="Results">
+            </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

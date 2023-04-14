@@ -1,15 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Query Executor - Results</title>
+	<link rel="stylesheet" href="../static/template.css">
 </head>
 <body>
-	<h1>Results</h1>
-	<h2>Resource Consumption Metrics</h2>
-	<p>CPU Consumption: {{ cpu_consumption }}</p>
-	<p>RAM Consumption: {{ ram_consumption }}</p>
-	<p>Total Consumption: {{ total_consumption }}</p>
-	<p>CO2 Emissions: {{ co2_emissions }}</p>
-	<a href="{{ url_for('home') }}">Go back</a>
+	
+	<div class="container">
+		<div class="results-card">
+			<div class="drop_box">
+				<h1>Results</h1>
+				<h2>Resource Consumption Metrics</h2>
+				<br>
+				<p>CPU Consumption: {{ cpu_consumption }}</p>
+				<p>RAM Consumption: {{ ram_consumption }}</p>
+				<p>Total Consumption: {{ total_consumption }}</p>
+				<p>CO2 Emissions: {{ co2_emissions }}</p>
+				<br>
+				<a href="{{ url_for('home') }}">Go back</a>
+			</div>
+		</div>
+	</div>
+	
 </body>
 </html>
