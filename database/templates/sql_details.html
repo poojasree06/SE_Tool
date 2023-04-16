@@ -8,13 +8,18 @@
     <link rel="stylesheet" href="../static/template.css">
 </head>
 <body>
+    
     <div class="home-container">
-        <div class="home-card">
+        <div class="details">
+            <p><strong>Your Query : </strong>{{query}}</p>
+            <p><strong>Detected Database Model: </strong>{{lang}}</p>
+        </div>
+        
+        <div class="home-card-1">
             <form action="{{ url_for('display') }}" method="POST">
                 <div class="drop_box">
-                    <p>Your Query : {{query}}</p>
-                    <p>Detected Database Model: {{lang}}</p>
-                    <br>
+                    
+                    
                     <input type="hidden" name="lang" value="{{ lang }}">
                     <input type="hidden" name="query" value="{{ query }}">
                     <header>
@@ -24,8 +29,8 @@
                     <header>
                         <h4>Database Password:</h4>
                     </header>
-                    <input type="password" name="password" id="password"><br><br>
-                    <input type="submit" value="Results">
+                    <input type="password" name="password" id="password">
+                    <input class="home-btn" type="submit" value="Results">
             </div>
             </form>
         </div>
