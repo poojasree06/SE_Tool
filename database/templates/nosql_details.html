@@ -9,12 +9,13 @@
 </head>
 <body>
     <div class="home-container">
-        <div class="home-card">
+        <div class="details">
+            <p><strong>Your Query : </strong>{{query}}</p>
+            <p><strong>Detected Database Model: </strong>{{lang}}</p>
+        </div>
+        <div class="home-card-2">
             <form action="{{ url_for('display') }}" method="POST">
                 <div class="drop_box">
-                    <p>Your Query : {{query}}</p>
-                    <p>Detected Database Model: {{lang}}</p>
-                    <br>
                     <input type="hidden" name="lang" value="{{ lang }}">
                     <input type="hidden" name="query" value="{{ query }}">
                     <header>
