@@ -21,8 +21,10 @@
 				</div>
 				<input class="home-btn" type="submit" value="Execute Query">
 			</div>
-			
 		</form>
+		{% if not_query %}
+        	<p class="error">{{ not_query }}</p>
+        {% endif %}
 	</div>
 </body>
 </html>

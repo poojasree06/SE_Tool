@@ -16,12 +16,18 @@ def home():
 @app.route('/execute_query', methods=['POST'])
 def execute_query_helper():
     query = request.form['query']
-    if is_sql(query):
+    if len(query)==0:
+        not_query = 'Please enter your query.'
+        return render_template('home.html', not_query=not_query)
+    elif is_sql(query):
         lang = "SQL"
         return render_template('sql_details.html', query=query, lang=lang)
-    else:
+    elif is_nosql(query):
         lang = "NoSQL"
         return render_template('nosql_details.html', query=query, lang=lang)
+    else:
+        not_query = 'Please enter a valid query.'
+        return render_template('home.html', not_query=not_query)
 
 @app.route('/display', methods=['POST'])
 def display():
@@ -45,6 +51,15 @@ def is_sql(query):
             return True
     return False
 
+def is_nosql(query):
+    nosql_keywords = ["insertOne","insertMany","find","findOne","updateOne","updateMany","deleteOne","deleteMany"]
+    split_query=query.split('.')
+    idx = split_query[2].find("(")
+    key = split_query[2][:idx]
+    if split_query[0] == "db":
+        if key in nosql_keywords:
+            return True
+    return False
 
 def execute_sql_query(query,db_user,db_password,db_name):
     obj = Tracker()

@@ -144,3 +144,7 @@ textarea::-webkit-scrollbar {
     justify-content: center;
     background-color: #c5e8b7;
 }
+
+.error {
+    color: red;
+  }
