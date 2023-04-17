@@ -13,6 +13,7 @@ app = Flask(__name__)
 def home():
     return render_template('home.html')
 
+
 @app.route('/execute_query', methods=['POST'])
 def execute_query_helper():
     query = request.form['query']
@@ -29,6 +30,7 @@ def execute_query_helper():
         not_query = 'Please enter a valid query.'
         return render_template('home.html', not_query=not_query)
 
+
 @app.route('/display', methods=['POST'])
 def display():
     lang = request.form['lang']
@@ -44,6 +46,13 @@ def display():
     return render_template('result.html', cpu_consumption=res[0], ram_consumption=res[1], total_consumption=res[2], co2_emissions=res[3])
 
 
+'''
+@input : String  - given query 
+@output: Boolean - True - SQL       
+@desc  : detects whether given query is SQL or not
+
+done by poojasree
+'''
 def is_sql(query):
     sql_keywords = ["SELECT","UPDATE", "DELETE", "INSERT INTO" "FROM", "WHERE", "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT"]
     for keyword in sql_keywords:
@@ -51,6 +60,13 @@ def is_sql(query):
             return True
     return False
 
+'''
+@input : String  - given query 
+@output: Boolean - True - NoSQL     
+@desc  : detects whether given query is NoSQL or not
+
+done by manasa
+'''
 def is_nosql(query):
     nosql_keywords = ["insertOne","insertMany","find","findOne","updateOne","updateMany","deleteOne","deleteMany"]
     split_query=query.split('.')
@@ -61,8 +77,16 @@ def is_nosql(query):
             return True
     return False
 
+'''
+@input : String - query , String : db_name
+@output: Array consists of query energy consumption by CPU,RAM and CO2 emissions
+@desc  : calculates the cpu,ram consumptions and CO2 emissions of SQL query by initializing a tracker object just before the start of the query execution and the object stops at the end of query execution
+
+done by manasa
+'''
 def execute_sql_query(query,db_user,db_password,db_name):
     obj = Tracker()
+    # Tracker object starts to calculate the cpu,ram consumptions
     obj.start()
     res = []
     connection = mysql.connector.connect(user=db_user, password=db_password, host='localhost', database=db_name)
@@ -76,33 +100,46 @@ def execute_sql_query(query,db_user,db_password,db_name):
         result_set = cursor.fetchall()
         print(result_set)
         connection.close()
+    #Tracker object stops 
     obj.stop()
+    
+    # store the cpu and ram consumptions,CO2 emissions
     res.append(obj.cpu_consumption())
     res.append(obj.ram_consumption())
     res.append(obj.consumption())
     res.append(obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
     return res
 
+'''
+@input : String - query , String : db_name
+@output: Array consists of query energy consumption by CPU,RAM and CO2 emissions
+@desc  : calculates the cpu,ram consumptions and CO2 emissions of MongoDB query by initializing a tracker object just before the start of the query execution and the object stops at the end of query execution
+
+done by poojasree
+'''
 def execute_noSQL_query(query,db_name):
     client = MongoClient('mongodb://localhost:27017/')
     obj = Tracker()
+    # Tracker object starts to calculate the cpu,ram consumptions
     obj.start()
     res = []
     
+    # split the query string as [db,collection,query_field]
     splitted_query=query.split('.')
     collection_name=splitted_query[1]
     
     db = client[db_name]
     collection=db[collection_name]
     query_field=splitted_query[2]
-
+    
+    # store aggregate functions like count(),sort() in additonal_funcs
     additional_funcs=[]
     if len(splitted_query)>3:
         for i in range(3,len(splitted_query)):
             additional_funcs.append(splitted_query[i])
             print(splitted_query[i])
 
-
+    # executes the query operation from the query_field 
     if "insertOne" in query_field:
         print("inserting one document")
         query_doc = query_field.split('insertOne(')[1].split(')')[0]
@@ -192,12 +229,19 @@ def execute_noSQL_query(query,db_name):
         print(result)
         
     client.close()
+    #Tracker object stops 
     obj.stop()
+    
+    # store the cpu and ram consumptions,CO2 emissions
     res.append(obj.cpu_consumption())
     res.append(obj.ram_consumption())
     res.append(obj.consumption())
     res.append(obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
     return res
 
+
+'''
+main program
+'''
 if __name__ == '__main__':
     app.run(debug=True)
