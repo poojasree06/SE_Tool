@@ -147,8 +147,8 @@ textarea::-webkit-scrollbar {
     padding: 12px 20px;
     border-radius: 4px;
 }
-.header{
-    text-align: center;
+.header {
+    margin-bottom: 18px;
 }
 .results-card h1,h2,p{
     text-align: center;
@@ -180,3 +180,36 @@ textarea::-webkit-scrollbar {
 .error {
     color: red;
   }
+
+.no-sql-container{
+    width: 600px;
+    height: 600px;
+    padding: 32px;
+    border-radius: 16px;
+    background: #fff;
+    -webkit-box-shadow: 1px 1px 24px -10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 1px 1px 24px -10px rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 1px 24px -10px rgba(0, 0, 0, 0.4);
+}
+.db-no-sql{
+    height: 30px;
+    width: 400px;
+}
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+.drop_box-1 {
+    margin: 100px 40px;
+    width: 450px;
+    padding: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 3px dotted #a3a3a3;
+    border-radius: 5px;
+}

@@ -8,23 +8,28 @@
     <link rel="stylesheet" href="../static/template.css">
 </head>
 <body>
-    <div class="home-container">
-        <div class="details">
-            <p><strong>Your Query : </strong>{{query}}</p>
-            <p><strong>Detected Database Model: </strong>{{lang}}</p>
-        </div>
-        <div class="home-card-2">
+    <div class="no-sql-container">
+        <header class="header">
+            <div>
+                <p class="text-align-left"><strong>Your Query : </strong></p>
+                <p>{{query}}</p>
+            </div>
+            <div>
+                <p><strong>Detected Database Model: </strong></p>
+                <p>{{lang}}</p>
+            </div>
+        </header>
+        <div class="container-no-sql">
             <form action="{{ url_for('display') }}" method="POST">
-                <div class="drop_box">
+                <div class="drop_box-1">
                     <input type="hidden" name="lang" value="{{ lang }}">
                     <input type="hidden" name="query" value="{{ query }}">
                     <header>
                         <h4>Database Name:</h4>
                     </header>
-                    <input  spellcheck="false" type="text" name="db_name" id="db_name">
+                    <input spellcheck="false" type="text" name="db_name" class="" id="db_name">
                     <input class="home-btn" type="submit" value="Results">
                 </div>
-                
             </form>
         </div>
     </div>
