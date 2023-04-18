@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.sql-container {
+    width: 600px;
+    height: 600px;
+    padding: 32px;
+    border-radius: 16px;
+    background: #fff;
+    -webkit-box-shadow: 1px 1px 24px -10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 1px 1px 24px -10px rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 1px 24px -10px rgba(0, 0, 0, 0.4);
+}
+
+.sql-header {
+    margin: 30px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.sql-box {
+    margin: 10px 40px;
+    width: 450px;
+    padding: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 3px dotted #a3a3a3;
+    border-radius: 5px;
+}
+
+.sql-dbname {
+    width: 100%;
+    resize: none;
+    height: 40px;
+    outline: none;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 5px;
+    border-radius: 5px;
+    max-height: 300px;
+    caret-color: #4671ea;
+    border: 1px solid #bfbfbf;
+}
+
+.sql-btn {
+    text-decoration: none;
+    background-color: #57c84d;
+    /* background-color: #58cff1; */
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    transition: 0.3s;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.sql-btn:hover {
+    text-decoration: none;
+    background-color: #ffffff;
+    color: #57c84d;
+    /* color:#58cff1; */
+    padding: 10px 20px;
+    border: none;
+    outline: 1px solid #010101;
+}

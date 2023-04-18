@@ -5,25 +5,37 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Query Executor - Results</title>
-	<link rel="stylesheet" href="../static/template.css">
+	<link rel="stylesheet" href="../static/result.css">
 </head>
 <body>
-	
-	<div class="container">
-		<div class="results-card">
-			<div class="drop_box">
-				<h1>Results</h1>
-				<h2>Resource Consumption Metrics</h2>
-				<br>
-				<p>CPU Consumption: {{ cpu_consumption }}</p>
-				<p>RAM Consumption: {{ ram_consumption }}</p>
-				<p>Total Consumption: {{ total_consumption }}</p>
-				<p>CO2 Emissions: {{ co2_emissions }}</p>
-				<br>
-				<a href="{{ url_for('home') }}">Go back</a>
-			</div>
-		</div>
+	<div class="result-container">
+		<table>
+			<thead>
+				<tr>
+					<th>Resource Consumption Metrics</th>
+					<th>Results</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>CPU Consumption</td>
+					<td>{{ cpu_consumption }}</td>
+				</tr>
+				<tr>
+					<td>RAM Consumption</td>
+					<td>{{ ram_consumption }}</td>
+				</tr>
+				<tr>
+					<td>Total Consumption</td>
+					<td>{{ total_consumption }}</td>
+				</tr>
+				<tr>
+					<td>CO2 Emissions</td>
+					<td>{{ co2_emissions }}</td>
+				</tr>
+			</tbody>
+		</table>
+		<a href="{{ url_for('home') }}">Go back</a>
 	</div>
-	
 </body>
 </html>
