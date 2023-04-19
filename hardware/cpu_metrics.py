@@ -71,7 +71,19 @@ class CPU():
         self._consumption += consumption
         return consumption
 
+"""
+    This function prints all seeable CPU devices
+    All the CPU devices are intended to be of the same model
+        
+    Parameters
+    ----------
+    No parameters
+        
+    Returns
+    -------
+    No returns
 
+"""
 def all_available_cpu(): #This function prints all seeable CPU devices
     try:
         cpu_dict = get_cpu_info()
@@ -82,6 +94,20 @@ def all_available_cpu(): #This function prints all seeable CPU devices
         print("There is no any available cpu device(s)")
 
 
+
+"""
+    This function returns number of CPU sockets(physical CPU processors)
+    If the body of the function runs with error, number of available cpu devices will be set to 1
+        
+    Parameters
+    ----------
+    ignore_warnings: bool   
+    Returns
+    -------
+    cpu_num: int
+     Number of CPU sockets(physical CPU processors)
+
+"""
 def number_of_cpu(ignore_warnings=True):
     operating_system = platform.system()
     cpu_num = None
@@ -122,19 +148,24 @@ def number_of_cpu(ignore_warnings=True):
             if 'Processor(s)' in dictionary:
                 processor_string = dictionary['Processor(s)']
             cpu_num = int(re.findall('- (\d)\.', processor_string)[0])
-            # print(cpu_num)
         except:
-            # if not ignore_warnings:
-            #     warnings.warn(
-            #         message="\nIt's impossible to deretmine cpu number correctly\nFor now, number of cpu devices is set to 1\n\n", 
-            #         category=NoNeededLibrary
-            #         )
             cpu_num = 1
     else: 
         cpu_num = 1
     return cpu_num
 
+'''
+drops all the waste tokens and patterns
+Parameters
+----------
+cpu_name: str
+A string, containing CPU name, taken from psutil library
 
+Returns
+-------
+cpu_name: str
+
+'''
 def transform_cpu_name(cpu_name):
     # dropping all the waste tokens and patterns:
     cpu_name = re.sub('(\(R\))|(®)|(™)|(\(TM\))|(@.*)|(\S*GHz\S*)|(\[.*\])|( \d-Core)|(\(.*\))', '', cpu_name)
@@ -179,6 +210,7 @@ def find_max_tdp(elements):  # finds and returns element with maximum TDP
         if float(elements[index][1]) > max_value:
             max_value = float(elements[index][1])
     return max_value
+
 
 # searching cpu name in cpu table
 def find_tdp_value(cpu_name, f_table_name, constant_value=CONSTANT_CONSUMPTION, ignore_warnings=True):
@@ -235,6 +267,8 @@ def find_tdp_value(cpu_name, f_table_name, constant_value=CONSTANT_CONSUMPTION, 
             if element[1] == max_coincidence:
                 tmp_elements.append(element[0])
         return find_max_tdp(tmp_elements)
+
+
 
 # function to get cpu percent for windows
 def get_cpu_percent_windows(cpu_processes="current"):

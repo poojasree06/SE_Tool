@@ -3,7 +3,7 @@ from pymongo import MongoClient
 import mysql.connector
 import sys
 sys.path.insert(0, "./")
-from main import Tracker           # Tracker where all metric calculation functions are implemented
+from Tracker.main import Tracker           # Tracker where all metric calculation functions are implemented
 from flask import Flask, render_template, request
 
 

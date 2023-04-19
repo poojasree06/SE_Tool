@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 sys.path.insert(0, "./")
-from main import Tracker           # Tracker where all metric calculation functions are implemented
+from Tracker.main import Tracker           # Tracker where all metric calculation functions are implemented
 
 
 app = Flask(__name__)
@@ -77,9 +77,9 @@ def upload_file():
 import sys
 import os
 # Add the path to the webapp folder to the system path
-sys.path.insert(0, ".\webapp")
-sys.path.insert(0, "./")
+sys.path.insert(0,".\Tracker")
 from main import Tracker
+sys.path.insert(0, ".\python_webapp")
 from app import measure_performance
 from app import metrics_dict
 from pathlib import Path
@@ -136,6 +136,7 @@ os.remove(path)
         
         if len(py_files) == 1:
             example_path = py_files[0]
+            print(example_path)
             # Run the file 
             result = os.popen(f'python {example_path}').readlines()[-1]
             # ...

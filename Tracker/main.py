@@ -12,7 +12,8 @@ sys.path.insert(0, ".\hardware")
 # from gpu_metrics import GPU, all_available_gpu
 from cpu_metrics import CPU, all_available_cpu
 from ram_metrics import RAM
-from utils import  (
+sys.path.insert(0, "./")
+from Tracker.utils import  (
     is_file_opened,
     define_carbon_index,
     get_params,
