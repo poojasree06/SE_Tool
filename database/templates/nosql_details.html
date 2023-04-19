@@ -5,13 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Database Query Executor</title>
-    <link rel="stylesheet" href="../static/template.css">
+    <link rel="stylesheet" href="../static/nosql.css">
 </head>
 <body>
     <div class="no-sql-container">
-        <header class="header">
+        <header class="nosql-header">
             <div>
-                <p class="text-align-left"><strong>Your Query : </strong></p>
+                <p><strong>Your Query : </strong></p>
                 <p>{{query}}</p>
             </div>
             <div>
@@ -21,14 +21,14 @@
         </header>
         <div class="container-no-sql">
             <form action="{{ url_for('display') }}" method="POST">
-                <div class="drop_box-1">
+                <div class="nosql-box">
                     <input type="hidden" name="lang" value="{{ lang }}">
                     <input type="hidden" name="query" value="{{ query }}">
                     <header>
                         <h4>Database Name:</h4>
                     </header>
-                    <input spellcheck="false" type="text" name="db_name" class="" id="db_name">
-                    <input class="home-btn" type="submit" value="Results">
+                    <input class="nosql-dbname" spellcheck="false" type="text" name="db_name" class="" id="db_name">
+                    <input class="nosql-btn" type="submit" value="Results">
                 </div>
             </form>
         </div>
