@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,22 +10,19 @@
 </head>
 <body>
 	<div class="home-container">
-		<div class="home-header">
+		<div class="header">
 			<h1>Database Query Executor</h1>
 		</div>
 	</div>
 	<div class="home-card">
-		<form method="POST" action="{{ url_for('execute_query_helper') }}">
-			<div class="home-box">
-				<div class="home-wrapper">
-					<textarea spellcheck="false" name="query" id="query" placeholder="Enter the Query" rows="10" cols="50"></textarea>
-				</div>
-				<input class="home-btn" type="submit" value="Execute Query">
-			</div>
-		</form>
-		{% if not_query %}
-        	<p class="error">{{ not_query }}</p>
-        {% endif %}
+        <div class="drop_box">
+            <form action="{{ url_for('comparison') }}">
+                <input class="home-btn" type="submit" value="Comparison">
+            </form>
+            <form action="{{ url_for('execute_query') }}">
+                <input class="home-btn" type="submit" value="Execute Query">
+            </form>
+        </div>
 	</div>
 </body>
 </html>

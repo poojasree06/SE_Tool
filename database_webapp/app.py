@@ -5,6 +5,7 @@ import sys
 sys.path.insert(0, "./")
 from Tracker.main import Tracker           # Tracker where all metric calculation functions are implemented
 from flask import Flask, render_template, request
+import time
 
 
 app = Flask(__name__)
@@ -13,8 +14,32 @@ app = Flask(__name__)
 def home():
     return render_template('home.html')
 
+@app.route('/comparison')
+def comparison():
+    return render_template('comparision.html')
 
-@app.route('/execute_query', methods=['POST'])
+
+@app.route('/execute_query')
+def execute_query():
+    return render_template('query_home.html')
+
+@app.route('/comparision/compare', methods=['POST'])
+def compare():
+    sql_query = request.form['sql_query']
+    sql_db_name = request.form['sql_db_name']
+    password = request.form['password']
+    nosql_query = request.form['nosql_query']
+    nosql_db_name = request.form['nosql_db_name']
+    sql_res = execute_sql_query(sql_query, 'root', password, sql_db_name)
+    print(sql_res)
+    time.sleep(1)
+    nosql_res = execute_noSQL_query(nosql_query, nosql_db_name)
+    
+    return render_template('compare_result.html', sql_cpu_consumption=sql_res[0], sql_ram_consumption=sql_res[1], sql_total_consumption=sql_res[2], sql_co2_emissions=sql_res[3], 
+                           nosql_cpu_consumption=nosql_res[0], nosql_ram_consumption=nosql_res[1], nosql_total_consumption=nosql_res[2], nosql_co2_emissions=nosql_res[3])
+
+
+@app.route('/execute_query/details', methods=['POST'])
 def execute_query_helper():
     query = request.form['query']
     if len(query)==0:
@@ -31,7 +56,7 @@ def execute_query_helper():
         return render_template('home.html', not_query=not_query)
 
 
-@app.route('/display', methods=['POST'])
+@app.route('/details/display', methods=['POST'])
 def display():
     lang = request.form['lang']
     query = request.form['query']
@@ -51,7 +76,7 @@ def display():
 @output: Boolean - True - SQL       
 @desc  : detects whether given query is SQL or not
 
-done by poojasree
+done by Poojasree
 '''
 def is_sql(query):
     sql_keywords = ["SELECT","UPDATE", "DELETE", "INSERT INTO" "FROM", "WHERE", "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT"]
@@ -65,14 +90,14 @@ def is_sql(query):
 @output: Boolean - True - NoSQL     
 @desc  : detects whether given query is NoSQL or not
 
-done by manasa
+done by Manasa
 '''
 def is_nosql(query):
     nosql_keywords = ["insertOne","insertMany","find","findOne","updateOne","updateMany","deleteOne","deleteMany"]
     split_query=query.split('.')
     idx = split_query[2].find("(")
     key = split_query[2][:idx]
-    if split_query[0] == "db":
+    if split_query[0] == "db" and len(split_query)>2:
         if key in nosql_keywords:
             return True
     return False
@@ -82,7 +107,7 @@ def is_nosql(query):
 @output: Array consists of query energy consumption by CPU,RAM and CO2 emissions
 @desc  : calculates the cpu,ram consumptions and CO2 emissions of SQL query by initializing a tracker object just before the start of the query execution and the object stops at the end of query execution
 
-done by manasa
+done by Manasa and Namitha
 '''
 def execute_sql_query(query,db_user,db_password,db_name):
     obj = Tracker()
@@ -115,7 +140,7 @@ def execute_sql_query(query,db_user,db_password,db_name):
 @output: Array consists of query energy consumption by CPU,RAM and CO2 emissions
 @desc  : calculates the cpu,ram consumptions and CO2 emissions of MongoDB query by initializing a tracker object just before the start of the query execution and the object stops at the end of query execution
 
-done by poojasree
+done by Poojasree
 '''
 def execute_noSQL_query(query,db_name):
     client = MongoClient('mongodb://localhost:27017/')

@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="container-xxl">
-        <form method="POST" action="{{ url_for('execute_query_helper') }}">
+        <form method="POST" action="{{ url_for('compare') }}">
             <div class="row no-gutters">
                 <div class="col-md-6 no-gutters">
                     <div class="leftside d-flex align-items-center justify-content-center">
@@ -21,17 +21,15 @@
                                     <header style="color: #00ced1;">
                                         <h4>SQL Query:</h4>
                                     </header>
-                                    <textarea spellcheck="false" name="query" id="query" placeholder="Enter the Query"
+                                    <textarea spellcheck="false" name="sql_query" id="sql_query" placeholder="Enter the Query"
                                         rows="10" cols="50"></textarea>
                                 </div>
                                 <div class="comp-box">
-                                    <input type="hidden" name="lang" value="{{ lang }}">
-                                    <input type="hidden" name="query" value="{{ query }}">
                                     <header style="color: #00ced1;">
                                         <h4>Database Name:</h4>
                                     </header>
                                     <input placeholder="Database Name" class="comp-dbname" spellcheck="false"
-                                        type="text" name="db_name" id="db_name">
+                                        type="text" name="sql_db_name" id="sql_db_name">
                                     <header style="color: #00ced1;">
                                         <h4>Database Password:</h4>
                                     </header>
@@ -54,17 +52,15 @@
                                     <header>
                                         <h4>NO-SQL Query:</h4>
                                     </header>
-                                    <textarea spellcheck="false" name="query" id="query" placeholder="Enter the Query"
+                                    <textarea spellcheck="false" name="nosql_query" id="nosql_query" placeholder="Enter the Query"
                                         rows="10" cols="50"></textarea>
                                 </div>
                                 <div class="comp-box">
-                                    <input type="hidden" name="lang" value="{{ lang }}">
-                                    <input type="hidden" name="query" value="{{ query }}">
                                     <header>
                                         <h4>Database Name:</h4>
                                     </header>
                                     <input placeholder="Database Name" class="comp-dbname" spellcheck="false"
-                                        type="text" name="db_name" id="db_name">
+                                        type="text" name="nosql_db_name" id="nosql_db_name">
                                 </div>
                             </div>
                             {% if not_query %}

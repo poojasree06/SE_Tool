@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Query Executor - Results</title>
+	<link rel="stylesheet" href="../static/result.css">
+</head>
+<body>
+	<div class="result-container">
+		<table>
+			<thead>
+				<tr>
+					<th>Resource Consumption Metrics</th>
+					<th>Results</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td> SQL Query CPU Consumption</td>
+					<td>{{ sql_cpu_consumption }}</td>
+				</tr>
+				<tr>
+					<td>SQL Query RAM Consumption</td>
+					<td>{{ sql_ram_consumption }}</td>
+				</tr>
+				<tr>
+					<td>SQL Query Total Consumption</td>
+					<td>{{ sql_total_consumption }}</td>
+				</tr>
+				<tr>
+					<td>SQL Query CO2 Emissions</td>
+					<td>{{ sql_co2_emissions }}</td>
+				</tr>
+			</tbody>
+            <tbody>
+				<tr>
+					<td> NOSQL Query CPU Consumption</td>
+					<td>{{ nosql_cpu_consumption }}</td>
+				</tr>
+				<tr>
+					<td>NOSQL Query RAM Consumption</td>
+					<td>{{ nosql_ram_consumption }}</td>
+				</tr>
+				<tr>
+					<td>NOSQL Query Total Consumption</td>
+					<td>{{ nosql_total_consumption }}</td>
+				</tr>
+				<tr>
+					<td>NOSQL Query CO2 Emissions</td>
+					<td>{{ nosql_co2_emissions }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
