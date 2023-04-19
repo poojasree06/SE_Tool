@@ -9,9 +9,6 @@ sys.path.insert(0, ".\hardware")
 from cpu_metrics import all_available_cpu
 
 
-class FileDoesNotExistsError(Exception):
-    pass
-
 class NotNeededExtensionError(Exception):
     pass
 

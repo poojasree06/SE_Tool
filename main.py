@@ -70,9 +70,6 @@ class Tracker:
         ignore_warnings=False,
         ):
         self._ignore_warnings = ignore_warnings
-        # if not self._ignore_warnings:
-        #     warnings.warn(
-        #         message="""Error""")
         if (type(measure_period) == int or type(measure_period) == float) and measure_period <= 0:
             raise ValueError("\'measure_period\' should be positive number")
         if file_name is not None:
@@ -89,11 +86,6 @@ class Tracker:
 
         self._emission_level, self._country = define_carbon_index(emission_level, alpha_2_code, region)
         self._cpu_processes = cpu_processes
-        # self._scheduler = BackgroundScheduler(
-        #     job_defaults={'max_instances': 10}, 
-        #     timezone=str(tzlocal.get_localzone()),
-        #     misfire_grace_time=None
-        #     )
         self._start_time = None
         self._cpu = None
         self._ram = None
@@ -251,9 +243,6 @@ class Tracker:
         self._consumption += tmp_comsumption
         self._cpu_consumption=cpu_consumption*self._pue
         self._ram_consumption=ram_consumption*self._pue
-        # if self._mode == "shut down":
-        #     self._scheduler.remove_job("job")
-        #     self._scheduler.shutdown()
         return self._write_to_csv(add_new)
 
 
@@ -262,20 +251,11 @@ class Tracker:
     initializes scheduler, puts the self._func_for_sched function into it and starts its work.
     '''
     def start(self):
-        # if self._start_time is not None:
-        #     try:
-        #         self._scheduler.remove_job("job")
-        #         self._scheduler.shutdown()
-        #     except:
-        #         pass
-        #     self._scheduler = BackgroundScheduler(job_defaults={'max_instances': 10}, misfire_grace_time=None)
         self._cpu = CPU(cpu_processes=self._cpu_processes, ignore_warnings=self._ignore_warnings)
         self._ram = RAM(ignore_warnings=self._ignore_warnings)
         self._id = str(uuid.uuid4())
         self._mode = "first_time"
         self._start_time = time.time()
-        # self._scheduler.add_job(self._func_for_sched, "interval", seconds=self._measure_period, id="job")
-        # self._scheduler.start()
 
 
     '''
@@ -285,8 +265,6 @@ class Tracker:
     def stop(self, ):
         if self._start_time is None:
             raise Exception("Need to first start the tracker by running tracker.start()")
-        # self._scheduler.remove_job("job")
-        # self._scheduler.shutdown()
         self._func_for_sched() 
         self._mode = "shut down"
 

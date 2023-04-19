@@ -118,11 +118,9 @@ def number_of_cpu(ignore_warnings=True):
                 tmp = i.split(':')
                 if len(tmp) == 2:
                     dictionary[tmp[0]] = tmp[1]
-            # print(dictionary)
             processor_string = 'something'
             if 'Processor(s)' in dictionary:
                 processor_string = dictionary['Processor(s)']
-            # print(processor_string)
             cpu_num = int(re.findall('- (\d)\.', processor_string)[0])
             # print(cpu_num)
         except:
