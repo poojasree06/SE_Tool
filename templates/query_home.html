@@ -5,26 +5,28 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Database Query Executor</title>
-	<link rel="stylesheet" href="../static/home.css">
+	<link rel="stylesheet" href="../static/query_home.css">
 </head>
 <body>
-	<div class="home-container">
-		<div class="home-header">
+	<div class="query-container">
+		<header class="query-header">
 			<h1>Database Query Executor</h1>
+		</header>
+		<div class="query-card">
+			<form method="POST" action="{{ url_for('execute_query_helper') }}">
+				<div class="query-box">
+					<div class="query-wrapper">
+						<textarea spellcheck="false" name="query" id="query" placeholder="Enter the Query" rows="10"
+							cols="50"></textarea>
+					</div>
+					<input class="query-btn" type="submit" value="Execute Query">
+				</div>
+			</form>
+			{% if not_query %}
+			<p class="error">{{ not_query }}</p>
+			{% endif %}
 		</div>
 	</div>
-	<div class="home-card">
-		<form method="POST" action="{{ url_for('execute_query_helper') }}">
-			<div class="home-box">
-				<div class="home-wrapper">
-					<textarea spellcheck="false" name="query" id="query" placeholder="Enter the Query" rows="10" cols="50"></textarea>
-				</div>
-				<input class="home-btn" type="submit" value="Execute Query">
-			</div>
-		</form>
-		{% if not_query %}
-        	<p class="error">{{ not_query }}</p>
-        {% endif %}
-	</div>
+	
 </body>
 </html>
