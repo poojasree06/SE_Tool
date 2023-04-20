@@ -84,7 +84,7 @@ def upload_file():
         # if no file is found then display the error please upload a file
         if f.filename == '':
             not_uploaded = 'Please select a file to upload.'
-            return render_template('home.html', not_uploaded=not_uploaded)
+            return render_template('ecopy.html', not_uploaded=not_uploaded)
         # if file is in correct format then upload it to the uploaded folder
         if f and allowed_file(f.filename):
             f.save(os.path.join(app.instance_path,
@@ -96,9 +96,9 @@ import os
 # Add the path to the webapp folder to the system path
 sys.path.insert(0,".\Tracker")
 from main import Tracker
-sys.path.insert(0, ".\python_webapp")
-from app import measure_performance
-from app import metrics_dict
+sys.path.insert(0, "./")
+from main_app import measure_performance
+from main_app import metrics_dict
 from pathlib import Path
 path = Path(__file__)
 obj1 = Tracker()
@@ -137,7 +137,6 @@ metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['CO2_emissi
 metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['OS'][0])
 metrics_dict['Entire_File'].append(obj1._construct_attributes_dict()['CPU_name'][0])
 print(metrics_dict)
-
 os.remove(path)       
 '''.lstrip()
             # Open the file in append mode and write the new code to the file
