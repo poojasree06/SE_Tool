@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Two Column Layout</title>
+    <style>
+      .column {
+        float: left;
+        width: 50%;
+        padding: 10px;
+      }
+      .clearfix {
+        clear: both;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="column">
+      <h2>Column 1</h2>
+      <p>This is the description for column 1.</p>
+      <form action="{{ url_for('ecopy') }}" method="POST">
+        <input class="home-btn" type="submit" value="EcoPy">
+      </form>
+    </div>
+    <div class="column">
+      <h2>Column 2</h2>
+      <p>This is the description for column 2.</p>
+      <form action="{{ url_for('ecodb') }}" method="POST">
+        <input class="home-btn" type="submit" value="EcoDB">
+      </form>
+    </div>
+    <div class="clearfix"></div>
+  </body>
+</html>

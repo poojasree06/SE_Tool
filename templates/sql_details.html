@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Database Query Executor</title>
-    <link rel="stylesheet" href="../static/nosql.css">
+    <link rel="stylesheet" href="../static/sql.css">
 </head>
 <body>
-    <div class="no-sql-container">
-        <header class="nosql-header">
+    
+    <div class="sql-container">
+        <header class="sql-header">
             <div>
                 <p><strong>Your Query : </strong></p>
                 <p>{{query}}</p>
@@ -19,16 +20,20 @@
                 <p>{{lang}}</p>
             </div>
         </header>
-        <div class="container-no-sql">
-            <form action="{{ url_for('display') }}" method="POST">
-                <div class="nosql-box">
+        <div class="container-sql">
+            <form action="{{ url_for('display1') }}" method="POST">
+                <div class="sql-box">
                     <input type="hidden" name="lang" value="{{ lang }}">
                     <input type="hidden" name="query" value="{{ query }}">
                     <header>
                         <h4>Database Name:</h4>
                     </header>
-                    <input class="nosql-dbname" spellcheck="false" type="text" name="db_name" class="" id="db_name">
-                    <input class="nosql-btn" type="submit" value="Results">
+                    <input class="sql-dbname" spellcheck="false" type="text" name="db_name" id="db_name"><br><br>
+                    <header>
+                        <h4>Database Password:</h4>
+                    </header>
+                    <input class="sql-dbname" spellcheck="false" type="password" name="password" id="password">
+                    <input class="sql-btn" type="submit" value="Results">
                 </div>
             </form>
         </div>
