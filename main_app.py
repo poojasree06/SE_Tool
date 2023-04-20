@@ -231,12 +231,17 @@ def compare():
     nosql_query = request.form['nosql_query']
     nosql_db_name = request.form['nosql_db_name']
     sql_res = execute_sql_query(sql_query, 'root', password, sql_db_name)
-    print(sql_res)
     time.sleep(1)
     nosql_res = execute_noSQL_query(nosql_query, nosql_db_name)
-    
+    eff_res = []
+    for i in range(2,len(sql_res)):
+        if sql_res[i] < nosql_res[i]:
+            eff_res.append("SQL")
+        else:
+            eff_res.append("NOSQL")
     return render_template('compare_result.html', sql_cpu_consumption=sql_res[0], sql_ram_consumption=sql_res[1], sql_total_consumption=sql_res[2], sql_co2_emissions=sql_res[3], 
-                           nosql_cpu_consumption=nosql_res[0], nosql_ram_consumption=nosql_res[1], nosql_total_consumption=nosql_res[2], nosql_co2_emissions=nosql_res[3])
+                           nosql_cpu_consumption=nosql_res[0], nosql_ram_consumption=nosql_res[1], nosql_total_consumption=nosql_res[2], nosql_co2_emissions=nosql_res[3],
+                           efficient_total_consumption=eff_res[0], efficient_co2_emissions=eff_res[1])
 
 
 @app.route('/details', methods=['POST'])
