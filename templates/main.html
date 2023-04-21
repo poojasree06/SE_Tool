@@ -14,23 +14,40 @@
     <div class="row no-gutters">
       <div class="col-md-6 no-gutters">
         <div class="leftside d-flex align-items-center justify-content-center">
+          
           <div class="main-card">
-            <h2 style="color: #00ced1;">EcoPy</h2>
-            <p style="color: #00ced1;">This is the description for column 1.</p>
-            <form action="{{ url_for('ecopy') }}" method="POST">
-              <input class="main-btn-1"  type="submit" value="Use Tool">
-            </form>
+            <header class="main-header">
+              <h2 style="color: #00ced1;">EcoPy</h2>
+              <p style="color: #00ced1;">
+                Simply upload your python code file, ecoPy Calculates the energy consumption and carbon footprint by analyzing
+                functions
+                and presenting comparative results as graphs
+              </p>
+            </header>
+            <div class="main-card-1">
+              <form action="{{ url_for('ecopy') }}" method="POST">
+                <input class="main-btn-1" type="submit" value="Use Tool">
+              </form>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-6 no-gutters">
         <div class="rightside d-flex align-items-center justify-content-center">
           <div class="main-card">
-            <h2>EcoDB</h2>
-            <p>This is the description for column 2.</p>
-            <form action="{{ url_for('ecodb') }}" method="POST">
-              <input class="main-btn-2" type="submit" value="Use Tool">
-            </form>
+            <header class="main-header">
+              <h2 >EcoDB</h2>
+              <p>
+                Simply upload your python code file, ecoPy Calculates the energy consumption and carbon footprint by analyzing
+                functions
+                and presenting comparative results as graphs
+              </p>
+            </header>
+            <div class="main-card-1">
+              <form action="{{ url_for('ecodb') }}" method="POST">
+                <input class="main-btn-2" type="submit" value="Use Tool">
+              </form>
+            </div>
           </div>
         </div>
       </div>

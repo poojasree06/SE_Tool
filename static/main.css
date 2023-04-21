@@ -20,17 +20,30 @@ body {
 
 .leftside {
     background-color: black;
+    
 }
 
 .rightside {
     background-color: #00ced1;
     position: relative;
 }
-
+.main-header {
+    margin: 10px;
+    text-align: center;
+    font-size: 15px;
+    padding:0% 10% 0% 10%;
+}
+.main-card-1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 5px;
+}
 .main-btn-1 {
     text-decoration: none;
-    color: black;
     background-color: #00ced1;
+    color: black;
     padding: 10px 20px;
     border: none;
     outline: none;
