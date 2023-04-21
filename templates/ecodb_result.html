@@ -12,7 +12,7 @@
 <body>
 	<div class="container-xxl">
 		<div class="row no-gutters">
-			<div class="col-md-9 no-gutters">
+			<div class="col-md-8 no-gutters">
 				<div class="leftside d-flex align-items-center justify-content-center">
 					<div class="result-card">
 						<table class="rwd-table">
@@ -25,26 +25,26 @@
 							<tbody>
 								<tr>
 									<td>CPU Consumption</td>
-									<td>{{ cpu_consumption }}</td>
+									<td>{{ cpu_consumption }} kWh</td>
 								</tr>
 								<tr>
 									<td>RAM Consumption</td>
-									<td>{{ ram_consumption }}</td>
+									<td>{{ ram_consumption }} kWh</td>
 								</tr>
 								<tr>
 									<td>Total Consumption</td>
-									<td>{{ total_consumption }}</td>
+									<td>{{ total_consumption }} kWh</td>
 								</tr>
 								<tr>
 									<td>CO2 Emissions</td>
-									<td>{{ co2_emissions }}</td>
+									<td>{{ co2_emissions }} kg CO2</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3 no-gutters">
+			<div class="col-md-4 no-gutters">
 				<div class="rightside d-flex align-items-center justify-content-center">
 					<div class="result-card">
 						<header class="result-header">
@@ -57,7 +57,7 @@
 								<img src="../static/mileage.png" alt="mile">
 								<br>
 								<br>
-								<p>{{ mile_eqivalents }}</p>
+								<p>{{ mile_eqivalents }} miles</p>
 							</div>
 							<br>
 							<div class="equi">
@@ -65,7 +65,7 @@
 								<img src="../static/watching-tv.png" alt="tv">
 								<br>
 								<br>
-								<p>{{ tv_minutes }}</p>
+								<p>{{ tv_minutes }} minutes</p>
 							</div>
 							
 						</header>

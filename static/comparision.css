@@ -6,6 +6,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
+    font-size: 16px;
 }
 
 body {
@@ -62,11 +63,12 @@ textarea::-webkit-scrollbar {
 }
 .result-btn{
     position: absolute;
-    bottom: 10px;
+    bottom: 3.5rem;
     left: 65%;
+    height: 50px;
     transform: translateX(-50%);
     background-color: #0f9ea5;
-    font-size: 20px;
+    font-size:1.3rem;
     font-weight: 500;
 }
 .comp-container{
@@ -74,6 +76,11 @@ textarea::-webkit-scrollbar {
         flex-wrap: wrap;
         height: 100%;
         position: relative;
+}
+
+
+.headings{
+    font-size: 1.3rem;
 }
 @media screen and (min-width:768px) {
 

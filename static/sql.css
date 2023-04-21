@@ -33,7 +33,7 @@ body {
 }
 
 .sql-box {
-    margin: 10px 40px;
+    margin: 20px 40px;
     width: 450px;
     padding: 60px;
     display: flex;
@@ -55,7 +55,7 @@ body {
     border-radius: 5px;
     max-height: 300px;
     caret-color: #4671ea;
-    border: 1px solid black;
+    border: 1px solid white;
 }
 
 .sql-btn {
@@ -66,6 +66,8 @@ body {
     border: none;
     outline: none;
     transition: 0.3s;
-    margin-top: 20px;
+    margin-top: 25px;
     cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
 }

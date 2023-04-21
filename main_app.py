@@ -282,7 +282,8 @@ def carbon_to_miles(kg_carbon):
     Source: EPA
     '''
     f_carbon = float(kg_carbon)
-    return 4.09 * 10**(-7) * f_carbon # number of miles driven by avg car
+    res=4.09 * 10**(-7) * f_carbon
+    return "{:.2e}".format(res) # number of miles driven by avg car
 
 def carbon_to_tv(kg_carbon):
     '''
@@ -290,7 +291,8 @@ def carbon_to_tv(kg_carbon):
     equivalent amount of carbon. Ratio is 0.097 kg CO2 / 1 hour tv
     '''
     f_carbon = float(kg_carbon)
-    return f_carbon * (1 / .097) * 60
+    res=f_carbon * (1 / .097) * 60
+    return "{:.2e}".format(res)
 
 '''
 @input : String  - given query 
@@ -350,10 +352,11 @@ def execute_sql_query(query,db_user,db_password,db_name):
     obj.stop()
     
     # store the cpu and ram consumptions,CO2 emissions
-    res.append(obj.cpu_consumption())
-    res.append(obj.ram_consumption())
-    res.append(obj.consumption())
-    res.append(obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
+    res.append("{:.2e}".format(obj.cpu_consumption()))
+    res.append("{:.2e}".format(obj.ram_consumption()))
+    res.append("{:.2e}".format(obj.consumption()))
+    CO2_emissions=obj._construct_attributes_dict()['CO2_emissions(kg)'][0]
+    res.append("{:.2e}".format(float(CO2_emissions)))
     res.append(carbon_to_miles(obj._construct_attributes_dict()['CO2_emissions(kg)'][0]))
     res.append(carbon_to_tv(obj._construct_attributes_dict()['CO2_emissions(kg)'][0]))
     return res
@@ -413,13 +416,19 @@ def execute_noSQL_query(query,db_name):
     if "find" in query_field:
         print("finding documents")
         query_doc = query_field.split('find(')[1].split(')')[0]
-        split_quer_doc=query_doc.split(',')
-        arg_dict=[]
-        for q in split_quer_doc:
-            arg_dict.append(eval(q))
-            
-        result=collection.find(*arg_dict)
-        print(result)
+        print(query_doc)
+        if query_doc=='':
+            print("no doc")
+            result=collection.find()
+            print(result)
+        else:
+            split_quer_doc=query_doc.split(',')
+            arg_dict=[]
+            for q in split_quer_doc:
+                arg_dict.append(eval(q))
+                
+            result=collection.find(*arg_dict)
+            print(result)
         
     if "findOne" in query_field:
         print("finding documents")
@@ -481,10 +490,11 @@ def execute_noSQL_query(query,db_name):
     obj.stop()
     
     # store the cpu and ram consumptions,CO2 emissions
-    res.append(obj.cpu_consumption())
-    res.append(obj.ram_consumption())
-    res.append(obj.consumption())
-    res.append(obj._construct_attributes_dict()['CO2_emissions(kg)'][0])
+    res.append("{:.2e}".format(obj.cpu_consumption()))
+    res.append("{:.2e}".format(obj.ram_consumption()))
+    res.append("{:.2e}".format(obj.consumption()))
+    CO2_emissions=obj._construct_attributes_dict()['CO2_emissions(kg)'][0]
+    res.append("{:.2e}".format(float(CO2_emissions)))
     res.append(carbon_to_miles(obj._construct_attributes_dict()['CO2_emissions(kg)'][0]))
     res.append(carbon_to_tv(obj._construct_attributes_dict()['CO2_emissions(kg)'][0]))
     return res
