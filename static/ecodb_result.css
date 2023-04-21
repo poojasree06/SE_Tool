@@ -64,8 +64,13 @@ th {
 }
 .result-header p{
     color: black;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 500;
+}
+.equi{
+    border: 3px dotted black;
+    border-radius: 5px;
+    padding: 0% 10% 0% 10%;
 }
 img{
     width: 100px;
