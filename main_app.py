@@ -233,14 +233,22 @@ def compare():
     time.sleep(1)
     nosql_res = execute_noSQL_query(nosql_query, nosql_db_name)
     eff_res = []
-    for i in range(2,len(sql_res)):
+    for i in range(2,4):
         if sql_res[i] < nosql_res[i]:
             eff_res.append("SQL")
         else:
             eff_res.append("NOSQL")
-    return render_template('compare_result.html', sql_cpu_consumption=sql_res[0], sql_ram_consumption=sql_res[1], sql_total_consumption=sql_res[2], sql_co2_emissions=sql_res[3], 
-                           nosql_cpu_consumption=nosql_res[0], nosql_ram_consumption=nosql_res[1], nosql_total_consumption=nosql_res[2], nosql_co2_emissions=nosql_res[3],
-                           efficient_total_consumption=eff_res[0], efficient_co2_emissions=eff_res[1])
+    if sql_res[4]>nosql_res[4]:
+        eff_res.append(nosql_res[4])
+    else:
+        eff_res.append(sql_res[4])
+    if sql_res[5]>nosql_res[5]:
+        eff_res.append(nosql_res[5])
+    else:
+        eff_res.append(sql_res[5])
+    return render_template('compare_result.html', sql_cpu_consumption=sql_res[0], sql_ram_consumption=sql_res[1], sql_total_consumption=sql_res[2], sql_co2_emissions=sql_res[3],sql_miles_equvivalence=sql_res[4],sql_tv_equvivalence=sql_res[5], 
+                           nosql_cpu_consumption=nosql_res[0], nosql_ram_consumption=nosql_res[1], nosql_total_consumption=nosql_res[2], nosql_co2_emissions=nosql_res[3],nosql_miles_equvivalence=nosql_res[4],nosql_tv_equvivalence=nosql_res[5],
+                           efficient_total_consumption=eff_res[0], efficient_co2_emissions=eff_res[1],mile_eqivalents=eff_res[2],tv_minutes=eff_res[3])
 
 
 @app.route('/details', methods=['POST'])
