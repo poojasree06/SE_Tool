@@ -4,11 +4,65 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<title>Query Executor - Results</title>
-	<link rel="stylesheet" href="../static/result.css">
+	<link rel="stylesheet" href="../static/ecodb_result.css">
 </head>
 <body>
-	<div class="result-container">
+	<div class="container-xxl">
+		<div class="row no-gutters">
+			<div class="col-md-9 no-gutters">
+				<div class="leftside d-flex align-items-center justify-content-center">
+					<div class="result-card">
+						<table class="rwd-table">
+							<thead>
+								<tr>
+									<th>Resource Consumption Metrics</th>
+									<th>Results</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>CPU Consumption</td>
+									<td>{{ cpu_consumption }}</td>
+								</tr>
+								<tr>
+									<td>RAM Consumption</td>
+									<td>{{ ram_consumption }}</td>
+								</tr>
+								<tr>
+									<td>Total Consumption</td>
+									<td>{{ total_consumption }}</td>
+								</tr>
+								<tr>
+									<td>CO2 Emissions</td>
+									<td>{{ co2_emissions }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 no-gutters">
+				<div class="rightside d-flex align-items-center justify-content-center">
+					<div class="result-card">
+						<header class="result-header">
+							<p>Miles Equivalence</p>
+							<img src="mileage.png" alt="mile">
+							<p>{{ mile_eqivalents }}</p>
+							<br>
+							<p>TV Watch Time</p>
+							<img src="watching-tv.png" alt="tv">
+							<p>{{ tv_minutes }}</p>
+						</header>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="result-container">
 		<table>
 			<thead>
 				<tr>
@@ -43,7 +97,6 @@
 				</tr>
 			</tbody>
 		</table>
-		<!-- <a href="{{ url_for('home') }}">Go back</a> -->
-	</div>
+	</div> -->
 </body>
 </html>
