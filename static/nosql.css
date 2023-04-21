@@ -39,6 +39,7 @@ body {
     flex-direction: column;
     border: 3px dotted black;
     border-radius: 5px;
+    font-size: 16px;
 }
 .nosql-dbname{
     width: 100%;
@@ -51,7 +52,7 @@ body {
     border-radius: 5px;
     max-height: 300px;
     caret-color: #4671ea;
-    border: 1px solid black;
+    border: 1px solid white;
 }
 .nosql-btn {
     text-decoration: none;
@@ -62,5 +63,7 @@ body {
     outline: none;
     transition: 0.3s;
     margin-top: 20px;
+    font-size: 16px;
     cursor: pointer;
+    border-radius: 5px;
 }

@@ -25,6 +25,7 @@ body {
 .rightside {
     background-color: #00ced1;
     position: relative;
+    padding: 20px;
 }
 
 table {
@@ -52,7 +53,7 @@ th {
 
 td,
 th {
-    padding: 10px;
+    padding: 20px;
     border: 1px solid #ccc;
     text-align: left;
     font-size: 18px;
@@ -68,9 +69,10 @@ th {
     font-weight: 500;
 }
 .equi{
-    border: 3px dotted black;
+    border: 3px solid black;
     border-radius: 5px;
-    padding: 0% 10% 0% 10%;
+    margin: 0% 10% 0% 10%;
+    padding: 5%;
 }
 img{
     width: 100px;

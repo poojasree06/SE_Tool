@@ -33,7 +33,7 @@ body {
 }
 
 .query-box {
-    margin: 10px 40px;
+    margin: 20px 40px;
     width: 450px;
     padding: 60px;
     display: flex;
@@ -47,15 +47,16 @@ body {
 .query-wrapper textarea {
     width: 100%;
     resize: none;
-    height: 59px;
+    height: 55px;
     outline: none;
-    padding: 15px;
     font-size: 16px;
+    padding: 15px;
     margin-top: 20px;
     border-radius: 5px;
     max-height: 330px;
     caret-color: #4671ea;
     border: 1px solid #bfbfbf;
+    font-size: 16px;
 }
 
 textarea::placeholder {
@@ -68,6 +69,7 @@ textarea::-webkit-scrollbar {
 .query-btn{
     text-decoration: none;
     background-color: black;
+    height: 45px;
     color: #00ced1;
     padding: 10px 20px;
     border: none;
@@ -75,4 +77,6 @@ textarea::-webkit-scrollbar {
     transition: 0.3s;
     margin-top: 20px;
     cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
 }

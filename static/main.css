@@ -30,7 +30,7 @@ body {
 .main-header {
     margin: 10px;
     text-align: center;
-    font-size: 15px;
+    font-size: 1.05rem;
     padding:0% 10% 0% 10%;
 }
 .main-card-1{
@@ -50,6 +50,8 @@ body {
     transition: 0.3s;
     margin-top: 20px;
     cursor: pointer;
+    border-radius: 5px;
+     font-size: 1.05rem;
 }
 .main-btn-2 {
     text-decoration: none;
@@ -61,4 +63,6 @@ body {
     transition: 0.3s;
     margin-top: 20px;
     cursor: pointer;
+    border-radius: 5px;
+     font-size: 1.05rem;
 }
