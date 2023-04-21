@@ -8,28 +8,119 @@
 	<link rel="stylesheet" href="../static/ecodb_compare_result.css">
 </head>
 <body>
-	<div class="container-xxl">
+	<div class="compare-container container-xxl">
 		<div class="row no-gutters">
 			<div class="col-d-6 no-gutters">
 				<div class="leftside d-flex align-items-center justify-content-center">
-					
+					<div class="result-card ">
+						<table class="rwd-table">
+							<thead>
+								<tr>
+									<th>Resource Consumption Metrics</th>
+									<th>Results</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td> SQL Query CPU Consumption</td>
+									<td>{{ sql_cpu_consumption }}</td>
+								</tr>
+								<tr>
+									<td>SQL Query RAM Consumption</td>
+									<td>{{ sql_ram_consumption }}</td>
+								</tr>
+								<tr>
+									<td>SQL Query Total Consumption</td>
+									<td>{{ sql_total_consumption }}</td>
+								</tr>
+								<tr>
+									<td>SQL Query CO2 Emissions</td>
+									<td>{{ sql_co2_emissions }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 			<div class="col-d-6 no-gutters">
 				<div class="rightside d-flex align-items-center justify-content-center">
-
+					<div class="result-card ">
+						<table class="rwd-table">
+							<thead>
+								<tr>
+									<th>Resource Consumption Metrics</th>
+									<th>Results</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td> Efficient Total Consumption</td>
+									<td>{{ efficient_total_consumption }}</td>
+								</tr>
+								<tr>
+									<td>Efficient CO2 Emissions</td>
+									<td>{{ efficient_co2_emissions }}</td>
+								</tr>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row no-gutters">
 			<div class="col-d-6 no-gutters">
 				<div class="leftside-1 d-flex align-items-center justify-content-center">
-					
+					<div class="result-card ">
+						<table class="rwd-table">
+							<thead>
+								<tr>
+									<th>Resource Consumption Metrics</th>
+									<th>Results</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td> NOSQL Query CPU Consumption</td>
+									<td>{{ nosql_cpu_consumption }}</td>
+								</tr>
+								<tr>
+									<td>NOSQL Query RAM Consumption</td>
+									<td>{{ nosql_ram_consumption }}</td>
+								</tr>
+								<tr>
+									<td>NOSQL Query Total Consumption</td>
+									<td>{{ nosql_total_consumption }}</td>
+								</tr>
+								<tr>
+									<td>NOSQL Query CO2 Emissions</td>
+									<td>{{ nosql_co2_emissions }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 			<div class="col-d-6 no-gutters">
 				<div class="rightside-1 d-flex align-items-center justify-content-center">
-
+					<div class="result-card">
+						<header class="result-header">
+							<h2 style="margin-bottom: 2%;">Real World Equivalents</h2>
+							<div class="equi">
+								<div class="d-flex align-items-center justify-content-center" >
+									<p>Miles Equivalence</p>
+									<img src="../static/mileage.png" alt="mile">
+									<p>{{ mile_eqivalents }}</p>
+								</div>
+								<div class="d-flex align-items-center justify-content-center">
+									<p>TV Watch Time</p>
+									<img src="../static/watching-tv.png" alt="tv">
+									<p>{{ tv_minutes }}</p>
+								</div>
+							</div>
+						</header>
+						
+					</div>
 				</div>
 			</div>
 		</div>
