@@ -12,6 +12,9 @@
 		<div class="row no-gutters">
 			<div class="col-d-6 no-gutters">
 				<div class="leftside d-flex align-items-center justify-content-center">
+					<header style="color: #00ced1;margin-left: 40%;margin-bottom: 2%;position: relative;">
+						<h2>SQL Query</h2>
+					</header>
 					<div class="result-card ">
 						<table class="rwd-table">
 							<thead>
@@ -22,20 +25,20 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td> SQL Query CPU Consumption</td>
-									<td>{{ sql_cpu_consumption }}</td>
+									<td>CPU Consumption</td>
+									<td>{{ sql_cpu_consumption }} kWh</td>
 								</tr>
 								<tr>
-									<td>SQL Query RAM Consumption</td>
-									<td>{{ sql_ram_consumption }}</td>
+									<td>RAM Consumption</td>
+									<td>{{ sql_ram_consumption }} kWh</td>
 								</tr>
 								<tr>
-									<td>SQL Query Total Consumption</td>
-									<td>{{ sql_total_consumption }}</td>
+									<td>Total Consumption</td>
+									<td>{{ sql_total_consumption }} kWh</td>
 								</tr>
 								<tr>
-									<td>SQL Query CO2 Emissions</td>
-									<td>{{ sql_co2_emissions }}</td>
+									<td>CO2 Emissions</td>
+									<td>{{ sql_co2_emissions }} kg CO2</td>
 								</tr>
 							</tbody>
 						</table>
@@ -44,6 +47,9 @@
 			</div>
 			<div class="col-d-6 no-gutters">
 				<div class="rightside d-flex align-items-center justify-content-center">
+					<header style="color: #00ced1;margin-left: 30%;margin-bottom: 2%;position: relative;">
+						<h2>Comparitive Analysis</h2>
+					</header>
 					<div class="result-card ">
 						<table class="rwd-table">
 							<thead>
@@ -55,11 +61,11 @@
 							<tbody>
 								<tr>
 									<td> Efficient Total Consumption</td>
-									<td>{{ efficient_total_consumption }}</td>
+									<td>{{ efficient_total_consumption }} kWh</td>
 								</tr>
 								<tr>
 									<td>Efficient CO2 Emissions</td>
-									<td>{{ efficient_co2_emissions }}</td>
+									<td>{{ efficient_co2_emissions }} kg CO2 </td>
 								</tr>
 								</tr>
 							</tbody>
@@ -71,6 +77,9 @@
 		<div class="row no-gutters">
 			<div class="col-d-6 no-gutters">
 				<div class="leftside-1 d-flex align-items-center justify-content-center">
+					<header style="color: #00ced1;margin-left: 40%;margin-bottom: 2%;position: relative;">
+						<h2>NO SQL Query</h2>
+					</header>
 					<div class="result-card ">
 						<table class="rwd-table">
 							<thead>
@@ -81,20 +90,20 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td> NOSQL Query CPU Consumption</td>
-									<td>{{ nosql_cpu_consumption }}</td>
+									<td>CPU Consumption</td>
+									<td>{{ nosql_cpu_consumption }} kWh</td>
 								</tr>
 								<tr>
-									<td>NOSQL Query RAM Consumption</td>
-									<td>{{ nosql_ram_consumption }}</td>
+									<td>RAM Consumption</td>
+									<td>{{ nosql_ram_consumption }} kWh</td>
 								</tr>
 								<tr>
-									<td>NOSQL Query Total Consumption</td>
-									<td>{{ nosql_total_consumption }}</td>
+									<td>Total Consumption</td>
+									<td>{{ nosql_total_consumption }} kWh</td>
 								</tr>
 								<tr>
-									<td>NOSQL Query CO2 Emissions</td>
-									<td>{{ nosql_co2_emissions }}</td>
+									<td>CO2 Emissions</td>
+									<td>{{ nosql_co2_emissions }} kg CO2</td>
 								</tr>
 							</tbody>
 						</table>
@@ -103,22 +112,22 @@
 			</div>
 			<div class="col-d-6 no-gutters">
 				<div class="rightside-1 d-flex align-items-center justify-content-center">
+					<header style="color: #00ced1;margin-left: 30%;margin-bottom: 2%;position: relative;">
+						<h2>Real World Equivalents</h2>
+					</header>
 					<div class="result-card">
-						<header class="result-header">
-							<h2 style="margin-bottom: 2%;">Real World Equivalents</h2>
 							<div class="equi">
-								<div class="d-flex align-items-center justify-content-center" >
-									<p>Miles Equivalence</p>
-									<img src="../static/mileage.png" alt="mile">
-									<p>{{ mile_eqivalents }}</p>
+								<div class="d-flex align-items-end justify-content-between" style="margin-right: 20%;">
+									<p style="margin-bottom: 2%;">Miles Equivalence</p>
+									<img src="../static/mileage.png" alt="mile" style="margin-bottom: 4%;">
+									<p>{{ mile_eqivalents }} miles</p>
 								</div>
-								<div class="d-flex align-items-center justify-content-center">
-									<p>TV Watch Time</p>
-									<img src="../static/watching-tv.png" alt="tv">
-									<p>{{ tv_minutes }}</p>
+								<div class="d-flex align-items-end justify-content-between" style="margin-left: 40%;">
+									<p style="margin-bottom: 2%;">TV Watch Time</p>
+									<img src="../static/watching-tv.png" alt="tv" style="margin-bottom: 4%;">
+									<p>{{ tv_minutes }} minutes</p>
 								</div>
 							</div>
-						</header>
 						
 					</div>
 				</div>
