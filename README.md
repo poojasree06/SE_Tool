@@ -7,11 +7,15 @@
 
 **Description:** 
 
-This tool is developed to find carbon footprint of python codes. This tool helps developers and organizations to take steps in reducing their carbon emissions and make their software development activities more sustainable. This is a web based tool where user can drop their python file for which they want to analyze carbon emmisions.
-Once the user inputs the python file the tool measures and displays the necessary details(CPU,RAM,Energy,Carbon Emissions) of each function as well as entire file  with visualizations like graphs.
+we introduce EcoPyD tool, designed to evaluate the energy consumption and carbon emissions associated with the execution of Python codes and databases, encompassing both SQL and NoSQL technologies. It comprises two components: EcoPy and EcoDB, where EcoPy calculates the metrics for Python files, and EcoDB computes the metrics for different databases, facilitating comparative analysis between MySQL and MongoDB databases.
+
+The EcoPyD tool is particularly relevant in today's context, where the demand for computational power to query databases has significantly increased, leading to significant energy consumption and related costs.The tool's user-friendly interface, combined with its real-world equivalents, allows users to better comprehend the environmental impact of their database usage, ultimately leading to better-informed decisions that benefit both the environment and the business. Overall, EcoPyD is an essential tool that can contribute significantly to building a more sustainable and energy-efficient future.
 
   
 **Features:**
+
+
+**EcoPy**
 * Calculates energy and carbon footprinting for python code
     - Energy consumption by CPU in KWh
     - Energy consumption by RAM in KWh
@@ -22,6 +26,12 @@ Once the user inputs the python file the tool measures and displays the necessar
 * Values of these metrics for a file and every function can be viewed in a table
 * Energy and carbon footprint values can be compared between the functions using graphs
 
+**EcoDB**
+* Comparision of energy metrics among SQL and NOSQL query languages.
+* Execution of a single query of either of the languages.
+* Results displayed in the form of tables and real world equivalents.
+* Real world equivalents include average miles travelled and average TV watch time.
+
 
 **Technologies:**  
 * Editor: vscode
@@ -31,9 +41,8 @@ Once the user inputs the python file the tool measures and displays the necessar
  
 **Instructions To Run:**  
 1) Clone repo   
-2) Run "setup.py" file to install necessary dependencies.  
-3) Change directory to "webapp"  
-4) Command to start the tool - python app.py  
+2) Run "setup.py" file to install necessary dependencies. 
+3) Command to start the tool - python main_app.py  
 
 # Tool Demo:
 ![Screenshot (4)](https://user-images.githubusercontent.com/89120803/224544037-94970da2-4fc8-4a91-a186-6b58ff554418.png)
