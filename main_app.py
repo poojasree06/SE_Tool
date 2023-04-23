@@ -29,13 +29,25 @@ def index():
 def ecopy():
     return render_template('ecopy.html')
 
+'''
+@input : Upload python file
+@desc  : User should upload his python file to get the required results
 
-
+done by Namitha
+'''
 def allowed_file(filename):
     print(filename.rsplit('.', 1)[1].lower())
     return '.' in filename and filename.rsplit('.', 1)[1].lower() == 'py'
 
 metrics_dict = {'Entire_File':[]}
+
+
+'''
+@desc : This is a decorator function which is added at the top of each and every function in the user uploaded file. 
+        It calculates the metrics and add them to the metrics_dict dictionary.
+
+done by Namitha
+'''
 
 def measure_performance(func):
     def wrapper(*args, **kwargs):
@@ -63,7 +75,12 @@ def measure_performance(func):
     return wrapper
 
 
-# function to find the function names in the uploaded file
+'''
+@desc : This function is used to find function names in the uploaded file.
+
+done by Namitha
+'''
+
 def get_function_names(f):
     function_names = []
     with open(f, 'r') as fl:
@@ -282,22 +299,32 @@ def display1():
 
     return render_template('ecodb_result.html', cpu_consumption=res[0], ram_consumption=res[1], total_consumption=res[2], co2_emissions=res[3],mile_eqivalents=res[4],tv_minutes=res[5])
 
+'''
+@desc : 8.89 * 10-3 metric tons CO2/gallon gasoline *
+        1/22.0 miles per gallon car/truck average *
+        1 CO2, CH4, and N2O/0.988 CO2 = 4.09 x 10-4 metric tons CO2E/mile
+
+@Source : EPA
+
+done by Namitha
+'''
+
 def carbon_to_miles(kg_carbon):
-    '''
-    8.89 × 10-3 metric tons CO2/gallon gasoline ×
-    1/22.0 miles per gallon car/truck average ×
-    1 CO2, CH4, and N2O/0.988 CO2 = 4.09 x 10-4 metric tons CO2E/mile
-    Source: EPA
-    '''
+
     f_carbon = float(kg_carbon)
     res=4.09 * 10**(-7) * f_carbon
     return "{:.2e}".format(res) # number of miles driven by avg car
 
+'''
+@desc :  Gives the amount of minutes of watching a 32-inch LCD flat screen tv required to emit and
+         equivalent amount of carbon. Ratio is 0.097 kg CO2 / 1 hour tv
+
+@Source : EPA
+
+done by Namitha
+'''
 def carbon_to_tv(kg_carbon):
-    '''
-    Gives the amount of minutes of watching a 32-inch LCD flat screen tv required to emit and
-    equivalent amount of carbon. Ratio is 0.097 kg CO2 / 1 hour tv
-    '''
+    
     f_carbon = float(kg_carbon)
     res=f_carbon * (1 / .097) * 60
     return "{:.2e}".format(res)
