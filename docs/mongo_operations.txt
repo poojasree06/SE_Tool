@@ -1,0 +1,8 @@
+find
+findOne
+insertOne
+insertMany
+deleteOne
+deleteMany
+updateOne
+updateMany

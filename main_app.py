@@ -337,7 +337,7 @@ def carbon_to_tv(kg_carbon):
 done by Poojasree
 '''
 def is_sql(query):
-    sql_keywords = ["SELECT","UPDATE", "DELETE", "INSERT INTO" "FROM", "WHERE", "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT"]
+    sql_keywords = ["SELECT","UPDATE", "DELETE", "INSERT INTO" "FROM", "WHERE", "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT","DESCRIBE"]
     for keyword in sql_keywords:
         if re.search(r"\b" + keyword + r"\b", query.upper()):
             return True

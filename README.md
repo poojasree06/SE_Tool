@@ -32,13 +32,15 @@ The EcoPyD tool is particularly relevant in today's context, where the demand fo
 * Results displayed in the form of tables and real world equivalents.
 * Real world equivalents include average miles travelled and average TV watch time.
 
+**Note**
+* The "query document" or "query object" should be written in JSON format.
+* Implemented a portion of the query execution operations that are available in MongoDB. This subset includes the most commonly used operations. See mongo_operation.txt in docs folder.
 
 **Technologies:**  
 * Editor: vscode
 * Language: python
 * WebApp: Flask
 
- 
 **Instructions To Run:**  
 1) Clone repo   
 2) Run "setup.py" file to install necessary dependencies. 
@@ -47,3 +49,7 @@ The EcoPyD tool is particularly relevant in today's context, where the demand fo
 # Tool Demo:
 ![ecodb](https://user-images.githubusercontent.com/84029615/233855298-259bc677-0ec3-4d6d-9415-b41b25d54037.png)
 ![ecopy](https://user-images.githubusercontent.com/84029615/233855300-5f45e11f-adde-43fc-bbcc-c6b06fbdc73f.png)
+
+**Limitations**
+ * Only support MySQL and MongoDB databases
+ * Does not support more complex queries such as operations chaining 
