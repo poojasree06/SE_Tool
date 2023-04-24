@@ -1,4 +1,4 @@
-# EcoPy
+# EcoPyD
 **Team :**
 1. A.Pooja Sree - CS20B002
 2. G.Namitha Reddy - CS20B011
@@ -47,9 +47,16 @@ The EcoPyD tool is particularly relevant in today's context, where the demand fo
 3) Command to start the tool - python main_app.py  
 
 # Tool Demo:
-![ecodb](https://user-images.githubusercontent.com/84029615/233855298-259bc677-0ec3-4d6d-9415-b41b25d54037.png)
+**EcoPy**
+
+
 ![ecopy](https://user-images.githubusercontent.com/84029615/233855300-5f45e11f-adde-43fc-bbcc-c6b06fbdc73f.png)
 
 **Limitations**
  * Only support MySQL and MongoDB databases
  * Does not support more complex queries such as operations chaining 
+
+**EcoDB**
+
+
+![ecodb](https://user-images.githubusercontent.com/84029615/233855298-259bc677-0ec3-4d6d-9415-b41b25d54037.png)
